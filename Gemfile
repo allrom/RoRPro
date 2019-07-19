@@ -39,6 +39,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # Adds support for Capybara system testing
+  gem 'capybara', '>= 2.15'
   # RSpec gem to test Rails Apps
   gem 'rspec-rails', '~> 3.8'
   # Gem to seed test databases
@@ -54,6 +56,17 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+group :test do
+  # Adds support for Capybara system testing (moved up) and selenium driver
+  ## gem 'capybara', '>= 2.15'
+  gem 'selenium-webdriver'
+  gem 'webdrivers', '~> 3.0'
+  # Easy installation and use of chromedriver to run system tests with Chrome -> deprecated !
+  ## gem 'chromedriver-helper'
+  # Simple One-liner tests for Rails
+  gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
+end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
