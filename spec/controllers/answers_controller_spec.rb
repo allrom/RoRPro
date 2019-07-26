@@ -30,6 +30,11 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid attributes' do
+      it 'binds created answer to the associated question' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question }
+        expect(assigns(:answer).question).to eq question
+      end
+
       it 'saves a new answer in database' do
         expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to \
           change(Answer, :count).by(1)
@@ -56,6 +61,11 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     context 'with valid attributes' do
+      it 'binds updated answer to the associated question' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question }
+        expect(assigns(:answer).question).to eq answer.question
+      end
+
       it ' assigns to be updated answer to same @answer' do
         patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question }
         expect(assigns(:answer)).to eq answer
