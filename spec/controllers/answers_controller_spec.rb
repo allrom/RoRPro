@@ -30,9 +30,16 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid attributes' do
-      it 'binds created answer to the associated question' do
+      it 'binds created answer to the associated question #1' do
+        new_question = FactoryBot.create(:question)
+
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: new_question } }.to_not \
+          change(Question, :count)
+      end
+
+      it 'binds created answer to the associated question #2' do
         post :create, params: { answer: attributes_for(:answer), question_id: question }
-        expect(assigns(:answer).question).to eq question
+        expect(question.answers).to include(assigns(:answer))
       end
 
       it 'saves a new answer in database' do
