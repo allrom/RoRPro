@@ -1,9 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let (:user) { create(:user) }
   let(:question) { create(:question) }
+  before do |test|
+    unless test.metadata[:not_logged_in]
+      login(user) #  controller_helper method
+    end
+  end
 
-  describe 'GET #index' do
+  describe 'GET #index', :not_logged_in do
     let(:questions) { create_list(:question, 3) } # FactoryBot implicates here
     before { get :index }
 
@@ -15,7 +21,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
+  describe 'GET #show', :not_logged_in do
     before { get :show, params: { id: question } }
 
     it 'renders show view' do
@@ -68,7 +74,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     context 'with valid attributes' do
-      it ' assigns to be updated question to same @question (created by means of let())' do
+      it ' assigns to be updated question to same @question (created by let())' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(assigns(:question)).to eq question
       end
@@ -93,8 +99,8 @@ RSpec.describe QuestionsController, type: :controller do
       it 'doesn\'t change a question' do
         question.reload
 
-        expect(question.title).to eq 'MyTitle'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to eq 'BotTitle'
+        expect(question.body).to eq 'BotQuestion'
       end
 
       it 're-renders edit view' do

@@ -1,17 +1,24 @@
-require 'rspec'
+require 'rails_helper'
 
-describe 'MyBehavior' do
-  before do
-    # Do nothing
+feature 'User can sign-in', %q{
+  In order to Ask questions
+  As an Unauthenticated user
+  I'd like to be able to Sign-in
+} do
+  given(:user) { create(:user) }
+
+  scenario 'Registered user tries to sign in' do
+    sign_in(user)
+    expect(page).to have_content 'Signed in successfully.'
   end
 
-  after do
-    # Do nothing
-  end
+  scenario 'Unregistered user tries to sign in' do
+    visit new_user_session_path
+    fill_in 'Email', with: 'nobody@test.edu'
+    fill_in 'Password', with: '12345678'
+    click_on 'Log in'
 
-  context 'when condition' do
-    it 'succeeds' do
-      pending 'Not implemented'
-    end
+    expect(page).to have_content 'Invalid Email or password.'
   end
 end
+

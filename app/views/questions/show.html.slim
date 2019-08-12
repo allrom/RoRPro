@@ -1,0 +1,10 @@
+.question
+  p style="font-size:medium"
+    = question.title
+    br
+    = question.body
+
+.give-answer
+  p= render 'answers/form'
+
+p= link_to 'Questions List', questions_path

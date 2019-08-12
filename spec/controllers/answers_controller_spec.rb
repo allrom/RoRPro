@@ -1,10 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  let(:user) { create(:user) }
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
+  before do |test|
+    unless test.metadata[:not_logged_in]
+      login(user) #  controller_helper method
+    end
+  end
 
-  describe 'GET #show' do
+  describe 'GET #show', :not_logged_in do
     before { get :show, params: { id: answer } }
 
     it 'renders show view' do
@@ -30,15 +36,9 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid attributes' do
-      it 'binds created answer to the associated question #1' do
-        new_question = FactoryBot.create(:question)
-
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: new_question } }.to_not \
-          change(Question, :count)
-      end
-
-      it 'binds created answer to the associated question #2' do
+      it 'binds created answer to the associated question' do
         post :create, params: { answer: attributes_for(:answer), question_id: question }
+
         expect(question.answers).to include(assigns(:answer))
       end
 
@@ -98,7 +98,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'doesn\'t change an answer' do
         answer.reload
 
-        expect(answer.body).to eq 'MyString'
+        expect(answer.body).to eq 'BotAnswer'
       end
 
       it 're-renders edit view' do
