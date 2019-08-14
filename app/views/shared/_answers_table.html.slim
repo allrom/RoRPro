@@ -4,5 +4,7 @@
     tr
       th= 'id'
       th= 'Body'
-      th= 'Action'
-      = render question.answers
+      - if user_signed_in?
+        th colspan="2" Action
+
+      = render question.answers.reject(&:new_record?)

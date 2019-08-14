@@ -12,4 +12,6 @@ RSpec.describe Question, type: :model do
     it { should validate_length_of(:title).is_at_least(7) }
     it { should validate_length_of(:body).is_at_least(6) }
   end
+
+  it { should have_db_index(:user_id) }
 end

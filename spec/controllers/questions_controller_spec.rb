@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let (:user) { create(:user) }
+  let(:user) { create(:user) }
   let(:question) { create(:question) }
   before do |test|
     unless test.metadata[:not_logged_in]
       login(user) #  controller_helper method
+    end
+    if test.metadata[:is_owner]
+      allow(controller).to receive(:author_check).and_return(true)
     end
   end
 
@@ -37,25 +40,24 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
+  describe 'GET #edit', :is_owner do
     before { get :edit,  params: { id: question } }
 
     it 'renders edit view' do
       expect(response).to render_template :edit
     end
-
   end
 
-  describe 'POST #create' do
+  describe 'POST #create', :is_owner do
     context 'with valid attributes' do
       it 'saves a new question in database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to \
           change(Question, :count).by(1)
       end
 
-      it 'redirects to <show>' do
+      it 'redirects to <index>' do
         post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
+        expect(response).to redirect_to questions_path
       end
     end
 
@@ -72,7 +74,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #update' do
+  describe 'PATCH #update', :is_owner do
     context 'with valid attributes' do
       it ' assigns to be updated question to same @question (created by let())' do
         patch :update, params: { id: question, question: attributes_for(:question) }
@@ -89,7 +91,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirects to an updated question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(question)
+        expect(response).to redirect_to questions_path
       end
     end
 
@@ -99,7 +101,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'doesn\'t change a question' do
         question.reload
 
-        expect(question.title).to eq 'BotTitle'
+        expect(question.title).not_to eq nil
         expect(question.body).to eq 'BotQuestion'
       end
 
@@ -109,7 +111,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
+  describe 'DELETE #destroy', :is_owner do
     let!(:question) { create(:question) }
 
     it 'deletes a question' do

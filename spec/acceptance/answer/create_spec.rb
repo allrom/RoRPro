@@ -14,28 +14,25 @@ feature 'User can create an answer to a question', %q{
       visit question_path(question)
     end
 
-    scenario 'gives an answer', js: true do
-      click_on('Add Answer', match: :prefer_exact)
-      ## save_and_open_page
-      fill_in 'answer_given', with: 'Answer with Some Text'
+    scenario 'gives an answer' do
+      fill_in 'answer-given', with: 'Answer with Some Text'
       click_on 'OK'
 
       expect(page).to have_content 'Answer added'
-      within '.give-answer' do
+      within '.answer-list' do
         expect(page).to have_content 'Answer with Some Text'
       end
     end
 
-    scenario 'gives an answer with errors', js: true do
-      click_on('Add Answer', match: :prefer_exact)
+    scenario 'gives an answer with errors' do
       click_on 'OK'
-
-      expect(page).to have_content "Answers body can't be blank"
+      expect(page).to have_content "Body can't be blank"
     end
   end
 
   scenario 'Unauthenticated user tries to give an answer' do
     visit question_path(question)
-    expect(page).not_to have_selector(:link_or_button, 'Add Answer')
+    expect(page).not_to have_field 'Give an Answer'
+    expect(page).not_to have_selector(:link_or_button, 'OK')
   end
 end

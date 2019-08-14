@@ -1,22 +1,9 @@
-h4= 'Answers :'
+= form_with(model: model, local: true) do |form|
+  = render 'shared/errors', resource: answer
 
-= nested_form_for question do |form|
-  #give-answer-form
-    = form.fields_for :answers do |answer_form|
-      p
-        = answer_form.object.id
-        = answer_form.label :body, ' Answer Given'
-        br
-        = answer_form.text_area :body, id: 'answer_given'
-        #remove-answer
-          = answer_form.link_to_remove do
-            button type="button" Remove
+  #answer-form
+    = form.label :body
+    = form.text_field :body, id: 'answer-given'
 
-  - if user_signed_in?
-    #add-answer
-      h5= 'Give an Answer'
-      = form.link_to_add :answers, data: { target: "#give-answer-form" } do
-        button type="button" Add Answer
-
-    h4= 'Accept Changes'
+    h5= 'Accept Answer'
     p= form.submit 'OK'

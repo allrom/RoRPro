@@ -8,6 +8,9 @@ RSpec.describe AnswersController, type: :controller do
     unless test.metadata[:not_logged_in]
       login(user) #  controller_helper method
     end
+    if test.metadata[:is_owner]
+      allow(controller).to receive(:author_check).and_return(true)
+    end
   end
 
   describe 'GET #show', :not_logged_in do
@@ -26,7 +29,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
+  describe 'GET #edit', :is_owner do
     before { get :edit, params: { id: answer } }
 
     it 'renders edit view' do
@@ -34,7 +37,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
+  describe 'POST #create', :is_owner do
     context 'with valid attributes' do
       it 'binds created answer to the associated question' do
         post :create, params: { answer: attributes_for(:answer), question_id: question }
@@ -47,9 +50,9 @@ RSpec.describe AnswersController, type: :controller do
           change(Answer, :count).by(1)
       end
 
-      it 'redirects to <show>' do
+      it 'redirects to <show> question' do
         post :create, params: { answer: attributes_for(:answer), question_id: question }
-        expect(response).to redirect_to assigns(:answer)
+        expect(response).to redirect_to assigns(:question)
       end
     end
 
@@ -59,14 +62,14 @@ RSpec.describe AnswersController, type: :controller do
           change(Answer, :count)
       end
 
-      it 're-renders <new>' do
+      it 'renders <show> question' do
         post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
-        expect(response).to render_template :new
+        expect(response).to render_template("questions/show")
       end
     end
   end
 
-  describe 'PATCH #update' do
+  describe 'PATCH #update', :is_owner do
     context 'with valid attributes' do
       it 'binds updated answer to the associated question' do
         patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question }
@@ -84,9 +87,9 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to eq 'CorrectString'
       end
 
-      it 'redirects to an updated answer' do
+      it 'redirects to an updated question' do
         patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question }
-        expect(response).to redirect_to assigns(answer)
+        expect(response).to redirect_to question_path(id: answer.question_id)
       end
     end
 
@@ -98,7 +101,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'doesn\'t change an answer' do
         answer.reload
 
-        expect(answer.body).to eq 'BotAnswer'
+        expect(answer.body).not_to eq nil
       end
 
       it 're-renders edit view' do
@@ -107,7 +110,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
+  describe 'DELETE #destroy', :is_owner do
     let!(:answer) { create(:answer) }
 
     it 'deletes a question' do
@@ -116,7 +119,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'redirects to <question>' do
       delete :destroy, params: { id: answer }
-      expect(response).to redirect_to question_path
+      expect(response).to redirect_to question_path(id: answer.question_id)
     end
   end
 end

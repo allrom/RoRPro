@@ -11,7 +11,6 @@ feature 'User can create a question', %q{
     background do
       sign_in(user) #  feature_helper method
       visit questions_path
-
       click_on 'Ask a question'
     end
 
@@ -21,14 +20,13 @@ feature 'User can create a question', %q{
       click_on 'OK'
 
       expect(page).to have_content 'Your question was created.'
+      find(".question-table-row").click_link "View"
       expect(page).to have_content 'Some Title'
       expect(page).to have_content 'Question with Some Text'
     end
 
     scenario 'asks a question with errors' do
-      # no data entered
       click_on 'OK'
-
       expect(page).to have_content "Title can't be blank"
     end
   end

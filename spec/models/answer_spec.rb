@@ -11,5 +11,8 @@ RSpec.describe Answer, type: :model do
     it { should validate_length_of(:body).is_at_least(2) }
   end
 
-  it { should have_db_index(:question_id) }
+  describe 'idxs' do
+    it { should have_db_index(:question_id) }
+    it { should have_db_index(:user_id) }
+   end
 end
