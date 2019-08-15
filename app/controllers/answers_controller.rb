@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if @answer.save
-      redirect_to question_path(question), notice: "Answer added."
+      redirect_to question, notice: "Answer added."
     else
       render 'questions/show'
     end
@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
 
   def update
     if answer.update(answer_params)
-      redirect_to question_path(id: answer.question_id), notice: "Answer changed."
+      redirect_to answer.question, notice: "Answer changed."
     else
       @question = Question.find(answer.question_id)
       flash.now[:error] = "Answer not changed."
