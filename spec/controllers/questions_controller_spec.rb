@@ -4,15 +4,12 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
   before do |test|
-    unless test.metadata[:not_logged_in]
+    if test.metadata[:logged_in]
       login(user) #  controller_helper method
-    end
-    if test.metadata[:is_owner]
-      allow(controller).to receive(:author_check).and_return(true)
     end
   end
 
-  describe 'GET #index', :not_logged_in do
+  describe 'GET #index' do
     let(:questions) { create_list(:question, 3) } # FactoryBot implicates here
     before { get :index }
 
@@ -24,7 +21,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #show', :not_logged_in do
+  describe 'GET #show' do
     before { get :show, params: { id: question } }
 
     it 'renders show view' do
@@ -33,35 +30,43 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { get :new }
+      before { get :new }
 
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
+      it 'renders new view', :logged_in do
+        expect(response).to render_template :new
+      end
+
+      it 'redirects to login if unauthorized' do
+        expect(response).to redirect_to(new_user_session_path)
+      end
   end
 
-  describe 'GET #edit', :is_owner do
+  describe 'GET #edit' do
     before { get :edit,  params: { id: question } }
 
-    it 'renders edit view' do
+    it 'renders edit view', :logged_in do
       expect(response).to render_template :edit
+    end
+
+    it 'redirects to login if unauthorized' do
+      expect(response).to redirect_to(new_user_session_path)
     end
   end
 
-  describe 'POST #create', :is_owner do
-    context 'with valid attributes' do
+  describe 'POST #create' do
+    context 'with valid attributes', :logged_in do
       it 'saves a new question in database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to \
           change(Question, :count).by(1)
       end
 
-      it 'redirects to <index>' do
+      it 'redirects to question' do
         post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to questions_path
+        expect(response).to redirect_to question_path(assigns(:question))
       end
     end
 
-    context 'with invalid attributes' do
+    context 'with invalid attributes', :logged_in do
       it 'doesn\'t save the question' do
         expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not \
           change(Question, :count)
@@ -72,10 +77,18 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :new
       end
     end
+
+    context 'when not logged in' do
+      it 'redirects to login if unauthorized' do
+        expect { post :create, params: { question: attributes_for(:question) } }.to_not \
+          change(Question, :count)
+        expect(response).to redirect_to(new_user_session_path)
+       end
+    end
   end
 
-  describe 'PATCH #update', :is_owner do
-    context 'with valid attributes' do
+  describe 'PATCH #update' do
+    context 'with valid attributes', :logged_in do
       it ' assigns to be updated question to same @question (created by let())' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(assigns(:question)).to eq question
@@ -95,7 +108,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context 'with invalid attributes' do
+    context 'with invalid attributes', :logged_in do
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
 
       it 'doesn\'t change a question' do
@@ -109,18 +122,34 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :edit
       end
     end
+
+    context 'when not logged in' do
+      before { patch :update, params: { id: question, question: attributes_for(:question) } }
+      it 'redirects to login if unauthorized' do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
 
-  describe 'DELETE #destroy', :is_owner do
+  describe 'DELETE #destroy' do
     let!(:question) { create(:question) }
 
-    it 'deletes a question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    context 'when logged in', :logged_in do
+      it 'deletes a question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to <index>' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to <index>' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'when not logged in' do
+      it 'redirects to login if unauthorized' do
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+        expect(response).to redirect_to(new_user_session_path)
+      end
     end
   end
 end

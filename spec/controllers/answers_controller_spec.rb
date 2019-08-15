@@ -5,15 +5,12 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
   before do |test|
-    unless test.metadata[:not_logged_in]
+    if test.metadata[:logged_in]
       login(user) #  controller_helper method
-    end
-    if test.metadata[:is_owner]
-      allow(controller).to receive(:author_check).and_return(true)
     end
   end
 
-  describe 'GET #show', :not_logged_in do
+  describe 'GET #show' do
     before { get :show, params: { id: answer } }
 
     it 'renders show view' do
@@ -24,21 +21,29 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #new' do
     before { get :new, params: { question_id: question } }
 
-    it 'renders new view' do
+    it 'renders new view', :logged_in do
       expect(response).to render_template :new
     end
-  end
 
-  describe 'GET #edit', :is_owner do
-    before { get :edit, params: { id: answer } }
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
+    it 'redirects to login if unauthorized' do
+      expect(response).to redirect_to(new_user_session_path)
     end
   end
 
-  describe 'POST #create', :is_owner do
-    context 'with valid attributes' do
+  describe 'GET #edit' do
+    before { get :edit, params: { id: answer } }
+
+    it 'renders edit view', :logged_in do
+      expect(response).to render_template :edit
+    end
+
+    it 'redirects to login if unauthorized' do
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid attributes', :logged_in do
       it 'binds created answer to the associated question' do
         post :create, params: { answer: attributes_for(:answer), question_id: question }
 
@@ -56,7 +61,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'with invalid attributes' do
+    context 'with invalid attributes', :logged_in do
       it 'doesn\'t save the answer' do
         expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not \
           change(Answer, :count)
@@ -67,10 +72,18 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template("questions/show")
       end
     end
+
+    context 'when not logged in' do
+      it 'redirects to login if unauthorized' do
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to_not \
+          change(Answer, :count)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
 
-  describe 'PATCH #update', :is_owner do
-    context 'with valid attributes' do
+  describe 'PATCH #update' do
+    context 'with valid attributes', :logged_in do
       it 'binds updated answer to the associated question' do
         patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question }
         expect(assigns(:answer).question).to eq answer.question
@@ -93,14 +106,13 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'with invalid attributes' do
+    context 'with invalid attributes', :logged_in do
       before {
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid), question_id: question }
       }
 
       it 'doesn\'t change an answer' do
         answer.reload
-
         expect(answer.body).not_to eq nil
       end
 
@@ -108,18 +120,34 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :edit
       end
     end
+
+    context 'when not logged in' do
+      before { patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question } }
+      it 'redirects to login if unauthorized' do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
   end
 
-  describe 'DELETE #destroy', :is_owner do
+  describe 'DELETE #destroy' do
     let!(:answer) { create(:answer) }
 
-    it 'deletes a question' do
-      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+    context 'when logged in', :logged_in do
+      it 'deletes a question' do
+        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to <question>' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to question_path(id: answer.question_id)
+      end
     end
 
-    it 'redirects to <question>' do
-      delete :destroy, params: { id: answer }
-      expect(response).to redirect_to question_path(id: answer.question_id)
+    context 'when not logged in' do
+      it 'redirects to login if unauthorized' do
+        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect(response).to redirect_to(new_user_session_path)
+      end
     end
   end
 end

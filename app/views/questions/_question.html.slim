@@ -5,6 +5,6 @@
       td align= "left" = question.title
       td= link_to 'View', question_path(question)
 
-      - if user_signed_in?
+      - if user_signed_in? && current_user.author?(question)
         td= link_to 'Edit', edit_question_path(question)
         td= link_to 'Remove', question_path(question), method: :delete, data: { confirm: 'OK to remove?' }

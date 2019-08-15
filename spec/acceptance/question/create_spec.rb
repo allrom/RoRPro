@@ -20,7 +20,6 @@ feature 'User can create a question', %q{
       click_on 'OK'
 
       expect(page).to have_content 'Your question was created.'
-      find(".question-table-row").click_link "View"
       expect(page).to have_content 'Some Title'
       expect(page).to have_content 'Question with Some Text'
     end

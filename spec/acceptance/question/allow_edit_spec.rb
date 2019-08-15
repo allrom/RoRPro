@@ -31,6 +31,9 @@ feature 'Edit own question', %q{
       visit current_path
       expect(page).not_to have_content authors_question.title
       expect(page).not_to have_content authors_question.body
+      expect(page).to have_content 'Updated Title'
+      expect(page).to have_content 'Updated Question'
+
       expect(current_path).to eq question_path(authors_question)
     end
 
@@ -47,10 +50,8 @@ feature 'Edit own question', %q{
 
     scenario 'tries to edit users question' do
       within "#question_id-#{users_question.id}" do
-        click_on 'Edit'
+        expect(page).not_to have_link 'Edit'
       end
-      expect(page).to have_content users_question.title
-      expect(page).to have_content 'Not allowed'
       expect(current_path).to eq questions_path
     end
   end

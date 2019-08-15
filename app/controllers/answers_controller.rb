@@ -1,6 +1,5 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :show
-  before_action :author_check, only: %i[edit update destroy]
 
   def show; end
 
@@ -35,12 +34,6 @@ class AnswersController < ApplicationController
   end
 
   private
-
-  def author_check
-    if current_user != Answer.find(params[:id]).user
-      redirect_to question_path(id: answer.question_id), notice: 'Not allowed.'
-    end
-  end
 
   def question
     @question ||= Question.find(params[:question_id])

@@ -27,10 +27,8 @@ feature 'Delete own answer', %q{
 
     scenario 'tries to deletes users answer' do
       within "#answer_id-#{users_answer.id}" do
-        click_on 'Remove'
+        expect(page).not_to have_link 'Remove'
       end
-      expect(page).to have_content users_answer.body
-      expect(page).to have_content 'Not allowed'
       expect(current_path).to eq question_path(question)
     end
   end

@@ -1,6 +1,5 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :author_check, only: %i[edit update destroy]
 
   def index
     @questions = Question.all
@@ -10,7 +9,7 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
 
     if @question.save
-      redirect_to questions_path, notice: 'Your question was created.'
+      redirect_to @question, notice: 'Your question was created.'
     else
       render :new
     end
@@ -36,12 +35,6 @@ class QuestionsController < ApplicationController
   end
 
   private
-
-  def author_check
-    if current_user != Question.find(params[:id]).user
-      redirect_to questions_path, notice: 'Not allowed.'
-     end
-  end
 
   def question # callback replacement
     @question ||= params[:id] ? Question.find(params[:id]) : Question.new

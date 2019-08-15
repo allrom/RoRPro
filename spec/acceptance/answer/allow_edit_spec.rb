@@ -24,6 +24,7 @@ feature 'Edit own answer', %q{
       end
       fill_in 'answer-given', with: 'Updated Answer'
       click_on 'OK'
+      expect(page).to have_content 'Updated Answer'
       expect(page).not_to have_content authors_answer.body
       expect(current_path).to eq question_path(question)
     end
@@ -41,15 +42,13 @@ feature 'Edit own answer', %q{
     scenario 'tries to edit users answer' do
       click_on 'View'
       within "#answer_id-#{users_answer.id}" do
-        click_on 'Edit'
+        expect(page).not_to have_link 'Edit'
       end
-      expect(page).to have_content users_answer.body
-      expect(page).to have_content 'Not allowed'
       expect(current_path).to eq question_path(question)
     end
    end
 
-  scenario 'Unauthenticated user tries to delete an answer' do
+  scenario 'Unauthenticated user tries to edit an answer' do
     visit questions_path
     expect(page).not_to have_link 'Edit'
   end
