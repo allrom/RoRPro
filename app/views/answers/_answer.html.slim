@@ -4,6 +4,6 @@
       td= answer.id
       td align= "left" = answer.body
 
-      - if user_signed_in? && current_user&.author?(answer)
+      - if current_user&.author?(answer)
         td= link_to 'Edit', edit_answer_path(id: answer.id, question_id: answer.question_id)
         td= link_to 'Remove', answer_path(answer), method: :delete, data: { confirm: 'OK to remove?' }
