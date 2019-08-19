@@ -1,4 +1,4 @@
-= form_with(model: model, local: true) do |form|
+= form_with(model: model) do |form| ## 'local:true' is being intended for sync html request, 'remote:true' defaults
   = render 'shared/errors', resource: answer
 
   #answer-form

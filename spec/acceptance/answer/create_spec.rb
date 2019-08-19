@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-feature 'User can create an answer to a question', %q{
+feature 'User can give an answer to a question', %q{
   In order to make Help to community
   As an Autheticated user
-  I'd like to be able to Give an answer
+  I'd like to be able to Create answers
 } do
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
       visit question_path(question)
@@ -18,6 +18,7 @@ feature 'User can create an answer to a question', %q{
       fill_in 'answer-given', with: 'Answer with Some Text'
       click_on 'OK'
 
+      expect(current_path).to eq question_path(question)
       expect(page).to have_content 'Answer added'
       within '.answer-list' do
         expect(page).to have_content 'Answer with Some Text'
