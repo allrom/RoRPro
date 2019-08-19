@@ -1,0 +1,21 @@
+.question
+  h5= 'Question to view:'
+  p style="font-size:medium"
+    'Title:
+    = question.title
+    br
+    'Body:
+    = question.body
+
+.answer-list
+  p= render 'shared/answers_table'
+
+.give-answer
+  h5= 'Give an Answer'
+
+  -if user_signed_in?
+    p= render 'answers/form', model: [ question, answer ]
+  - else
+    p= link_to 'Sign in to post answer', new_user_session_path
+
+p= link_to 'Questions List', questions_path

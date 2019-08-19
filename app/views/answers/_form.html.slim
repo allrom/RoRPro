@@ -1,0 +1,9 @@
+= form_with(model: model, local: true) do |form|
+  = render 'shared/errors', resource: answer
+
+  #answer-form
+    = form.label :body
+    = form.text_field :body, id: 'answer-given'
+
+    h5= 'Accept Answer'
+    p= form.submit 'OK'

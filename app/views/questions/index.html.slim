@@ -1,0 +1,11 @@
+.container
+  h4= 'Questions Page'
+
+  table.table
+    tr
+      th= 'id'
+      th= 'Title'
+      th colspan="3" Action
+      = render @questions
+
+  p= link_to 'Ask a question', user_signed_in? ? new_question_path : new_user_session_path

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Question, type: :model do
   describe 'associations' do
     it { should have_many(:answers).dependent(:destroy) }
+    it { should belong_to(:user) }
   end
 
   describe 'validations' do
@@ -11,4 +12,6 @@ RSpec.describe Question, type: :model do
     it { should validate_length_of(:title).is_at_least(7) }
     it { should validate_length_of(:body).is_at_least(6) }
   end
+
+  it { should have_db_index(:user_id) }
 end

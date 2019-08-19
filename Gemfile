@@ -36,6 +36,12 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'slim-rails'
+# Bootstrap JavaScript depends on jQuery. For Rails 5.1+ this gem is needed
+gem 'jquery-rails'
+# AUTH mega-module
+gem 'devise', '~> 4.0'
+# Manage multiple nested models in a single form
+gem 'nested_form'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -67,6 +73,8 @@ group :test do
   # Simple One-liner tests for Rails
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
+  # for 'save_and_open_page' testing
+  gem 'launchy'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
