@@ -2,17 +2,12 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
   def index
-    @questions = Question.all
+    questions
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-
-    if @question.save
-      redirect_to @question, notice: 'Your question was created.'
-    else
-      render :new
-    end
+    @question = current_user.questions.create(question_params)
+    flash.now[:notice] = 'Your question was created.'
   end
 
   def show; end
@@ -23,9 +18,10 @@ class QuestionsController < ApplicationController
 
   def update
     if question.update(question_params)
-      redirect_to questions_path, notice: 'Question updated.'
+      flash.now[:notice] = 'Question updated.'
     else
-      render :edit
+      flash.now[:notice] = "Answer not changed."
+      render :update
     end
   end
 
@@ -40,11 +36,15 @@ class QuestionsController < ApplicationController
     @question ||= params[:id] ? Question.find(params[:id]) : Question.new
   end
 
+  def questions
+    @questions = Question.all
+  end
+
   def answer
     @answer = question.answers.build
   end
 
-  helper_method :question, :answer
+  helper_method :question, :questions, :answer
 
   def question_params
     params.require(:question).permit(:title, :body)

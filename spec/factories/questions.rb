@@ -18,5 +18,11 @@ FactoryBot.define do
         create_list(:answer, e.number_of_answers, question: q)
       end
     end
+
+    trait :with_answer do
+      after(:create) do |q|
+        create(:answer, question: q)
+      end
+    end
   end
 end

@@ -1,11 +1,15 @@
-.container
+#questions-table
   h4= 'Questions Page'
 
   table.table
     tr
       th= 'id'
       th= 'Title'
-      th colspan="3" Action
-      = render @questions
 
-  p= link_to 'Ask a question', user_signed_in? ? new_question_path : new_user_session_path
+      = render questions
+
+#edit-link
+  -if user_signed_in?
+    p= link_to 'Ask a question', new_question_path, class: "ask-a-question", remote: true
+  -else
+    p= link_to 'Sign in to Ask a question', new_user_session_path

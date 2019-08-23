@@ -1,0 +1,13 @@
+$('.question-errors').html('<%= render 'shared/errors', resource: question %>');
+
+<% if question.persisted? %>
+  $("#questions-table").append('<%= j render question %>');
+  $('#question_title').val('');
+  $('#question_body').val('');
+
+  $('#question-form').hide();
+  $('.ask-a-question').toggle();
+
+  $flash = $('#flash_messages').html('<%= j flash.now[:notice] %>').delay(2000).slideUp('slow');
+  $flash.show().addClass('notice');
+<% end %>

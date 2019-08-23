@@ -1,10 +1,8 @@
-.question-table-row
-  div id= "question_id-#{question.id}"
-    tr align= "center"
-      td= question.id
-      td align= "left" = question.title
-      td= link_to 'View', question_path(question)
+tr id= "question_id-#{question.id}"
+  td class= "table-data"= question.id
+  td class= "table-data" = question.title
+  td class= "table-data" = link_to 'View', question_path(question)
 
-      - if current_user&.author?(question)
-        td= link_to 'Edit', edit_question_path(question)
-        td= link_to 'Remove', question_path(question), method: :delete, data: { confirm: 'OK to remove?' }
+  - if current_user&.author?(question)
+    td class= "table-data" = link_to 'Edit', edit_question_path(question)
+    td class= "table-data" = link_to 'Remove', question_path(question), method: :delete, data: { confirm: 'OK to remove?' }

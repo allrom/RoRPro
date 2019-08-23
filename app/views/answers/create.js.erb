@@ -1,0 +1,12 @@
+<%# css-element by selector '.answer-errors', then replace it with 'render...' in html func %>
+$('.answer-errors').html('<%= render 'shared/errors', resource: answer %>');
+
+<%# add(append) a single answer to answers table w/o all page load. \
+'j' helper means user-input field protection (escape javascript) %>
+<% if answer.persisted? %>
+  $("#answers-table").append('<%= j render answer %>');
+  $('#answer-given').val('');
+
+  $flash = $('#flash_messages').html('<%= j flash.now[:notice] %>').delay(2000).slideUp('slow');
+  $flash.show().addClass('notice');
+<% end %>

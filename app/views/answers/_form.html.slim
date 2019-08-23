@@ -1,7 +1,9 @@
-= form_with(model: model) do |form| ## 'local:true' is being intended for sync html request, 'remote:true' defaults
-  = render 'shared/errors', resource: answer
+= form_with model: model do |form| ## 'local:true' is being intended for sync html request, 'remote:true' defaults
 
   #answer-form
+    .answer-errors
+      = render 'shared/errors', resource: answer
+
     = form.label :body
     = form.text_field :body, id: 'answer-given'
 

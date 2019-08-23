@@ -11,7 +11,7 @@ feature 'Delete own answer', %q{
   given!(:authors_answer) { create :answer, question: question, user: author }
   given!(:users_answer) { create :answer, question: question, user: user }
 
-  describe 'Author' do
+  describe 'Author', js: true do
     background do
       sign_in(author)
       visit question_path(question)
@@ -20,6 +20,8 @@ feature 'Delete own answer', %q{
     scenario 'deletes own answer' do
       within "#answer_id-#{authors_answer.id}" do
         click_on 'Remove'
+        # accepts 'OK to remove?' alert
+        page.driver.browser.switch_to.alert.accept
       end
       expect(page).not_to have_content authors_answer.body
       expect(current_path).to eq question_path(question)

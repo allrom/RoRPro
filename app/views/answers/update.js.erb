@@ -1,0 +1,8 @@
+$('.answer-errors').html('<%= render 'shared/errors', resource: answer %>');
+
+<% unless answer.errors.present? %>
+  $("#answer-given").replaceWith('<%= j answer.body %>');
+
+  $flash = $('#flash_messages').html('<%= j flash.now[:notice] %>').delay(2000).slideUp('slow');
+  $flash.show().addClass('notice');
+<% end %>

@@ -8,29 +8,28 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create
-    @answer = question.answers.new(answer_params)
-    @answer.user = current_user
-
-    if @answer.save
-      redirect_to question, notice: "Answer added."
-    else
-      render 'questions/show'
-    end
+    @answer = question.answers.create(answer_params.merge(user: current_user))
+    flash.now[:notice] = "Answer added."
   end
 
   def update
     if answer.update(answer_params)
-      redirect_to answer.question, notice: "Answer changed."
+      flash.now[:notice] = "Answer changed."
     else
-      @question = Question.find(answer.question_id)
-      flash.now[:error] = "Answer not changed."
-      render :edit
+      flash.now[:notice] = "Answer not changed."
+      render :update
     end
   end
 
   def destroy
+    @question = answer.question
     answer.destroy
-    redirect_to answer.question, notice: "Answer removed."
+    flash.now[:notice] = "Answer removed."
+  end
+
+  def flag_best
+    @question = answer.question
+    answer.mark_best if question.user == current_user
   end
 
   private
