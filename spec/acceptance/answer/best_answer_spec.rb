@@ -38,8 +38,26 @@ feature 'Mark the best answer', %q{
     end
    end
 
+  describe 'Visitor', js: true do
+    background do
+      sign_in(visitor)
+      visit question_path(visitor_question)
+    end
+
+    scenario 'selector "best!" is present' do
+      expect(page).to have_selector("input[type = submit][value = 'best!']")
+    end
+
+    scenario 'unable to flag authors question answers' do
+      visit question_path(author_question)
+      expect(page).not_to have_selector("input[type = submit][value = 'best!']")
+    end
+   end
+
   scenario 'Unauthenticated user tries to flag best answer' do
     visit question_path(visitor_question)
+    expect(page).not_to have_selector("input[type = submit][value = 'best!']")
+    visit question_path(author_question)
     expect(page).not_to have_selector("input[type = submit][value = 'best!']")
   end
 end

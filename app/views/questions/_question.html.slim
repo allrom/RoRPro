@@ -1,8 +1,8 @@
 tr id= "question_id-#{question.id}"
-  td class= "table-data"= question.id
-  td class= "table-data" = question.title
-  td class= "table-data" = link_to 'View', question_path(question)
+  td.table-data = question.id
+  td.table-data = question.title
+  td.table-data = link_to 'View', question_path(question)
 
   - if current_user&.author?(question)
-    td class= "table-data" = link_to 'Edit', edit_question_path(question)
-    td class= "table-data" = link_to 'Remove', question_path(question), method: :delete, data: { confirm: 'OK to remove?' }
+    td.table-data = link_to 'Edit', edit_question_path(question)
+    td.table-data = link_to 'Remove', question_path(question), method: :delete, data: { confirm: 'OK to remove?' }

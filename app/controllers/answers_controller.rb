@@ -9,14 +9,19 @@ class AnswersController < ApplicationController
 
   def create
     @answer = question.answers.create(answer_params.merge(user: current_user))
-    flash.now[:notice] = "Answer added."
+    if answer.persisted?
+      flash.now[:notice] = "Answer added."
+    else
+      flash.now[:error] = "Answer not added."
+      render :create
+    end
   end
 
   def update
     if answer.update(answer_params)
       flash.now[:notice] = "Answer changed."
     else
-      flash.now[:notice] = "Answer not changed."
+      flash.now[:error] = "Answer not changed."
       render :update
     end
   end

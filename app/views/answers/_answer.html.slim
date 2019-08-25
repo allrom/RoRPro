@@ -1,18 +1,18 @@
 tr id= "answer_id-#{answer.id}"
-  td class= "table-data" = answer.id
-  td class= "table-data" = answer.body
+  td.table-data = answer.id
+  td.table-data = answer.body
 
   - if current_user&.author?(answer) && answer.persisted?
-    td class= "table-data"= link_to 'Edit', edit_answer_path(id: answer.id, question_id: answer.question_id)
-    td class= "table-data"= link_to 'Remove', answer_path(answer),
+    td.table-data = link_to 'Edit', edit_answer_path(id: answer.id, question_id: answer.question_id)
+    td.table-data = link_to 'Remove', answer_path(answer),
             method: :delete,
             data: { confirm: 'OK to remove?' },
             remote: true
 
-  - if current_user&.author?(question) && !answer.best
-    td class="outside" = button_to 'best!', flag_best_answer_path(answer),
+  - if current_user&.author?(question) && answer.not_best?
+    td.outside = button_to 'best!', flag_best_answer_path(answer),
             method: :patch,
             remote: true
 
   - if answer.best
-    td class="outside" style="color: red" Best Answer
+    td.outside style="color: red" Best Answer

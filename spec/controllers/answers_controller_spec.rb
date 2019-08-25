@@ -114,61 +114,56 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes', :logged_in do
-      before {
+      it 'doesn\'t change an answer' do
         patch :update,
               params: { id: answer, answer: attributes_for(:answer, :invalid), question_id: question }, format: :js
-      }
-
-      it 'doesn\'t change an answer' do
         answer.reload
         expect(answer.body).not_to eq nil
       end
 
       it 're-renders "update" view' do
+        patch :update,
+              params: { id: answer, answer: attributes_for(:answer, :invalid), question_id: question }, format: :js
         expect(response).to render_template :update
       end
     end
 
     context 'when not logged in' do
-      before { patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question } }
       it 'redirects to login if unauthorized' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question }
         expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
-
   describe 'PATCH #flag_best' do
     context 'into authors question', :logged_in do
-      before { patch :flag_best, params: { id: visitor_answer }, format: :js}
-
       it 'sets the visitors answer as "best"' do
+        patch :flag_best, params: { id: visitor_answer }, format: :js
         visitor_answer.reload
         expect(visitor_answer).to be_best
       end
       it 'processes js to rearrange' do
+        patch :flag_best, params: { id: visitor_answer }, format: :js
         expect(response).to render_template :flag_best
       end
+    end
 
-      context 'into visitors question', :logged_in do
-        before { patch :flag_best, params: { id: visitor_question.answers.first }, format: :js}
+    context 'into visitors question', :logged_in do
+      it 'leaves the visitors answer intact' do
+        patch :flag_best, params: { id: visitor_question.answers.first }, format: :js
+        visitor_question.answers.first.reload
+        expect(visitor_question.answers.first).not_to be_best
+      end
+    end
 
-        it 'leaves the visitors answer intact' do
-          visitor_question.answers.first.reload
-          expect(visitor_question.answers.first).not_to be_best
-        end
+    context 'when not logged in' do
+      it 'redirects to login if unauthorized' do
+        patch :flag_best, params: { id: answer }
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
-
-
-
-
-
-
-
-
-
 
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer) }
@@ -181,8 +176,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'processes js to remove an answer' do
         delete :destroy, params: { id: answer, format: :js }
         expect(response).to render_template :destroy
-
-        ## expect(response).to redirect_to question_path(id: answer.question_id)
       end
     end
 

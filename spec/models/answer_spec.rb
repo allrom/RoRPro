@@ -42,5 +42,15 @@ RSpec.describe Answer, type: :model do
         expect(answer_2).not_to be_best
       end
     end
+
+    context 'when some action with model' do
+      before {
+        answer_2.mark_best
+        [answer_1, answer_2, answer_3].map(&:reload)
+      }
+      it 'should be ordered by best answer being first' do
+        expect(Answer.all).to eq [answer_2, answer_1, answer_3]
+      end
+    end
   end
 end
