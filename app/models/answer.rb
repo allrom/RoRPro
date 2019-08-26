@@ -6,13 +6,9 @@ class Answer < ApplicationRecord
 
   default_scope -> { order(best: :desc) }
 
-  def not_best?
-    !best
-  end
-
   def mark_best
     # multiple updates wrapped in one transaction, so one commit passed to db
-    Answer.transaction do
+    transaction do
       question.answers.where(best: true).update_all(best: false)
       self.toggle!(:best)
     end

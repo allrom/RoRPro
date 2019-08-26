@@ -8,8 +8,9 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create
-    @answer = question.answers.create(answer_params.merge(user: current_user))
-    if answer.persisted?
+    # use build instead of new, so that 'build' creates new instance within AR assosiation (sets parent_id)
+    @answer = question.answers.build(answer_params.merge(user: current_user))
+    if answer.save
       flash.now[:notice] = "Answer added."
     else
       flash.now[:error] = "Answer not added."

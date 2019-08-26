@@ -6,8 +6,8 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = current_user.questions.create(question_params)
-    if question.persisted?
+    @question = current_user.questions.build(question_params)
+    if question.save
       flash.now[:notice] = 'Your question created.'
     else
       flash.now[:error] = "Question not added."

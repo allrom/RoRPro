@@ -9,10 +9,10 @@ tr id= "answer_id-#{answer.id}"
             data: { confirm: 'OK to remove?' },
             remote: true
 
-  - if current_user&.author?(question) && answer.not_best?
+  - if current_user&.author?(question) && !answer.best?
     td.outside = button_to 'best!', flag_best_answer_path(answer),
             method: :patch,
             remote: true
 
-  - if answer.best
+  - if answer.best?
     td.outside style="color: red" Best Answer
