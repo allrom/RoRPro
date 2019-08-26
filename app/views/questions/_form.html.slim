@@ -1,7 +1,9 @@
-= form_with(model: model, local: true) do |form|
-  = render 'shared/errors', resource: question
+= form_with model: model do |form|
 
   #question-form
+    .question-errors
+      = render 'shared/errors', resource: question
+
     = form.label :title
     = form.text_field :title
     p
@@ -11,3 +13,5 @@
 
     h5= 'Accept Question'
     p= form.submit 'OK'
+
+    p= link_to "Dismiss", questions_path

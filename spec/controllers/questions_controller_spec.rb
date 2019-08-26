@@ -30,15 +30,16 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-      before { get :new }
+    ## prevents 'InvalidCrossOriginRequest' error
+    before { get :new, xhr: true }
 
-      it 'renders new view', :logged_in do
-        expect(response).to render_template :new
-      end
+    it 'renders new view', :logged_in do
+      expect(response).to render_template :new
+    end
 
-      it 'redirects to login if unauthorized' do
-        expect(response).to redirect_to(new_user_session_path)
-      end
+    it 'redirects to login if unauthorized' do
+      expect(response).to redirect_to(new_user_session_path)
+    end
   end
 
   describe 'GET #edit' do
@@ -56,25 +57,25 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes', :logged_in do
       it 'saves a new question in database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to \
+        expect { post :create, params: { question: attributes_for(:question) }, format: :js }.to \
           change(Question, :count).by(1)
       end
 
-      it 'redirects to question' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to question_path(assigns(:question))
+      it 'processes js to create new question' do
+        post :create, params: { question: attributes_for(:question), format: :js }
+        expect(response).to render_template :create
       end
     end
 
     context 'with invalid attributes', :logged_in do
       it 'doesn\'t save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not \
+        expect { post :create, params: { question: attributes_for(:question, :invalid) }, format: :js }.to_not \
           change(Question, :count)
       end
 
-      it 're-renders <new>' do
-        post :create, params: { question: attributes_for(:question, :invalid) }
-        expect(response).to render_template :new
+      it 'renders "create" template' do
+        post :create, params: { question: attributes_for(:question, :invalid), format: :js }
+        expect(response).to render_template :create
       end
     end
 
@@ -90,26 +91,28 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid attributes', :logged_in do
       it ' assigns to be updated question to same @question (created by let())' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch :update, params: { id: question, question: attributes_for(:question), format: :js }
         expect(assigns(:question)).to eq question
       end
 
       it 'changes a question attributes' do
-        patch :update, params: { id: question, question: { title: 'New title', body: 'New body'} }
+        patch :update, params: { id: question, question: { title: 'New title', body: 'New body'}, format: :js }
         question.reload
 
         expect(question.title).to eq 'New title'
         expect(question.body).to eq 'New body'
       end
 
-      it 'redirects to an updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to questions_path
+      it 'renders "update" template' do
+        patch :update, params: { id: question, question: attributes_for(:question), format: :js }
+        expect(response).to render_template :update
       end
     end
 
     context 'with invalid attributes', :logged_in do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+      before {
+        patch :update,
+              params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
 
       it 'doesn\'t change a question' do
         question.reload
@@ -118,8 +121,8 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq 'BotQuestion'
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      it 're-renders "update" view' do
+        expect(response).to render_template :update
       end
     end
 

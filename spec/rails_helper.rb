@@ -65,6 +65,15 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Run acceptance tests in Chrome rather than in FireFox
+  # Default install path for chromium in Ubuntu differs from standard ('/usr/bin/google-chrome').
+  # check with '$which chromium-browser'
+  Selenium::WebDriver::Chrome.path = '/usr/bin/chromium-browser'
+  Webdrivers::cache_time = 86_400
+  ## Capybara.javascript_driver = :selenium_chrome
+  # no Chrome interaction
+  Capybara.javascript_driver = :selenium_chrome_headless
 end
 
 Shoulda::Matchers.configure do |config|

@@ -1,0 +1,9 @@
+$('.question-errors').html('<%= render 'shared/errors', resource: question %>');
+
+<% unless question.errors.present? %>
+  $("#question_title").replaceWith('<%= j question.title %>');
+  $("#question_body").replaceWith('<%= j question.body %>');
+
+  $flash = $('#flash_messages').html('<%= j flash.now[:notice] %>').delay(2000).slideUp('slow');
+  $flash.show().addClass('notice');
+<% end %>

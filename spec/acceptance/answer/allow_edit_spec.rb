@@ -2,8 +2,8 @@ require 'rails_helper'
 
 feature 'Edit own answer', %q{
   In order to update an answer
-  As an question Owner
-  I'd like to be able to Edit a Question
+  As an answer Owner
+  I'd like to be able to Edit an Answer
 } do
   given(:author) { create(:user) }
   given(:user) { create(:user) }
@@ -11,7 +11,7 @@ feature 'Edit own answer', %q{
   given!(:authors_answer) { create :answer, question: question, user: author }
   given!(:users_answer) { create :answer, question: question, user: user }
 
-  describe 'Author' do
+  describe 'Author', js: true do
     background do
       sign_in(author)
       visit questions_path
@@ -21,12 +21,13 @@ feature 'Edit own answer', %q{
       click_on 'View'
       within "#answer_id-#{authors_answer.id}" do
         click_on 'Edit'
+        ## close the 'within' scope to not raise "StaleElementReferenceError"
       end
       fill_in 'answer-given', with: 'Updated Answer'
       click_on 'OK'
-      expect(page).to have_content 'Updated Answer'
       expect(page).not_to have_content authors_answer.body
-      expect(current_path).to eq question_path(question)
+      expect(page).to have_content 'Updated Answer'
+      expect(current_path).to eq edit_answer_path(authors_answer)
     end
 
     scenario 'composes an answer with errors' do

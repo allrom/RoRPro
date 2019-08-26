@@ -10,23 +10,25 @@ feature 'Edit own question', %q{
   given!(:authors_question) { create :question, user: author }
   given!(:users_question) { create :question, user: user }
 
-  describe 'Author' do
+  describe 'Author', js: true do
     background do
       sign_in(author)
       visit questions_path
     end
 
     scenario 'edits own question' do
-      within "#question_id-#{authors_question.id}" do
-        click_on 'Edit'
-        ## close the 'within' scope to not raise "StaleElementReferenceError"
+      ## helped to struggle with css 'element not found'
+      within('#questions-table') do
+        find("#question_id-#{authors_question.id}").click_on 'Edit'
       end
+
       fill_in 'Title', with: 'Updated Title'
       fill_in 'Body', with: 'Updated Question'
       click_on 'OK'
+      click_on 'Dismiss'
 
-      within "#question_id-#{authors_question.id}" do
-        click_on 'View'
+      within('#questions-table') do
+        find("#question_id-#{authors_question.id}").click_on 'View'
       end
       visit current_path
       expect(page).not_to have_content authors_question.title

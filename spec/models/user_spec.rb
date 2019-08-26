@@ -22,8 +22,8 @@ RSpec.describe User, type: :model do
         expect(owner).to be_author(owners_question)
       end
 
-      it 'should return "true" for answer', :answer do
-        expect(owner).to be_author(owners_answer)
+      it 'should return "true" for answer' do
+        expect(owner).to be_author(owners_answer) 
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
         expect(visitor).not_to be_author(owners_question)
       end
 
-      it 'should return "false" for answer', :answer do
+      it 'should return "false" for answer' do
         expect(visitor).not_to be_author(owners_answer)
       end
     end

@@ -6,7 +6,7 @@ feature 'User can create a question', %q{
   I'd like to be able to Ask a Question
 } do
   given(:user) { create(:user) }
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
 
     background do
       sign_in(user) #  feature_helper method
@@ -18,8 +18,8 @@ feature 'User can create a question', %q{
       fill_in 'Title', with: 'Some Title'
       fill_in 'Body', with: 'Question with Some Text'
       click_on 'OK'
-
-      expect(page).to have_content 'Your question was created.'
+      expect(page).to have_content 'Your question created.'
+      click_on 'View'
       expect(page).to have_content 'Some Title'
       expect(page).to have_content 'Question with Some Text'
     end

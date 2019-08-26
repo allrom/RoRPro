@@ -1,10 +1,8 @@
-.container
+#answers-table
   h5= 'Answers Page'
   table.table
     tr
       th= 'id'
       th= 'Body'
-      - if user_signed_in?
-        th colspan="2" Action
 
       = render question.answers.reject(&:new_record?)
