@@ -24,5 +24,12 @@ FactoryBot.define do
         create(:answer, question: q)
       end
     end
+
+    trait :with_attachment do
+      after(:create) do |q|
+        file = File.new("#{Rails.root}/spec/factories/patterns/data")
+        q.files.attach(io: file, filename: "test_q_data")
+      end
+    end
   end
 end

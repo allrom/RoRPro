@@ -39,6 +39,23 @@ feature 'Edit own question', %q{
       expect(current_path).to eq question_path(authors_question)
     end
 
+    scenario 'edits own question and attach some files' do
+      within('#questions-table') do
+        find("#question_id-#{authors_question.id}").click_on 'Edit'
+      end
+      page.attach_file 'question[files][]',
+                       ["#{Rails.root}/spec/rails_helper.rb",  "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'OK'
+      expect(page).to have_content 'Question updated.'
+      click_on 'Dismiss'
+
+      within('#questions-table') do
+        find("#question_id-#{authors_question.id}").click_on 'View'
+      end
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
     scenario 'composes a question with errors' do
       within "#question_id-#{authors_question.id}" do
         click_on 'Edit'
@@ -55,6 +72,14 @@ feature 'Edit own question', %q{
         expect(page).not_to have_link 'Edit'
       end
       expect(current_path).to eq questions_path
+    end
+
+    scenario 'tries to attach files to users question' do
+      within('#questions-table') do
+        find("#question_id-#{users_question.id}").click_on 'View'
+      end
+      expect(page).not_to have_link 'Remove'
+      expect(current_path).to eq question_path(users_question)
     end
   end
 

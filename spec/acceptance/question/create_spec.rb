@@ -12,11 +12,11 @@ feature 'User can create a question', %q{
       sign_in(user) #  feature_helper method
       visit questions_path
       click_on 'Ask a question'
+      fill_in 'Title', with: 'Some Title'
+      fill_in 'Body', with: 'Question with Some Text'
     end
 
     scenario 'asks a question' do
-      fill_in 'Title', with: 'Some Title'
-      fill_in 'Body', with: 'Question with Some Text'
       click_on 'OK'
       expect(page).to have_content 'Your question created.'
       click_on 'View'
@@ -24,7 +24,19 @@ feature 'User can create a question', %q{
       expect(page).to have_content 'Question with Some Text'
     end
 
+    scenario 'asks a question and attach some files' do
+      page.attach_file 'question[files][]',
+                       ["#{Rails.root}/spec/rails_helper.rb",  "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'OK'
+      expect(page).to have_content 'Your question created.'
+      click_on 'View'
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
     scenario 'asks a question with errors' do
+      fill_in 'Title', with: ''
+      fill_in 'Body', with: ''
       click_on 'OK'
       expect(page).to have_content "Title can't be blank"
     end

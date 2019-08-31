@@ -4,8 +4,12 @@
     .answer-errors
       = render 'shared/errors', resource: answer
 
-    = form.label :body
+    => form.label :body
     = form.text_field :body, id: 'answer-given'
+    p
+    => form.label :files, 'Add File(s) to Answer'
+    => form.file_field :files, multiple: true
+    br
 
-    h5= 'Accept Answer'
+    h4= 'Accept Answer'
     p= form.submit 'OK'

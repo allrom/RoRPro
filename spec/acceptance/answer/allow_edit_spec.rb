@@ -15,14 +15,14 @@ feature 'Edit own answer', %q{
     background do
       sign_in(author)
       visit questions_path
-    end
-
-    scenario 'edits own answer' do
       click_on 'View'
       within "#answer_id-#{authors_answer.id}" do
         click_on 'Edit'
         ## close the 'within' scope to not raise "StaleElementReferenceError"
       end
+    end
+
+    scenario 'edits own answer' do
       fill_in 'answer-given', with: 'Updated Answer'
       click_on 'OK'
       expect(page).not_to have_content authors_answer.body
@@ -30,18 +30,26 @@ feature 'Edit own answer', %q{
       expect(current_path).to eq edit_answer_path(authors_answer)
     end
 
-    scenario 'composes an answer with errors' do
-      click_on 'View'
+    scenario 'edits own answer and attach some files' do
+      page.attach_file 'answer[files][]',
+                       ["#{Rails.root}/spec/rails_helper.rb",  "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'OK'
+      click_on 'Back'
       within "#answer_id-#{authors_answer.id}" do
-        click_on 'Edit'
+        click_on 'Files'
       end
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'composes an answer with errors' do
       fill_in 'answer-given', with: ''
       click_on 'OK'
       expect(page).to have_content "Body can't be blank"
     end
 
     scenario 'tries to edit users answer' do
-      click_on 'View'
+      click_on 'Back'
       within "#answer_id-#{users_answer.id}" do
         expect(page).not_to have_link 'Edit'
       end

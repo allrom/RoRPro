@@ -1,14 +1,17 @@
 .question
-  h5= 'Answer of the Question:'
+  h4= 'Answer of the Question:'
   p style="font-size:medium"
     'Title:
-    = question.title
+    => question.title
     br
     'Body:
-    = question.body
+    => question.body
+
+.attachments
+  p= render 'shared/attachments', resource: answer
 
 .change-answer
-  h5= 'Change an Answer'
+  h4= 'Change an Answer'
   p= render 'answers/form', model: answer
 
   p = link_to 'Back', question_path(question)
