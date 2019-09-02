@@ -3,7 +3,7 @@ class AttachmentsController < ApplicationController
 
   def destroy
     @file = ActiveStorage::Attachment.find(params[:id])
-    if resource.user == current_user
+    if current_user.author?(resource)
       file.purge
       flash.now[:notice] = "File removed."
     end
