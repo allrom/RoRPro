@@ -1,0 +1,4 @@
+$("#file_id-<%= file.id %>").remove();
+
+$flash = $('#flash_messages').html('<%= j flash.now[:notice] %>').delay(2000).slideUp('slow');
+$flash.show().addClass('warning');

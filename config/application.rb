@@ -23,11 +23,11 @@ module RoRPro
     config.load_defaults 5.2
 
     # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
+    # Application configuration can go into attachments in config/initializers
+    # -- all .rb attachments in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    # Don't generate system test files.
+    # Don't generate system test attachments.
     config.generators.system_tests = nil
 
     # Don't generate unneeded specs

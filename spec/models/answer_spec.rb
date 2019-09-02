@@ -24,6 +24,10 @@ RSpec.describe Answer, type: :model do
     let!(:answer_2) { user.answers.create(id: 2, question_id: 1, body: 'Test2') }
     let!(:answer_3) { user.answers.create(id: 3, question_id: 1, body: 'Test3', best: true) }
 
+    it 'have many attached files as attachments' do
+      expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+    end
+
     context 'when answer get marked as "best"' do
       before  {
         answer_1.mark_best

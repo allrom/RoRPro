@@ -4,14 +4,20 @@
     .question-errors
       = render 'shared/errors', resource: question
 
-    = form.label :title
-    = form.text_field :title
+    => form.label :title
+    => form.text_field :title
     p
-      = form.label :body
-      = form.text_area :body
+      => form.label :body
+      => form.text_area :body
+
+    .attachments
+      p= render 'shared/attachments', resource: question
+
+    => form.label :files, 'Add File(s) to Question (S3)'
+    => form.file_field :files, multiple: true, direct_upload: true
     br
 
-    h5= 'Accept Question'
+    h4= 'Accept Question'
     p= form.submit 'OK'
 
     p= link_to "Dismiss", questions_path

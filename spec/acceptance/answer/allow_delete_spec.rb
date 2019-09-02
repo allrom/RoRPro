@@ -27,7 +27,7 @@ feature 'Delete own answer', %q{
       expect(current_path).to eq question_path(question)
     end
 
-    scenario 'tries to deletes users answer' do
+    scenario 'tries to delete users answer' do
       within "#answer_id-#{users_answer.id}" do
         expect(page).not_to have_link 'Remove'
       end
