@@ -1,0 +1,23 @@
+#links-binded
+  -unless resource.links.empty?
+    p
+      b
+        'Provided Link(s):
+    ul
+      - resource.links.each do |link|
+        - if link.persisted?
+          li id= "link_id-#{link.id}"
+            - if link.url =~ /^(?i)https:\/\/gist\.github\.com\/(?=.{1,39}$)(?![_\W])[a-z0-9-]+(?<![_\W])\/([a-z0-9\/.]+)$/
+              => image_tag('github.png')
+              /*  requires page refresh when async load due to document.write() inside */
+              = javascript_include_tag "#{link.url}" + '.js'
+            - else
+              => link_to link.name, link.url, target: :_blank
+
+            - if current_user&.author?(resource)
+              = link_to 'Remove', link_path(link),
+                      class: 'delete_link',
+                      method: :delete,
+                      data: { confirm: 'OK to remove?' },
+                      form: { style: "display:inline-block;" },
+                      remote: true

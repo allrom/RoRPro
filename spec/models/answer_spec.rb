@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   describe 'associations' do
+    it { should have_many(:links).dependent(:destroy) }
     it { should belong_to(:question) }
     it { should belong_to(:user) }
   end
@@ -27,6 +28,8 @@ RSpec.describe Answer, type: :model do
     it 'have many attached files as attachments' do
       expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
     end
+
+    it { should accept_nested_attributes_for :links }
 
     context 'when answer get marked as "best"' do
       before  {

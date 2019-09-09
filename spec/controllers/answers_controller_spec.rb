@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:visitor) { create(:user) }
-  let(:question) { create :question, user: user }
+  let(:question) { create :question, :with_award, user: user }
   let(:answer) { create :answer, question: question, user: user }
+
   let(:visitor_question) { create :question, :with_answers, user: visitor }
   let(:visitor_answer) { create :answer, question: question, user: visitor }
 
@@ -15,10 +16,18 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { get :show, params: { id: answer } }
+    before { get :show, params: { id: answer }, xhr: true, format: :js }
 
     it 'renders show view' do
       expect(response).to render_template :show
+    end
+  end
+
+  describe 'GET #links' do
+    before { get :links, params: { answer_id: answer }, xhr: true, format: :js }
+
+    it 'renders links view' do
+      expect(response).to render_template :links
     end
   end
 
@@ -143,6 +152,12 @@ RSpec.describe AnswersController, type: :controller do
         visitor_answer.reload
         expect(visitor_answer).to be_best
       end
+
+      it 'gives an award to the visitor' do
+        expect { patch :flag_best, params: { id: visitor_answer }, format: :js}.to \
+          change(visitor.awards, :count).by(1)
+      end
+
       it 'processes js to rearrange' do
         patch :flag_best, params: { id: visitor_answer }, format: :js
         expect(response).to render_template :flag_best

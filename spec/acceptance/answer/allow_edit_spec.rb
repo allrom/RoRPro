@@ -10,6 +10,8 @@ feature 'Edit own answer', %q{
   given!(:question) { create(:question) }
   given!(:authors_answer) { create :answer, question: question, user: author }
   given!(:users_answer) { create :answer, question: question, user: user }
+  given(:g_url) { 'http://google.ru' }
+  given(:ya_url) { 'http://ya.ru' }
 
   describe 'Author', js: true do
     background do
@@ -26,11 +28,11 @@ feature 'Edit own answer', %q{
       fill_in 'answer-given', with: 'Updated Answer'
       click_on 'OK'
       expect(page).not_to have_content authors_answer.body
-      expect(page).to have_content 'Updated Answer'
+      expect(page).to have_content 'Answer changed.'
       expect(current_path).to eq edit_answer_path(authors_answer)
     end
 
-    scenario 'edits own answer and attach some files' do
+    scenario 'edits own answer and attaches some files' do
       page.attach_file 'answer[files][]',
                        ["#{Rails.root}/spec/rails_helper.rb",  "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'OK'
@@ -40,6 +42,49 @@ feature 'Edit own answer', %q{
       end
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'edits own answer and binds some links' do
+      within('.change-answer') do
+        click_on 'Add Link to Answer'
+        click_on 'Add Link to Answer'
+
+        within all('.nested-fields')[0] do
+          fill_in 'Link name', with: 'Some Link#1'
+          fill_in 'Url', with: g_url
+        end
+        ## -----------------------------------------------------------------
+        ## This test runs OK in :selenium_chrome_headless, with same setup
+        ## -----------------------------------------------------------------
+        within all('.nested-fields')[1] do
+          fill_in 'Link name', with: 'Some Link#2'
+          fill_in 'Url', with: ya_url
+        end
+      end
+      click_on 'OK'
+
+      expect(page).to have_content 'Answer changed.'
+      click_on 'Back'
+      within('#answers-table') do
+        click_on 'Links'
+      end
+
+      within('#links-binded') do
+        expect(page).to have_link 'Some Link#1', href: g_url
+        expect(page).to have_link 'Some Link#2', href: ya_url
+      end
+    end
+
+    scenario 'composes a link with errors' do
+      within('.change-answer') do
+        click_on 'Add Link to Answer'
+        fill_in 'Link name', with: ''
+        fill_in 'Url', with: 'http:///google.com'
+      end
+      click_on 'OK'
+
+      expect(page).to have_content 'Links name can\'t be blank'
+      expect(page).to have_content 'Links url is not a valid URL'
     end
 
     scenario 'composes an answer with errors' do

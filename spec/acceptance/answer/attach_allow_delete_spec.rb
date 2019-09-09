@@ -40,12 +40,14 @@ feature 'Delete own attachment', %q{
     end
   end
 
-  scenario 'Unauthenticated user tries to delete an attachment' do
-    visit question_path(authors_question)
-    within('#answers-table') do
-      expect(page).not_to have_link 'Edit'
-      find("#answer_id-#{authors_a_w_file.id}").click_on 'Files'
+  describe 'Visitor', js: true do
+    scenario 'Unauthenticated user tries to delete an attachment' do
+      visit question_path(authors_question)
+      within('#answers-table') do
+        expect(page).not_to have_link 'Edit'
+        find("#answer_id-#{authors_a_w_file.id}").click_on 'Files'
+      end
+      expect(page).not_to have_link 'Remove'
     end
-    expect(page).not_to have_link 'Remove'
   end
 end

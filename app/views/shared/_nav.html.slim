@@ -1,4 +1,4 @@
-.container
+.container-main
   nav
     ul
       - if user_signed_in?
@@ -8,3 +8,7 @@
         li = link_to 'Sign up', new_user_registration_path
 
       li = link_to '* RoR Pro *', root_path
+
+      - if user_signed_in? && !current_user.awards.empty?
+        li = link_to 'View Awards', '#', class: 'show_awards'
+        = render 'shared/awards'

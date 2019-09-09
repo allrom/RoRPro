@@ -1,0 +1,13 @@
+#awards-given.hidden
+  -unless current_user.awards.empty?
+    p
+      b
+        'Awarded with:
+    ul
+      - current_user.awards.each do |award|
+        - if award.persisted?
+          li id= "award_id-#{award.id}"
+            => award.name
+            => image_tag("#{award.image_filename}")
+            | question:&nbsp
+            => award.question.title

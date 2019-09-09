@@ -31,14 +31,14 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #new' do
     ## prevents 'InvalidCrossOriginRequest' error
-    before { get :new, xhr: true }
+    before { get :new, xhr: true, format: :js }
 
     it 'renders new view', :logged_in do
       expect(response).to render_template :new
     end
 
-    it 'redirects to login if unauthorized' do
-      expect(response).to redirect_to(new_user_session_path)
+    it 'receives status code 40X if unauthorized' do
+      is_expected.to respond_with 401
     end
   end
 

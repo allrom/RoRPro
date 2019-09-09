@@ -10,9 +10,21 @@ FactoryBot.define do
     end
 
     trait :with_attachment do
-      after(:create) do |q|
+      after(:create) do |a|
         file = File.new("#{Rails.root}/spec/factories/patterns/data")
-        q.files.attach(io: file, filename: "test_a_data")
+        a.files.attach(io: file, filename: "test_a_data")
+      end
+    end
+
+    trait :with_link do
+      after(:create) do |a|
+        create(:link, linkable: a, url: 'https://google.com')
+      end
+    end
+
+    trait :with_link do
+      after(:create) do |a|
+        create(:link, answer: a)
       end
     end
   end

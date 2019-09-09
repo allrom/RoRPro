@@ -10,6 +10,9 @@
 .attachments
   p= render 'shared/attachments', resource: question
 
+.links
+  p= render 'shared/links', resource: question
+
 .answer-list
   p= render 'shared/answers_table'
 
@@ -20,5 +23,13 @@
     p= render 'answers/form', model: [ question, answer ]
   - else
     p= link_to 'Sign in to post answer', new_user_session_path
+
+.award-info
+  - if question.award
+    p
+      i * This Question contains
+      | &nbsp
+      strong #{question.award.name}
+      | &nbspAward
 
 p= link_to 'Questions List', questions_path

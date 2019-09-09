@@ -5,6 +5,7 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby attachments with custom matchers and macros, etc, in
@@ -76,7 +77,7 @@ RSpec.configure do |config|
   # check with '$which chromium-browser'
   Selenium::WebDriver::Chrome.path = '/usr/bin/chromium-browser'
   Webdrivers::cache_time = 86_400
-  # Capybara.javascript_driver = :selenium_chrome
+  ## Capybara.javascript_driver = :selenium_chrome
   # no Chrome interaction
   Capybara.javascript_driver = :selenium_chrome_headless
 end

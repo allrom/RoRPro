@@ -31,5 +31,17 @@ FactoryBot.define do
         q.files.attach(io: file, filename: "test_q_data")
       end
     end
+
+    trait :with_link do
+      after(:create) do |q|
+        create(:link, linkable: q, url: 'https://ya.ru')
+      end
+    end
+
+    trait :with_award do
+      after(:create) do |q|
+        create(:award, question: q)
+      end
+    end
   end
 end

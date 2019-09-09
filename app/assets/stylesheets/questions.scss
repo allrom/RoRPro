@@ -20,8 +20,14 @@
   vertical-align: center;
 }
 
-.table-view {
+.table-view-f {
   border: 1px solid lawngreen !important;
+  padding: 2px 5px 5px;
+  width: auto;
+}
+
+.table-view-l {
+  border: 1px solid deepskyblue !important;
   padding: 2px 5px 5px;
   width: auto;
 }

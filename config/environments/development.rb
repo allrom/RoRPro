@@ -28,10 +28,10 @@ Rails.application.configure do
   end
 
   # Store uploaded attachments on the local file system (see config/storage.yml for options)
-  ## config.active_storage.service = :local
+  config.active_storage.service = :local
 
   #  Switch the default store service to S3
-  config.active_storage.service = :amazon
+  ## config.active_storage.service = :amazon
 
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
