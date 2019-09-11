@@ -22,5 +22,13 @@ class Answer < ApplicationRecord
       # bang method inside transaction just ROLLS it BACK. "Update" silently leaves a record intact, if best: true
       self.update!(best: true)
     end
+
+    award.update!(user: user) if award
+  end
+
+  private
+
+  def award
+    question.award
   end
 end

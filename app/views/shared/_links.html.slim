@@ -7,9 +7,8 @@
       - resource.links.each do |link|
         - if link.persisted?
           li id= "link_id-#{link.id}"
-            - if link.url =~ /^(?i)https:\/\/gist\.github\.com\/(?=.{1,39}$)(?![_\W])[a-z0-9-]+(?<![_\W])\/([a-z0-9\/.]+)$/
+            - if gist_url?(link.url)
               => image_tag('github.png')
-              /*  requires page refresh when async load due to document.write() inside */
               = javascript_include_tag "#{link.url}" + '.js'
             - else
               => link_to link.name, link.url, target: :_blank

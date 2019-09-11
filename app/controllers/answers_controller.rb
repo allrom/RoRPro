@@ -40,11 +40,7 @@ class AnswersController < ApplicationController
 
   def flag_best
     @question = answer.question
-
-    if question.user == current_user
-      answer.mark_best
-      award.update!(user: answer.user) if award
-    end
+      answer.mark_best if question.user == current_user
   end
 
   private

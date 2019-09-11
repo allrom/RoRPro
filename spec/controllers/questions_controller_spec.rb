@@ -61,7 +61,7 @@ RSpec.describe QuestionsController, type: :controller do
           change(Question, :count).by(1)
       end
 
-      it 'processes js to create new question' do
+      it 'renders "create" template' do
         post :create, params: { question: attributes_for(:question), format: :js }
         expect(response).to render_template :create
       end

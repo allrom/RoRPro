@@ -14,33 +14,33 @@ FactoryBot.define do
         number_of_answers { 3 }
       end
 
-      after(:create) do |q, e|
-        create_list(:answer, e.number_of_answers, question: q)
+      after(:create) do |question, evaluator|
+        create_list(:answer, evaluator.number_of_answers, question: question)
       end
     end
 
     trait :with_answer do
-      after(:create) do |q|
-        create(:answer, question: q)
+      after(:create) do |question|
+        create(:answer, question: question)
       end
     end
 
     trait :with_attachment do
-      after(:create) do |q|
+      after(:create) do |question|
         file = File.new("#{Rails.root}/spec/factories/patterns/data")
-        q.files.attach(io: file, filename: "test_q_data")
+        question.files.attach(io: file, filename: "test_q_data")
       end
     end
 
     trait :with_link do
-      after(:create) do |q|
-        create(:link, linkable: q, url: 'https://ya.ru')
+      after(:create) do |question|
+        create(:link, linkable: question, url: 'https://ya.ru')
       end
     end
 
     trait :with_award do
-      after(:create) do |q|
-        create(:award, question: q)
+      after(:create) do |question|
+        create(:award, question: question)
       end
     end
   end

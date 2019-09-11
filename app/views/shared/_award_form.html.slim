@@ -5,6 +5,6 @@
       => f.label :name, 'Award name'
       => f.text_field :name
     p
-      => f.label :image_filename
-      => f.text_field :image_filename
+      => f.label :image
+      => f.file_field :image
     = link_to_remove_association 'Cancel', f, class: 'remove-link'

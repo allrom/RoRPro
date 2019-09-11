@@ -60,7 +60,7 @@ class QuestionsController < ApplicationController
         :body,
         files: [],
         links_attributes: [:name, :url, :_destroy],
-        award_attributes: [:name, :image_filename]
+        award_attributes: [:name, :image]
     )
   end
 end

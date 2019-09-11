@@ -25,15 +25,15 @@
               partial: 'shared/link_form'
     br
     .nested-award
-    p
-      b Add Award to Question
-      = form.fields_for :award do |award|
-        p
-          => award.label :name, 'Award name'
-          => award.text_field :name, id: 'award-given'
-        p
-          => award.label :image_filename, 'Image File'
-          => award.text_field :image_filename
+      p
+        b Add Award to Question
+        = form.fields_for :award do |award|
+          p
+            => award.label :name, 'Award name'
+            => award.text_field :name, id: 'award-given', value: ""
+          p
+            => award.label :image, 'Image File'
+            => award.file_field :image
     hr
     h4= 'Accept Question'
     p= form.submit 'OK'

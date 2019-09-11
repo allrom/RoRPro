@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:visitor) { create(:user) }
-  let(:question) { create :question, :with_award, user: user }
+  let(:question) { create :question, user: user }
   let(:answer) { create :answer, question: question, user: user }
 
   let(:visitor_question) { create :question, :with_answers, user: visitor }
@@ -68,7 +68,7 @@ RSpec.describe AnswersController, type: :controller do
           change(Answer, :count).by(1)
       end
 
-      it 'processes js to create new answer' do
+      it 'renders "create" template' do
         post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
         expect(response).to render_template :create
       end
@@ -153,12 +153,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(visitor_answer).to be_best
       end
 
-      it 'gives an award to the visitor' do
-        expect { patch :flag_best, params: { id: visitor_answer }, format: :js}.to \
-          change(visitor.awards, :count).by(1)
-      end
-
-      it 'processes js to rearrange' do
+      it 'renders "flag_best" template to rearrange' do
         patch :flag_best, params: { id: visitor_answer }, format: :js
         expect(response).to render_template :flag_best
       end
@@ -188,7 +183,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer }, format: :js  }.to change(Answer, :count).by(-1)
       end
 
-      it 'processes js to remove an answer' do
+      it 'renders "destroy" template' do
         delete :destroy, params: { id: answer, format: :js }
         expect(response).to render_template :destroy
       end

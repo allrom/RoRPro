@@ -46,6 +46,8 @@ gem 'aws-sdk-s3', '~> 1'
 gem 'validate_url'
 # Cocoon makes it easier to handle nested forms
 gem "cocoon"
+# Manipulates images with minimall use of memory via ImageMagick
+gem 'mini_magick', '~> 4.5', '>= 4.5.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

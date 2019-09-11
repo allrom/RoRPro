@@ -17,7 +17,7 @@ RSpec.describe Question, type: :model do
 
   it { should have_db_index(:user_id) }
 
-  it 'have many attached files as attachments' do
+  it 'has many attached files as attachments' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 

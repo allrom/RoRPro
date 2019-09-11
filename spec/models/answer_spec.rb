@@ -12,6 +12,12 @@ RSpec.describe Answer, type: :model do
     it { should validate_length_of(:body).is_at_least(2) }
   end
 
+  it 'has many attached files as attachments' do
+    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
+  it { should accept_nested_attributes_for :links }
+
   describe 'idxs' do
     it { should have_db_index(:question_id) }
     it { should have_db_index(:user_id) }
@@ -21,15 +27,11 @@ RSpec.describe Answer, type: :model do
   describe '#mark_best' do
     let!(:user) { User.create(id: 1, email: 'test1@exanple.edu', password: '123456') }
     let!(:question) { user.questions.create(id: 1, title: 'TestTitle', body: 'TestBody') }
+    let!(:award) { Award.create(id: 1, name: 'TestAward', question_id: 1) }
+
     let!(:answer_1) { user.answers.create(id: 1, question_id: 1, body: 'Test1') }
     let!(:answer_2) { user.answers.create(id: 2, question_id: 1, body: 'Test2') }
     let!(:answer_3) { user.answers.create(id: 3, question_id: 1, body: 'Test3', best: true) }
-
-    it 'have many attached files as attachments' do
-      expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
-    end
-
-    it { should accept_nested_attributes_for :links }
 
     context 'when answer get marked as "best"' do
       before  {
@@ -47,6 +49,10 @@ RSpec.describe Answer, type: :model do
 
       it 'should leave other answers attribute -> false' do
         expect(answer_2).not_to be_best
+      end
+
+      it 'should pass an award to the user' do
+        expect(user.awards).to include(award)
       end
     end
 

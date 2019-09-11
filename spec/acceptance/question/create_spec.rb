@@ -61,27 +61,26 @@ feature 'User can create a question', %q{
     end
 
     scenario 'asks a question and create some reward' do
-      fill_in 'award-given', with: 'One Star Reward'
-      fill_in 'Image File', with: 'one_star.png'
-      click_on 'OK'
-      expect(page).to have_content 'Your question created.'
-      click_on 'View'
+      within('.nested-award') do
+        fill_in 'award-given', with: 'One Star Reward'
+        page.attach_file "#{Rails.root}/app/assets/images/one_star.png"
+      end
+        click_on 'OK'
+        expect(page).to have_content 'Your question created.'
 
+        click_on 'View'
       within('.award-info') do
         expect(page).to have_content "* This Question contains One Star Reward Award"
       end
     end
 
     scenario 'composes an award with errors' do
-      fill_in 'award-given', with: ''
-      fill_in 'Image File', with:  'one_star.png'
+      within('.nested-award') do
+        fill_in 'award-given', with: ''
+        page.attach_file "#{Rails.root}/app/assets/images/one_star.png"
+      end
       click_on 'OK'
       expect(page).to have_content 'Award name can\'t be blank'
-
-      fill_in 'award-given', with: 'One Star Reward'
-      fill_in 'Image File', with:  ''
-      click_on 'OK'
-      expect(page).to have_content 'Award image filename can\'t be blank'
     end
 
     scenario 'composes a link with errors' do

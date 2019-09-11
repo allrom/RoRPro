@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_09_103353) do
+ActiveRecord::Schema.define(version: 2019_09_10_230607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(version: 2019_09_09_103353) do
 
   create_table "awards", force: :cascade do |t|
     t.string "name", null: false
-    t.string "image_filename", null: false
     t.bigint "question_id", null: false
     t.bigint "user_id"
     t.datetime "created_at", null: false
