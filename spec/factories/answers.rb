@@ -21,11 +21,5 @@ FactoryBot.define do
         create(:link, linkable: answer, url: 'https://google.com')
       end
     end
-
-    trait :with_link do
-      after(:create) do |answer|
-        create(:link, answer: answer)
-      end
-    end
   end
 end

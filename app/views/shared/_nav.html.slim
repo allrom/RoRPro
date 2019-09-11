@@ -3,8 +3,7 @@
     ul
       - if user_signed_in?
         li = link_to 'Sign out', destroy_user_session_path, method: 'delete'
-        - unless current_user.awards.empty?
-          li = link_to 'View Awards', awards_path
+        li = link_to 'View Awards', awards_path
       - else
         li = link_to 'Sign in', new_user_session_path
         li = link_to 'Sign up', new_user_registration_path

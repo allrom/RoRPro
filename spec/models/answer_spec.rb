@@ -25,13 +25,13 @@ RSpec.describe Answer, type: :model do
   end
 
   describe '#mark_best' do
-    let!(:user) { User.create(id: 1, email: 'test1@exanple.edu', password: '123456') }
-    let!(:question) { user.questions.create(id: 1, title: 'TestTitle', body: 'TestBody') }
-    let!(:award) { Award.create(id: 1, name: 'TestAward', question_id: 1) }
+    let!(:user) { FactoryBot.create(:user) }
+    let!(:question) { FactoryBot.create(:question, user: user) }
+    let!(:award) { FactoryBot.create(:award, question: question, name: 'TestAward') }
 
-    let!(:answer_1) { user.answers.create(id: 1, question_id: 1, body: 'Test1') }
-    let!(:answer_2) { user.answers.create(id: 2, question_id: 1, body: 'Test2') }
-    let!(:answer_3) { user.answers.create(id: 3, question_id: 1, body: 'Test3', best: true) }
+    let!(:answer_1) { FactoryBot.create(:answer, question: question, user: user, body: 'Test1') }
+    let!(:answer_2) { FactoryBot.create(:answer, question: question, user: user, body: 'Test2') }
+    let!(:answer_3) { FactoryBot.create(:answer, question: question, user: user, body: 'Test3', best: true) }
 
     context 'when answer get marked as "best"' do
       before  {

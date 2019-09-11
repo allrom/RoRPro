@@ -21,9 +21,9 @@ class Answer < ApplicationRecord
       question.answers.where(best: true).update_all(best: false)
       # bang method inside transaction just ROLLS it BACK. "Update" silently leaves a record intact, if best: true
       self.update!(best: true)
-    end
 
-    award.update!(user: user) if award
+      award.update!(user: user) if award
+    end
   end
 
   private

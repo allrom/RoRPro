@@ -20,8 +20,6 @@ feature 'Give some Award', %q{
        expect(page).to have_content "Best Answer"
       end
 
-      expect(page).not_to have_link 'View Awards'
-
       click_on 'Sign out'
       sign_in(visitor)
       click_on 'View Awards'
