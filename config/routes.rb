@@ -7,9 +7,14 @@ Rails.application.routes.draw do
 
   resources :attachments, only: :destroy
 
+  resources :links, only: :destroy
+
+  resources :awards, only: :index
+
   resources :questions do
     resources :answers, shallow: true, except: :index do
       member { patch :flag_best }
+      get 'links'
     end
   end
 end

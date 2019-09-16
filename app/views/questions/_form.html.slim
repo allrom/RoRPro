@@ -13,10 +13,28 @@
     .attachments
       p= render 'shared/attachments', resource: question
 
-    => form.label :files, 'Add File(s) to Question (S3)'
-    => form.file_field :files, multiple: true, direct_upload: true
-    br
+    => form.label :files, 'Add File(s) to Question (local)'
+    => form.file_field :files, multiple: true
 
+    .links
+      p= render 'shared/links', resource: question
+
+    .nested-links
+      = link_to_add_association 'Add Link to Question', form,
+              :links,
+              partial: 'shared/link_form'
+    br
+    .nested-award
+      p
+        b Add Award to Question
+        = form.fields_for :award do |award|
+          p
+            => award.label :name, 'Award name'
+            => award.text_field :name, id: 'award-given', value: ""
+          p
+            => award.label :image, 'Image File'
+            => award.file_field :image
+    hr
     h4= 'Accept Question'
     p= form.submit 'OK'
 

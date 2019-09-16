@@ -1,4 +1,4 @@
-.question
+.answer
   h4= 'Answer of the Question:'
   p style="font-size:medium"
     'Title:
@@ -9,6 +9,9 @@
 
 .attachments
   p= render 'shared/attachments', resource: answer
+
+.links
+  p= render 'shared/links', resource: answer
 
 .change-answer
   h4= 'Change an Answer'

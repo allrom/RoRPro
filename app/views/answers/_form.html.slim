@@ -9,7 +9,12 @@
     p
     => form.label :files, 'Add File(s) to Answer'
     => form.file_field :files, multiple: true
-    br
+    p
+      .nested-links
+        = link_to_add_association 'Add Link to Answer', form,
+                :links,
+                partial: 'shared/link_form'
+    hr
 
     h4= 'Accept Answer'
     p= form.submit 'OK'

@@ -1,10 +1,13 @@
 class Answer < ApplicationRecord
+  has_many :links, dependent: :destroy, as: :linkable
   belongs_to :question
   belongs_to :user
 
   validates :body, presence: true, length: { minimum: 2 }
 
   has_many_attached :files
+
+  accepts_nested_attributes_for :links, reject_if: :all_blank
 
   default_scope -> { order(best: :desc) }
 
@@ -18,6 +21,8 @@ class Answer < ApplicationRecord
       question.answers.where(best: true).update_all(best: false)
       # bang method inside transaction just ROLLS it BACK. "Update" silently leaves a record intact, if best: true
       self.update!(best: true)
+
+      question.award.update!(user: user) if question.award
     end
   end
 end

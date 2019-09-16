@@ -40,16 +40,20 @@ gem 'slim-rails'
 gem 'jquery-rails'
 # AUTH mega-module
 gem 'devise', '~> 4.0'
-# Manage multiple nested models in a single form
-gem 'nested_form'
 #  AWS SDK for ruby, v.3
 gem 'aws-sdk-s3', '~> 1'
+# Validates URL to AR and AM
+gem 'validate_url'
+# Cocoon makes it easier to handle nested forms
+gem "cocoon"
+# Manipulates images with minimall use of memory via ImageMagick
+gem 'mini_magick', '~> 4.5', '>= 4.5.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing
-  gem 'capybara', '>= 2.15'
+  gem 'capybara', '>= 3.28'
   # RSpec gem to test Rails Apps
   gem 'rspec-rails', '~> 3.8'
   # Gem to seed test databases
@@ -68,8 +72,8 @@ end
 group :test do
   # Adds support for Capybara system testing (moved up) and selenium driver
   ## gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
-  gem 'webdrivers', '~> 3.0'
+  gem 'selenium-webdriver', '> 3.142.3'
+  gem 'webdrivers', '~> 4.1'
   # Easy installation and use of chromedriver to run system tests with Chrome -> deprecated !
   ## gem 'chromedriver-helper'
   # Simple One-liner tests for Rails

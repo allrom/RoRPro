@@ -88,3 +88,29 @@
 input[type=file][data-direct-upload-url][disabled] {
     display: none;
 }
+
+.remove-link {
+    dislay: inline-block;
+    text-align: center;
+    text-decoration: none;
+    margin: 1px 0;
+    padding: 0.2em;
+    color: black;
+    background-color: skyblue;
+}
+
+hr {
+    border-color: darkgrey;
+    width: 50%;
+    text-align: left;
+    margin-left: 0;
+}
+
+ul {
+    padding-left: 20px;
+    color: #0076ff;
+}
+
+.hidden {
+    display: none;
+}

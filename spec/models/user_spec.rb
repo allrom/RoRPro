@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   describe 'associations' do
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_many(:questions).dependent(:destroy) }
+    it { should have_many(:awards).dependent(:destroy) }
   end
 
   describe 'validations' do
@@ -23,7 +24,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'should return "true" for answer' do
-        expect(owner).to be_author(owners_answer) 
+        expect(owner).to be_author(owners_answer)
       end
     end
 

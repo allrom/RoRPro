@@ -1,0 +1,12 @@
+#awards-given
+  p
+    b
+      'Awarded with:
+    ul
+      - current_user.awards.each do |award|
+        - if award.persisted?
+          li id= "award_id-#{award.id}"
+            => award.name
+            => image_tag(award.image)
+            | question:&nbsp
+            => award.question.title

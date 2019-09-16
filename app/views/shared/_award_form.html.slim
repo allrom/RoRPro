@@ -1,0 +1,10 @@
+#award-form
+  p
+    i Add Award
+    p
+      => f.label :name, 'Award name'
+      => f.text_field :name
+    p
+      => f.label :image
+      => f.file_field :image
+    = link_to_remove_association 'Cancel', f, class: 'remove-link'

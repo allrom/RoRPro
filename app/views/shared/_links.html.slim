@@ -1,0 +1,22 @@
+#links-binded
+  -unless resource.links.empty?
+    p
+      b
+        'Provided Link(s):
+    ul
+      - resource.links.each do |link|
+        - if link.persisted?
+          li id= "link_id-#{link.id}"
+            - if gist_url?(link.url)
+              => image_tag('github.png')
+              = javascript_include_tag "#{link.url}" + '.js'
+            - else
+              => link_to link.name, link.url, target: :_blank
+
+            - if current_user&.author?(resource)
+              = link_to 'Remove', link_path(link),
+                      class: 'delete_link',
+                      method: :delete,
+                      data: { confirm: 'OK to remove?' },
+                      form: { style: "display:inline-block;" },
+                      remote: true
