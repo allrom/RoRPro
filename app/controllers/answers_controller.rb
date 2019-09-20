@@ -1,5 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: %i[show links]
+  include UnauthShow
+  include UnauthLinks
+  include Voted
 
   def show; end
 

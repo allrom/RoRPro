@@ -2,12 +2,24 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
+  let(:visitor) { create(:user) }
+
+  let(:question) { create :question, user: user }
+  let(:visitor_question) { create :question, user: visitor }
+
+  let(:resource) { question }
+  let(:visitor_resource) { visitor_question }
+
+  let(:params) { { id: resource, format: :json } }
+  let(:visitor_params) { { id: visitor_resource, format: :json } }
+
   before do |test|
     if test.metadata[:logged_in]
       login(user) #  controller_helper method
     end
   end
+
+  it_behaves_like 'voted'
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) } # FactoryBot implicates here
@@ -16,17 +28,14 @@ RSpec.describe QuestionsController, type: :controller do
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
     end
-    it 'renders index view' do
-      expect(response).to render_template :index
-    end
+
+    include_examples 'unauth_action', :index
   end
 
   describe 'GET #show' do
     before { get :show, params: { id: question } }
 
-    it 'renders show view' do
-      expect(response).to render_template :show
-    end
+    include_examples 'unauth_action', :show
   end
 
   describe 'GET #new' do

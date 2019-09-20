@@ -3,11 +3,18 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:visitor) { create(:user) }
+
   let(:question) { create :question, user: user }
   let(:answer) { create :answer, question: question, user: user }
 
   let(:visitor_question) { create :question, :with_answers, user: visitor }
   let(:visitor_answer) { create :answer, question: question, user: visitor }
+
+  let(:resource) { answer }
+  let(:visitor_resource) { visitor_answer }
+
+  let(:params) { { id: resource, format: :json } }
+  let(:visitor_params) { { id: visitor_resource, format: :json } }
 
   before do |test|
     if test.metadata[:logged_in]
@@ -15,20 +22,18 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  it_behaves_like 'voted'
+
   describe 'GET #show' do
     before { get :show, params: { id: answer }, xhr: true, format: :js }
 
-    it 'renders show view' do
-      expect(response).to render_template :show
-    end
+    include_examples 'unauth_action', :show
   end
 
   describe 'GET #links' do
     before { get :links, params: { answer_id: answer }, xhr: true, format: :js }
 
-    it 'renders links view' do
-      expect(response).to render_template :links
-    end
+    include_examples 'unauth_action', :links
   end
 
   describe 'GET #new' do
