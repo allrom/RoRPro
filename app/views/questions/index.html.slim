@@ -1,4 +1,5 @@
 #questions-table
+  .vote-errors
   h4= 'Questions Page'
   table.table
     tr
@@ -12,4 +13,3 @@
     p= link_to 'Ask a question', new_question_path, class: "ask-a-question", remote: true
   -else
     p= link_to 'Sign in to Ask a question', new_user_session_path
-

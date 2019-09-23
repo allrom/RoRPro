@@ -1,0 +1,28 @@
+#votes-engaged
+  - if !(current_user.author?(resource) || resource.voted?(current_user))
+    => button_to '+UpVote', send("upvote_#{resource.class.to_s.underscore}_path", resource),
+                      class: 'upvote',
+                      method: :patch,
+                      data: { type: :json },
+                      form: { style: "display:inline-block;" },
+                      remote: true
+
+    => button_to '-DownVote', send("downvote_#{resource.class.to_s.underscore}_path", resource),
+                      class: 'downvote',
+                      method: :patch,
+                      data: { type: :json },
+                      form: { style: "display:inline-block;" },
+                      remote: true
+
+  - if resource.voted?(current_user) || !current_user.author?(resource)
+    => button_to 'DropVote', send("dropvote_#{resource.class.to_s.underscore}_path", resource),
+                    class: 'dropvote',
+                    method: :patch,
+                    data: { type: :json },
+                    form: { style: "display:inline-block;" },
+                    remote: true
+
+  span id = "amount-#{resource.class.name.humanize.downcase}_#{resource.id}"
+    b Votes:&nbsp
+    => resource.amount
+    | &nbsp

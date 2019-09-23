@@ -11,8 +11,16 @@ Rails.application.routes.draw do
 
   resources :awards, only: :index
 
-  resources :questions do
-    resources :answers, shallow: true, except: :index do
+  concern :votable do
+    member do
+      patch :upvote
+      patch :downvote
+      patch :dropvote
+    end
+  end
+
+  resources :questions, concerns: :votable do
+    resources :answers, concerns: :votable, shallow: true, except: :index do
       member { patch :flag_best }
       get 'links'
     end

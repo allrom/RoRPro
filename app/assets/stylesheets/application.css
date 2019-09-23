@@ -111,6 +111,14 @@ ul {
     color: #0076ff;
 }
 
+div.inline {
+    float: left;
+}
+
+.votes {
+    padding-bottom: 3px;
+}
+
 .hidden {
     display: none;
 }

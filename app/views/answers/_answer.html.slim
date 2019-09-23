@@ -26,3 +26,7 @@ tr id= "answer_id-#{answer.id}"
 
   - if answer.best?
     td.outside style="color: red" Best Answer
+
+  - if user_signed_in?
+    td.outside
+      = render 'shared/votes', resource: answer

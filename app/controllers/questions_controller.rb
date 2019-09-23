@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
+  include UnauthIndex
+  include UnauthShow
+  include Voted
 
   def index
     questions
