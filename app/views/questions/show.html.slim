@@ -13,6 +13,15 @@
 .links
   p= render 'shared/links', resource: question
 
+.comments
+  p= render 'shared/comments', resource: question
+
+.post-comment
+  -if user_signed_in?
+    h4= 'Post a Comment'
+    .div class = "comment-errors-question_#{question.id}"
+    p= render 'comments/form', model: [ question, comment ]
+
 .answer-list
   p= render 'shared/answers_table'
 
@@ -22,7 +31,7 @@
   -if user_signed_in?
     p= render 'answers/form', model: [ question, answer ]
   - else
-    p= link_to 'Sign in to post answer', new_user_session_path
+    p= link_to 'Sign in to post answer or comment', new_user_session_path
 
 .award-info
   - if question.award

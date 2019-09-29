@@ -6,10 +6,9 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   resources :attachments, only: :destroy
-
   resources :links, only: :destroy
-
   resources :awards, only: :index
+
 
   concern :votable do
     member do
@@ -19,10 +18,18 @@ Rails.application.routes.draw do
     end
   end
 
+  concern :commentable do |options|
+    resources :comments, options
+  end
+
   resources :questions, concerns: :votable do
+    concerns :commentable, only: :create, defaults: { commentable: 'question' }
     resources :answers, concerns: :votable, shallow: true, except: :index do
+      concerns :commentable, only: :create, defaults: { commentable: 'answer' }
       member { patch :flag_best }
       get 'links'
     end
   end
+
+  mount ActionCable.server => '/cable'
 end

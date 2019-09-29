@@ -1,0 +1,9 @@
+tr id= "question_id-#{@object.id}"
+  td.table-data = @object.id
+  td.table-data = @object.title
+  td.table-data
+    a.show-question-link href = "/questions/#{@object.id}" View
+
+  - if gon.ami_signed_in
+    td.outside
+      == App.srv.render("shared/votes", resource: @object, path: "/questions/#{@object.id}")

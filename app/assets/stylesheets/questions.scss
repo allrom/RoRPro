@@ -4,19 +4,19 @@
 
 .table th {
   border: 1px solid blue;
-  padding-bottom: 15px;
+  padding-bottom: 5px;
   text-align: center;
 }
 
 .table td {
   border: 1px solid blue;
-  padding: 5px 10px 12px;
+  padding: 3px 5px 6px;
   vertical-align: center;
 }
 
 .table-data {
   border: 1px solid lawngreen;
-  padding: 5px 10px 12px;
+  padding: 3px 3px 5px;
   vertical-align: center;
 }
 
@@ -29,5 +29,11 @@
 .table-view-l {
   border: 1px solid deepskyblue !important;
   padding: 2px 5px 5px;
+  width: auto;
+}
+
+.table-view-c {
+  border: 1px solid orange !important;
+  padding: 1px 1px 1px;
   width: auto;
 }

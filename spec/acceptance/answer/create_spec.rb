@@ -18,7 +18,7 @@ feature 'User can give an answer to a question', %q{
     end
 
     scenario 'gives an answer' do
-      click_on 'OK'
+      click_on 'Save'
       expect(current_path).to eq question_path(question)
       expect(page).to have_content 'Answer added'
 
@@ -31,7 +31,7 @@ feature 'User can give an answer to a question', %q{
       expect(current_path).to eq question_path(question)
       page.attach_file 'answer[files][]',
                       ["#{Rails.root}/spec/rails_helper.rb",  "#{Rails.root}/spec/spec_helper.rb"]
-      click_on 'OK'
+      click_on 'Save'
       expect(page).to have_content 'Answer added'
 
       within('#answers-table') do
@@ -63,8 +63,8 @@ feature 'User can give an answer to a question', %q{
         ##  fill_in 'Url', with: ya_url
         ## end
       end
-      click_on 'OK'
-      ## page.save_screenshot 'link_chrome.png'
+      click_on 'Save'
+      # page.save_screenshot 'link_chrome.png'
 
       expect(page).to have_content 'Answer added.'
       within('#answers-table') do
@@ -80,15 +80,17 @@ feature 'User can give an answer to a question', %q{
       click_on 'Add Link to Answer'
       fill_in 'Link name', with: ''
       fill_in 'Url', with: 'http:///google.com'
-      click_on 'OK'
 
+      ## page.save_screenshot 'link_chrome_error.png'
+      sleep(3)
+      click_on 'Save'
       expect(page).to have_content 'Links name can\'t be blank'
       expect(page).to have_content 'Links url is not a valid URL'
     end
 
     scenario 'gives an answer with errors' do
       fill_in 'answer-given', with: ''
-      click_on 'OK'
+      click_on 'Save'
       expect(page).to have_content "Body can't be blank"
     end
   end
@@ -97,5 +99,30 @@ feature 'User can give an answer to a question', %q{
     visit question_path(question)
     expect(page).not_to have_field 'Give an Answer'
     expect(page).not_to have_selector(:link_or_button, 'OK')
+  end
+
+  context "multiple sessions" do
+    scenario "the answer appears on other users page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'answer-given', with: 'Answer with Some Text'
+        click_on 'Save'
+        expect(page).to have_content 'Answer added'
+
+        within('.answer-list') do
+          expect(page).to have_content 'Answer with Some Text'
+        end
+      end
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Answer with Some Text'
+      end
+    end
   end
 end

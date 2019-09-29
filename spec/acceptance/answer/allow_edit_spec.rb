@@ -26,7 +26,7 @@ feature 'Edit own answer', %q{
 
     scenario 'edits own answer' do
       fill_in 'answer-given', with: 'Updated Answer'
-      click_on 'OK'
+      click_on 'Save'
       expect(page).not_to have_content authors_answer.body
       expect(page).to have_content 'Answer changed.'
       expect(current_path).to eq edit_answer_path(authors_answer)
@@ -35,7 +35,7 @@ feature 'Edit own answer', %q{
     scenario 'edits own answer and attaches some files' do
       page.attach_file 'answer[files][]',
                        ["#{Rails.root}/spec/rails_helper.rb",  "#{Rails.root}/spec/spec_helper.rb"]
-      click_on 'OK'
+      click_on 'Save'
       click_on 'Back'
       within "#answer_id-#{authors_answer.id}" do
         click_on 'Files'
@@ -61,7 +61,7 @@ feature 'Edit own answer', %q{
           fill_in 'Url', with: ya_url
         end
       end
-      click_on 'OK'
+      click_on 'Save'
 
       expect(page).to have_content 'Answer changed.'
       click_on 'Back'
@@ -81,7 +81,7 @@ feature 'Edit own answer', %q{
         fill_in 'Link name', with: ''
         fill_in 'Url', with: 'http:///google.com'
       end
-      click_on 'OK'
+      click_on 'Save'
 
       expect(page).to have_content 'Links name can\'t be blank'
       expect(page).to have_content 'Links url is not a valid URL'
@@ -89,7 +89,7 @@ feature 'Edit own answer', %q{
 
     scenario 'composes an answer with errors' do
       fill_in 'answer-given', with: ''
-      click_on 'OK'
+      click_on 'Save'
       expect(page).to have_content "Body can't be blank"
     end
 

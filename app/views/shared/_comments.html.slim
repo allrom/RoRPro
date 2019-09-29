@@ -1,0 +1,9 @@
+div id = "comments-posted-#{resource.class.name.humanize.downcase}_#{resource.id}"
+  p
+    b
+      | Comment(s):
+    ul
+      - resource.comments.each do |comment|
+        - if comment.persisted?
+          li id= "comment_id-#{comment.id}"
+            => comment.body

@@ -5,6 +5,7 @@ class Answer < ApplicationRecord
   include Linkable
   include Attachable
   include Votable
+  include Commentable
 
   validates :body, presence: true, length: { minimum: 2 }
 

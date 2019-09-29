@@ -1,0 +1,19 @@
+#votes-engaged
+  - unless @resource.user_id == gon.user_id
+
+    form class = "button_vote" method = "post" data-remote = "true" action = "#{@path}/upvote"
+      input type = "hidden" name = "_method" value = "patch"
+      input class = "upvote" data-type = "json" type = "submit" value = "+UpVote"
+
+    form class = "button_vote" method = "post" data-remote = "true" action = "#{@path}/downvote"
+      input type = "hidden" name = "_method" value = "patch"
+      input class = "downvote" data-type = "json" type = "submit" value = "-DownVote"
+
+    form class = "button_vote" method = "post" data-remote = "true" action = "#{@path}/dropvote"
+      input type = "hidden" name = "_method" value = "patch"
+      input class = "dropvote" data-type = "json" type = "submit" value = "DropVote"
+
+  span id = "amount-#{@resource.name}_#{@resource.id}"
+    b Votes:&nbsp
+    = @resource.amount
+    | &nbsp
