@@ -11,13 +11,13 @@
       => form.text_area :body
 
     .attachments
-      p= render 'shared/attachments', resource: question
+      p = render 'shared/attachments', resource: question
 
     => form.label :files, 'Add File(s) to Question (local)'
     => form.file_field :files, multiple: true
 
     .links
-      p= render 'shared/links', resource: question
+      p = render 'shared/links', resource: question
 
     .nested-links
       = link_to_add_association 'Add Link to Question', form,
@@ -35,7 +35,7 @@
             => award.label :image, 'Image File'
             => award.file_field :image
     hr
-    h4= 'Accept Question'
-    p= form.submit 'OK'
+    h4 Accept Question
+    p = form.submit 'OK'
 
-    p= link_to "Dismiss", questions_path
+    p = link_to "Dismiss", questions_path

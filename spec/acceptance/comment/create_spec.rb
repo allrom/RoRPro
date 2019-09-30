@@ -23,12 +23,28 @@ feature 'User can post a comment', %q{
       expect(page).to have_content 'Some Question Comment'
     end
 
+    scenario 'composes a question comment with errors' do
+      within('.post-comment') do
+        fill_in 'comment-posted', with: ''
+        click_on 'OK'
+      end
+      expect(page).to have_content "Body can't be blank"
+    end
+
     scenario 'post comment to the answer' do
       within('#answers-table') do
         fill_in 'comment-posted', with: 'Some Answer Comment'
         click_on 'OK'
       end
       expect(page).to have_content 'Some Answer Comment'
+    end
+
+    scenario 'composes an answer comment with errors' do
+      within('#answers-table') do
+        fill_in 'comment-posted', with: ''
+        click_on 'OK'
+      end
+      expect(page).to have_content "Body can't be blank"
     end
   end
 

@@ -1,2 +1,2 @@
-.row.comment id= "comment_id-#{@object.id}"
+.row.comment id="comment_id-#{@object.id}"
   = @object.body

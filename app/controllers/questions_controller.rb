@@ -55,8 +55,7 @@ class QuestionsController < ApplicationController
                                  )
   end
 
-  def question # callback replacement
-    # load attachments in a batch (n+1 query problem)
+  def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
@@ -77,10 +76,10 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(
       :title,
-        :body,
-        files: [],
-        links_attributes: [:name, :url, :_destroy],
-        award_attributes: [:name, :image]
+      :body,
+      files: [],
+      links_attributes: [:name, :url, :_destroy],
+      award_attributes: [:name, :image]
     )
   end
 end

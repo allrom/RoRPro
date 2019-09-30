@@ -6,6 +6,5 @@ class ApplicationController < ActionController::Base
 
   def gon_set_user
     gon.user_id = current_user.id if current_user
-    gon.ami_signed_in = user_signed_in?
   end
 end

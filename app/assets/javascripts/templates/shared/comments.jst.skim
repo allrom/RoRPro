@@ -1,4 +1,4 @@
-div id = "comments-posted-#{@resource.name}_#{@resource.id}"
+div id="comments-posted-#{@resource.name}_#{@resource.id}"
   p
     b
       | Comment(s):

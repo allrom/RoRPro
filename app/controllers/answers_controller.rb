@@ -8,11 +8,8 @@ class AnswersController < ApplicationController
   def show; end
 
   def links
-    get_variables
-  end
-
-  def comments
-    get_variables
+    @answer = Answer.find(params[:answer_id])
+    @question = Question.find(@answer.question_id)
   end
 
   def new; end
@@ -20,7 +17,6 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create
-    # use build instead of new, so that 'build' creates new instance within AR assosiation (sets parent_id)
     @answer = question.answers.build(answer_params.merge(user: current_user))
     if answer.save
       flash.now[:notice] = "Answer added."
@@ -76,11 +72,6 @@ class AnswersController < ApplicationController
 
   def comment
     answer.comments.build
-  end
-
-  def get_variables
-    @answer = Answer.find(params[:answer_id])
-    @question = Question.find(@answer.question_id)
   end
 
   helper_method :answer, :question, :comment
