@@ -4,7 +4,10 @@ RSpec.describe Answer, type: :model do
   describe 'associations' do
     it { should belong_to(:question) }
 
-    include_examples 'model_associations'
+    include_examples 'links_association'
+    include_examples 'votes_association'
+    include_examples 'comments_association'
+    include_examples 'user_association'
   end
 
   describe 'validations' do

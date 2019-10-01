@@ -58,7 +58,6 @@ feature 'User can give an answer to a question', %q{
         ## -------------------------------------------------------------------------------
       end
       click_on 'Save'
-      page.save_screenshot 'link_chrome.png'
 
       expect(page).to have_content 'Answer added.'
       within('#answers-table') do
@@ -74,7 +73,6 @@ feature 'User can give an answer to a question', %q{
       fill_in 'Link name', with: ''
       fill_in 'Url', with: 'http:///google.com'
 
-      sleep(3)
       click_on 'Save'
       expect(page).to have_content 'Links name can\'t be blank'
       expect(page).to have_content 'Links url is not a valid URL'

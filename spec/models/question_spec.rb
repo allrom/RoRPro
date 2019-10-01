@@ -5,7 +5,10 @@ RSpec.describe Question, type: :model do
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_one(:award).dependent(:destroy) }
 
-    include_examples 'model_associations'
+    include_examples 'links_association'
+    include_examples 'votes_association'
+    include_examples 'comments_association'
+    include_examples 'user_association'
   end
 
   describe 'validations' do
