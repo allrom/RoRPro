@@ -20,7 +20,7 @@ RSpec.describe Question, type: :model do
 
   it { should have_db_index(:user_id) }
 
-  include_examples 'files_as_attachments', Question
+  include_examples 'files_as_attachments'
 
   it { should accept_nested_attributes_for :links }
   it { should accept_nested_attributes_for :award }
