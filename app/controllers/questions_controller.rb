@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  after_action :publish_question, only: :create
+
   include UnauthIndex
   include UnauthShow
   include Voted
@@ -17,7 +19,9 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    gon.question_id = params[:id]
+  end
 
   def new
     question.build_award
@@ -41,8 +45,17 @@ class QuestionsController < ApplicationController
 
   private
 
-  def question # callback replacement
-    # load attachments in a batch (n+1 query problem)
+  def publish_question
+    return if question.errors.any?
+
+    ActionCable.server.broadcast "questions",
+                                 ApplicationController.renderer.render(
+                                   partial: 'questions/questions_stream',
+                                     locals: { question: question }
+                                 )
+  end
+
+  def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
@@ -54,15 +67,19 @@ class QuestionsController < ApplicationController
     @answer = question.answers.build
   end
 
-  helper_method :question, :questions, :answer
+  def comment
+    question.comments.build
+  end
+
+  helper_method :question, :questions, :answer, :comment
 
   def question_params
     params.require(:question).permit(
-        :title,
-        :body,
-        files: [],
-        links_attributes: [:name, :url, :_destroy],
-        award_attributes: [:name, :image]
+      :title,
+      :body,
+      files: [],
+      links_attributes: [:name, :url, :_destroy],
+      award_attributes: [:name, :image]
     )
   end
 end

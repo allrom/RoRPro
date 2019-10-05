@@ -122,3 +122,14 @@ div.inline {
 .hidden {
     display: none;
 }
+
+.button_vote {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.comment {
+    padding-top: 3px;
+    padding-left: 20px;
+    color: #0076ff;
+}

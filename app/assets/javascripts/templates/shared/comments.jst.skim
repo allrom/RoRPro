@@ -1,0 +1,4 @@
+div id="comments-posted-#{@resource.name}_#{@resource.id}"
+  p
+    b
+      | Comment(s):

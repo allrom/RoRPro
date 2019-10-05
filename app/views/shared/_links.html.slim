@@ -1,12 +1,11 @@
 #links-binded
   -unless resource.links.empty?
     p
-      b
-        'Provided Link(s):
+      b Provided Link(s):
     ul
       - resource.links.each do |link|
         - if link.persisted?
-          li id= "link_id-#{link.id}"
+          li id="link_id-#{link.id}"
             - if gist_url?(link.url)
               => image_tag('github.png')
               = javascript_include_tag "#{link.url}" + '.js'

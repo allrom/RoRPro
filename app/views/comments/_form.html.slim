@@ -1,0 +1,7 @@
+= form_with model: model do |form|
+
+  #comment-form
+    => form.label :body
+    = form.text_field :body, id: 'comment-posted'
+
+    p = form.submit 'OK'

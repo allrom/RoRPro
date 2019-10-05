@@ -50,6 +50,10 @@ gem "cocoon"
 gem 'mini_magick', '~> 4.5', '>= 4.5.1'
 # Dynamically builds an AR Model before each test and destroys it afterwards
 gem 'with_model'
+# Get Rails variables in JS
+gem 'gon'
+# Skim is the Slim templating engine with embedded CoffeeScript
+gem 'skim'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

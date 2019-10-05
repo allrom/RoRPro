@@ -1,6 +1,5 @@
 $(document).on('turbolinks:load', function() {
     var onButton = function(e) {
-       // console.log(e);
         var resource = e.detail[0];
         $('#amount-question_' + resource.id ).html('<b>Votes: </b>').append(resource.amount, "&nbsp;");
         $('#amount-answer_' + resource.id ).html('<b>Votes: </b>').append(resource.amount, "&nbsp;");

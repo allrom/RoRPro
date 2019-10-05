@@ -1,5 +1,5 @@
 .question
-  h4= 'Question to view:'
+  h4 Question to view:
   p style="font-size:medium"
     'Title :
     = question.title
@@ -8,21 +8,30 @@
     = question.body
 
 .attachments
-  p= render 'shared/attachments', resource: question
+  p = render 'shared/attachments', resource: question
 
 .links
-  p= render 'shared/links', resource: question
+  p = render 'shared/links', resource: question
+
+.comments
+  p= render 'shared/comments', resource: question
+
+.post-comment
+  -if user_signed_in?
+    h4 Post a Comment
+    .div class="comment-errors-question_#{question.id}"
+    p = render 'comments/form', model: [ question, comment ]
 
 .answer-list
-  p= render 'shared/answers_table'
+  p = render 'shared/answers_table'
 
 .give-answer
-  h4= 'Give an Answer'
+  h4 Give an Answer
 
   -if user_signed_in?
-    p= render 'answers/form', model: [ question, answer ]
+    p = render 'answers/form', model: [ question, answer ]
   - else
-    p= link_to 'Sign in to post answer', new_user_session_path
+    p = link_to 'Sign in to post answer or comment', new_user_session_path
 
 .award-info
   - if question.award
@@ -32,4 +41,4 @@
       strong #{question.award.name}
       | &nbspAward
 
-p= link_to 'Questions List', questions_path
+p = link_to 'Questions List', questions_path

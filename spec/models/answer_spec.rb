@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   describe 'associations' do
-    it { should have_many(:links).dependent(:destroy) }
-    it { should have_many(:votes).dependent(:destroy) }
-
     it { should belong_to(:question) }
-    it { should belong_to(:user) }
+
+    include_examples 'links_association'
+    include_examples 'votes_association'
+    include_examples 'comments_association'
+    include_examples 'user_association'
   end
 
   describe 'validations' do
@@ -14,9 +15,7 @@ RSpec.describe Answer, type: :model do
     it { should validate_length_of(:body).is_at_least(2) }
   end
 
-  it 'has many attached files as attachments' do
-    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
-  end
+  include_examples 'files_as_attachments'
 
   it { should accept_nested_attributes_for :links }
 

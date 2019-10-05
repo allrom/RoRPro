@@ -1,0 +1,44 @@
+tr id= "answer_id-#{@object.id}"
+  td.table-data = @object.id
+  td.table-data = @object.body
+
+  - if @object.files_attached
+    td.table-view-f
+      a class="view-files-#{@object.id}" data-remote="true" href="/answers/#{@object.id}" Files
+
+  - unless @object.links_empty
+    td.table-view-l
+      a class="view-links-#{@object.id}" data-remote="true" href="/answers/#{@object.id}/links" Links
+
+  td.table-view-c
+    div id="comments-posted-answer_#{@object.id}"
+      p
+        b Comment(s):
+
+  - if gon.user_id
+    td.table-view-c
+      p
+        b Post a Comment
+      form[
+        class="create-comment-#{@object.id} comment-errors-answer_#{@object.id}"
+        accept-charset="UTF-8"
+        action="/answers/#{@object.id}/comments"
+        data-remote="true"
+        method="post"
+        ]
+        input id="comment-posted" name="utf8" type="hidden" value="✓"
+
+        div id="comment-form"
+          label for="comment_body" Body
+          input#comment_body  name="comment[body]" type="text"
+          input data-disable-with="OK" name="commit" type="submit" value="OK"
+
+  - if gon.user_id && @object.question_user_id == gon.user_id
+    td.outside
+      form class="button_best" method="post" data-remote="true" action="/answers/#{@object.id}/flag_best"
+        input type="hidden" name="_method" value="patch"
+        input type="submit" value="!best"
+
+  - if gon.user_id
+    td.outside
+      == App.srv.render("shared/votes", resource: @object, path: "/answers/#{@object.id}" )

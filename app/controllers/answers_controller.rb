@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  after_action :publish_answer, only: :create
+
   include UnauthShow
   include UnauthLinks
   include Voted
@@ -15,7 +17,6 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create
-    # use build instead of new, so that 'build' creates new instance within AR assosiation (sets parent_id)
     @answer = question.answers.build(answer_params.merge(user: current_user))
     if answer.save
       flash.now[:notice] = "Answer added."
@@ -47,6 +48,16 @@ class AnswersController < ApplicationController
 
   private
 
+  def publish_answer
+    return if answer.errors.any?
+
+    ActionCable.server.broadcast "questions/#{answer.question_id}/answers",
+                                 ApplicationController.renderer.render(
+                                   partial: 'answers/answers_stream',
+                                    locals: { answer: answer }
+                                 )
+  end
+
   def question
     @question ||= Question.find(params[:question_id])
   end
@@ -59,7 +70,11 @@ class AnswersController < ApplicationController
     answer.question.award
   end
 
-  helper_method :answer, :question
+  def comment
+    answer.comments.build
+  end
+
+  helper_method :answer, :question, :comment
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url, :_destroy])

@@ -1,5 +1,5 @@
 .answer
-  h4= 'Answer of the Question:'
+  h4 Answer of the Question:
   p style="font-size:medium"
     'Title:
     => question.title
@@ -8,13 +8,13 @@
     => question.body
 
 .attachments
-  p= render 'shared/attachments', resource: answer
+  p = render 'shared/attachments', resource: answer
 
 .links
-  p= render 'shared/links', resource: answer
+  p = render 'shared/links', resource: answer
 
 .change-answer
-  h4= 'Change an Answer'
-  p= render 'answers/form', model: answer
+  h4 Change an Answer
+  p = render 'answers/form', model: answer
 
   p = link_to 'Back', question_path(question)
