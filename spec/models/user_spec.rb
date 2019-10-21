@@ -5,13 +5,28 @@ RSpec.describe User, type: :model do
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_many(:questions).dependent(:destroy) }
     it { should have_many(:awards).dependent(:destroy) }
+    it { should have_many(:authorizations).dependent(:destroy) }
 
     include_examples 'comments_association'
   end
 
   describe 'validations' do
-    it { should validate_presence_of :email}
+    it { should validate_presence_of :email }
     it { should validate_presence_of :password }
+  end
+
+  describe '.find_for_oauth' do
+    let!(:user) { create(:user) }
+    let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '1234567') }
+    let(:service) { double('Services::FindForOauth') }    # mock with dummy string
+
+
+    it 'calls service class Services::FindForOauth' do
+      expect(Services::FindForOauth).to receive(:new).with(auth).and_return(service)
+      expect(service).to receive(:call)
+
+      User.find_for_oauth(auth)   # above expects come true after this
+    end
   end
 
   describe '#author?' do
@@ -20,7 +35,7 @@ RSpec.describe User, type: :model do
     let(:owners_question) { owner.questions.new(id: 1, title: 'TestTitle', body: 'TestBody') }
     let(:owners_answer) { owner.answers.new(id: 1, question_id: 1, body: 'Test') }
 
-    context 'if user is author'  do
+    context 'if user is author' do
       it 'should return "true" for question' do
         expect(owner).to be_author(owners_question)
       end
@@ -30,7 +45,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'if not author'  do
+    context 'if not author' do
       it 'should return "false" for question' do
         expect(visitor).not_to be_author(owners_question)
       end

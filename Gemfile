@@ -54,6 +54,12 @@ gem 'with_model'
 gem 'gon'
 # Skim is the Slim templating engine with embedded CoffeeScript
 gem 'skim'
+# OmniAuth is a library that standardizes multi-provider authentication for web applications
+gem 'omniauth'
+gem 'omniauth-github'
+## gem 'omniauth-twitter'
+## gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -64,6 +70,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   # Gem to seed test databases
   gem 'factory_bot_rails'
+  # Preview email in the default browser instead of sending it.
+  gem 'letter_opener'
 end
 
 group :development do
@@ -87,6 +95,8 @@ group :test do
   gem 'rails-controller-testing'
   # for 'save_and_open_page' testing
   gem 'launchy'
+  # Easily test ActionMailer and Mail messages in your Capybara integration tests
+  gem 'capybara-email'
 end
 
 # Windows does not include zoneinfo attachments, so bundle the tzinfo-data gem
