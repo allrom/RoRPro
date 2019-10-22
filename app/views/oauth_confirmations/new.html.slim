@@ -1,0 +1,11 @@
+#email-confirm-form
+  = form_with url: user_confirmation_path, local: true do |form|
+    .user-errors
+      = render 'devise/shared/error_messages', resource: @user
+    p
+      i Enter your e-mail for confirmation
+      p
+        => form.label :email, 'e-mail'
+        => form.email_field :email
+
+        => form.submit 'Send'
