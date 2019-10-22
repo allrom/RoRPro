@@ -14,6 +14,8 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
       return
     end
 
+    user = User.find_for_oauth(request.env['omniauth.auth'])
+
     if user&.confirmed?
       sign_in_and_redirect user, event: :authentication
       set_flash_message(:notice, :success, kind: auth.provider.capitalize) if is_navigational_format?
@@ -24,9 +26,5 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
       session[:oauth_uid] = auth.uid
       redirect_to new_user_confirmation_path
     end
-  end
-
-  def user
-    @user = User.find_for_oauth(request.env['omniauth.auth'])
   end
 end

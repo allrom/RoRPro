@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.describe Services::FindForOauth do
   let!(:user) { create(:user) }
   let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '1234567') }
+  let(:authorization) { FactoryBot.create(:authorization, user: user, uid: '1234567', provider: 'github') }
+
   subject { Services::FindForOauth.new(auth) }
 
   context 'user has been authorized' do
     it 'finds and returns the user' do
-      user.authorizations.create(provider: 'github', uid: '1234567')
+      authorization
 
       expect(subject.call).to eq user
     end

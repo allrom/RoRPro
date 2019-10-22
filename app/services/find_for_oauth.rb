@@ -7,12 +7,12 @@ module Services
     end
 
     def call
-      authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
+      authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
       return authorization.user if authorization
 
       if auth.info.fetch(:email)
         email = auth.info[:email]
-        user = User.where(email: email).first
+        user = User.find_by(email: email)
 
         unless user
           password = Devise.friendly_token[0, 20]
@@ -23,8 +23,8 @@ module Services
       end
 
       if user&.persisted?
-        user.update(confirmed_at: Time.now.utc) unless user.confirmed?
-        user.create_authorization(auth)
+        user.confirm unless user.confirmed?   # confirm! is deprecated
+        user.create_authorization!(auth)
       end
 
       user

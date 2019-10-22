@@ -20,7 +20,6 @@ RSpec.describe User, type: :model do
     let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '1234567') }
     let(:service) { double('Services::FindForOauth') }    # mock with dummy string
 
-
     it 'calls service class Services::FindForOauth' do
       expect(Services::FindForOauth).to receive(:new).with(auth).and_return(service)
       expect(service).to receive(:call)
@@ -29,11 +28,20 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#create_authorization!' do
+    let!(:user) { create :user, email: 'student@test.edu' }
+    let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '1234567',  info: { email: 'student@test.edu'}) }
+
+    it 'creates new authorization record' do
+      expect{ User.find_for_oauth(auth) }.to change(Authorization, :count).by(1)
+    end
+  end
+
   describe '#author?' do
-    let(:owner) { User.new(id: 1, email: 'test1@exanple.edu') }
-    let(:visitor) { User.new(id: 2, email: 'test2@exanple.edu') }
-    let(:owners_question) { owner.questions.new(id: 1, title: 'TestTitle', body: 'TestBody') }
-    let(:owners_answer) { owner.answers.new(id: 1, question_id: 1, body: 'Test') }
+    let(:owner) { FactoryBot.create(:user) }
+    let(:visitor) { FactoryBot.create(:user) }
+    let(:owners_question) { FactoryBot.create(:question, user: owner) }
+    let(:owners_answer) { FactoryBot.create(:answer, question: owners_question, user: owner) }
 
     context 'if user is author' do
       it 'should return "true" for question' do
