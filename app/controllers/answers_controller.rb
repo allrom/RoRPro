@@ -1,9 +1,13 @@
 class AnswersController < ApplicationController
   after_action :publish_answer, only: :create
+  before_action :answer, only: :flag_best
 
   include UnauthShow
   include UnauthLinks
   include Voted
+
+  authorize_resource
+  skip_authorize_resource only: :links
 
   def show; end
 
@@ -43,7 +47,7 @@ class AnswersController < ApplicationController
 
   def flag_best
     @question = answer.question
-      answer.mark_best if question.user == current_user
+    @answer.mark_best
   end
 
   private

@@ -48,9 +48,9 @@ feature 'Vote for Question', %q{
           sleep(1)
           click_on '+UpVote'
         end
-        within('.vote-errors') do
-          expect(page).to have_content 'Vote is not allowed'
-        end
+      end
+      within('body') do
+        expect(page).to have_content "You are not authorized"
       end
     end
    end

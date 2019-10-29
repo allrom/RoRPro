@@ -99,3 +99,6 @@ end
 
 # Turn on "test mode" for OmniAuth
 OmniAuth.config.test_mode = true
+
+# CanCan rspec matchers
+require 'cancan/matchers'

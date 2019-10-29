@@ -184,7 +184,7 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer) }
 
     context 'when logged in', :logged_in do
-      it 'deletes a question' do
+      it 'deletes an answer' do
         expect { delete :destroy, params: { id: answer }, format: :js  }.to change(Answer, :count).by(-1)
       end
 

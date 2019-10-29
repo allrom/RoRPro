@@ -1,10 +1,9 @@
 class LinksController < ApplicationController
+ load_and_authorize_resource
 
-  def destroy
-    @link = Link.find(params[:id])
-    if current_user.author?(@link.linkable)
-      @link.destroy!
-      flash.now[:notice] = "Link removed."
-    end
-  end
+ def destroy
+   @link = Link.find(params[:id])
+   @link.destroy!
+   flash.now[:notice] = "Link removed."
+ end
 end
