@@ -57,6 +57,14 @@ RSpec.describe Ability do
       it { should_not be_able_to :destroy, visitor_answer }
     end
 
+    context 'with being an author' do
+      it { expect(subject.can?(:be_an_author, answer)).to be true }
+      it { expect(subject.can?(:be_an_author, visitor_answer)).to be false }
+
+      it { expect(subject.can?(:be_an_author, question)).to be true }
+      it { expect(subject.can?(:be_an_author, visitor_question)).to be false }
+    end
+
     context 'with flag best answer' do
       it { should be_able_to :flag_best, visitor_answer }
       it { should_not be_able_to :flag_best, user_answer }
