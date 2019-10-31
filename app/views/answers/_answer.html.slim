@@ -22,7 +22,7 @@ tr id="answer_id-#{answer.id}"
         .div class="create-comment-#{answer.id}  comment-errors-answer_#{answer.id}"
         = render 'comments/form', model: [answer, comment], remote: true
 
-  - if can?(:modify, answer) && answer.persisted?
+  - if can?(:modify, answer)
     td.table-data = link_to 'Edit', edit_answer_path(id: answer.id, question_id: answer.question_id)
 
     td.table-data = link_to 'Remove', answer_path(answer),
@@ -30,7 +30,7 @@ tr id="answer_id-#{answer.id}"
             data: { confirm: 'OK to remove?' },
             remote: true
 
-  - if can?(:be_an_author, question) && !answer.best?
+  - if can?(:flag_best, answer) && !answer.best?
     td.outside = button_to 'best!', flag_best_answer_path(answer),
             method: :patch,
             remote: true
