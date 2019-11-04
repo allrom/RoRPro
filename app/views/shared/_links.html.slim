@@ -12,7 +12,7 @@
             - else
               => link_to link.name, link.url, target: :_blank
 
-            - if current_user&.author?(resource)
+            - if can? :destroy, resource
               = link_to 'Remove', link_path(link),
                       class: 'delete_link',
                       method: :delete,

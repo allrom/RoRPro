@@ -21,5 +21,17 @@ FactoryBot.define do
         create(:link, linkable: answer, url: 'https://google.com')
       end
     end
+
+    trait :upvoted do
+      after(:create) do |answer|
+        create(:vote, votable: answer, number_of: 1)
+      end
+    end
+
+    trait :downvoted do
+      after(:create) do |answer|
+        create(:vote, votable: answer, number_of: -1)
+      end
+    end
   end
 end

@@ -5,6 +5,8 @@ class QuestionsController < ApplicationController
   include UnauthShow
   include Voted
 
+  authorize_resource
+
   def index
     questions
   end
@@ -51,7 +53,7 @@ class QuestionsController < ApplicationController
     ActionCable.server.broadcast "questions",
                                  ApplicationController.renderer.render(
                                    partial: 'questions/questions_stream',
-                                     locals: { question: question }
+                                   locals: { question: question }
                                  )
   end
 

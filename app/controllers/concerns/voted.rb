@@ -1,7 +1,8 @@
 module Voted
   extend ActiveSupport::Concern
+
   included do
-    before_action :voter_check, only: %i[upvote downvote]
+    load_and_authorize_resource only: %i[upvote downvote dropvote]
   end
 
   def upvote
@@ -15,7 +16,7 @@ module Voted
   end
 
   def dropvote
-    resource.dropvote(current_user) if resource.voted?(current_user)
+    resource.dropvote(current_user)
     respond
   end
 
@@ -33,11 +34,5 @@ module Voted
 
   def resource
     controller_name.classify.constantize.find(params[:id])
-  end
-
-  def voter_check
-    if resource.user == current_user || resource.voted?(current_user)
-      render plain: 'Vote is not allowed', status: :forbidden
-    end
   end
 end

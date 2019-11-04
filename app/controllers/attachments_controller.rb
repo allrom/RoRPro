@@ -1,18 +1,13 @@
 class AttachmentsController < ApplicationController
+  load_and_authorize_resource class: ActiveStorage::Attachment
 
   def destroy
     @file = ActiveStorage::Attachment.find(params[:id])
-    if current_user.author?(resource)
-      file.purge
-      flash.now[:notice] = "File removed."
-    end
+    file.purge
+    flash.now[:notice] = "File removed."
   end
 
   private
-
-  def resource
-    file.record_type.constantize.find(file.record_id)
-  end
 
   def file
     @file

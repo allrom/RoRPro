@@ -1,5 +1,5 @@
 #votes-engaged
-  - if !(current_user.author?(resource) || resource.voted?(current_user))
+  - if can?(:upvote, resource) || can?(:downvote, resource)
     => button_to '+UpVote', send("upvote_#{resource.class.to_s.underscore}_path", resource),
                       class: 'upvote',
                       method: :patch,
@@ -14,7 +14,7 @@
                       form: { style: "display:inline-block;" },
                       remote: true
 
-  - if resource.voted?(current_user) || !current_user.author?(resource)
+  - if can?(:dropvote, resource)
     => button_to 'DropVote', send("dropvote_#{resource.class.to_s.underscore}_path", resource),
                     class: 'dropvote',
                     method: :patch,

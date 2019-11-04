@@ -60,6 +60,8 @@ gem 'omniauth-github'
 ## gem 'omniauth-twitter'
 ## gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
+# CanCanCan is an authorization library which restricts what resources a given user is allowed to access
+gem 'cancancan'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

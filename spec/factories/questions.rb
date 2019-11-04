@@ -43,5 +43,17 @@ FactoryBot.define do
         create(:award, question: question)
       end
     end
+
+    trait :upvoted do
+      after(:create) do |question|
+        create(:vote, votable: question, number_of: 1)
+      end
+    end
+
+    trait :downvoted do
+      after(:create) do |question|
+        create(:vote, votable: question, number_of: -1)
+      end
+    end
   end
 end
