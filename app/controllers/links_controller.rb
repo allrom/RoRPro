@@ -1,4 +1,5 @@
-class LinksController < ApplicationController
+class LinksController < BaseController
+
  load_and_authorize_resource
 
  def destroy

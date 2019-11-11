@@ -25,3 +25,9 @@ RSpec.shared_examples 'returns "Unprocessable entity"' do
     expect(response.status).to eq 422
   end
 end
+
+RSpec.shared_examples 'returns "Forbidden"' do
+  it 'returns status :forbidden' do
+    expect(response.status).to eq 403
+  end
+end

@@ -5,12 +5,17 @@ RSpec.describe 'Answers API', type: :request do
     { 'CONTENT_TYPE' => 'application/json',
       'ACCEPT' => 'application/json' }
   }
-  let(:access_token) { create(:access_token) }
+  let(:user) { create(:user) }
+  let(:visitor) { create(:user) }
+
+  let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+  let(:visitor_access_token) { create(:access_token, resource_owner_id: visitor.id) }
+
   let(:test_params) { { access_token: access_token.token } }
   let(:method) { :get }
 
   let!(:question) { create(:question) }
-  let!(:answer) { create :answer, :with_attachment, question: question }
+  let!(:answer) { create :answer, :with_attachment, question: question, user: user }
 
   let!(:links) { create_list(:link, 3, linkable: answer) }
   let!(:comments) { create_list(:comment, 3, commentable: answer) }
@@ -83,7 +88,7 @@ RSpec.describe 'Answers API', type: :request do
         let(:test_params) { { access_token: access_token.token, answer: attributes_for(:answer) }.to_json }
 
         it 'saves a new answer in database' do
-          expect(Answer.count).to be > 1
+          expect(Answer.count).to eq 2
         end
 
         it_should_behave_like 'returns 20X status'
@@ -92,7 +97,7 @@ RSpec.describe 'Answers API', type: :request do
       describe '#create, with invalid attrs' do
         let(:test_params) { { access_token: access_token.token, answer: { body: nil } }.to_json }
 
-        it 'leaves question database intact' do
+        it 'leaves answer database intact' do
           expect(Answer.count).to eq 1
         end
 
@@ -114,9 +119,13 @@ RSpec.describe 'Answers API', type: :request do
           { access_token: access_token.token, id: answer, answer: { body: 'New body' } }.to_json
         }
 
-        it 'changes answer in database' do
-          expect(answer_response['id']).to eq answer.send('id').as_json
-          expect(answer_response['body']).not_to eq answer.send('body').as_json
+        it 'contains changed answer data in response' do
+          expect(answer_response['id']).to eq answer['id'].as_json
+          expect(answer_response['body']).not_to eq answer['body'].as_json
+        end
+
+        it 'leaves database records count intact' do
+          expect(Answer.count).to eq 1
         end
 
         it_should_behave_like 'returns 20X status'
@@ -131,6 +140,12 @@ RSpec.describe 'Answers API', type: :request do
 
         it_should_behave_like 'returns "Unprocessable entity"'
       end
+    end
+
+    context 'when non-owner tries to update' do
+      let(:test_params) { { access_token: visitor_access_token.token, id: answer }.to_json }
+
+      it_should_behave_like 'returns "Forbidden"'
     end
   end
 
@@ -154,6 +169,12 @@ RSpec.describe 'Answers API', type: :request do
           expect(json).to eq({})
         end
       end
+    end
+
+    context 'when non-owner tries to delete' do
+      let(:test_params) { { access_token: visitor_access_token.token, id: answer }.to_json }
+
+      it_should_behave_like 'returns "Forbidden"'
     end
   end
 end

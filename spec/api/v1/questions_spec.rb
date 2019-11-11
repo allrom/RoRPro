@@ -5,11 +5,16 @@ RSpec.describe 'Questions API', type: :request do
     { 'CONTENT_TYPE' => 'application/json',
       'ACCEPT' => 'application/json' }
   }
-  let(:access_token) { create(:access_token) }
+  let(:user) { create(:user) }
+  let(:visitor) { create(:user) }
+
+  let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+  let(:visitor_access_token) { create(:access_token, resource_owner_id: visitor.id) }
+
   let(:test_params) { { access_token: access_token.token } }
   let(:method) { :get }
 
-  let!(:questions) { create_list :question, 2, :with_attachment }
+  let!(:questions) { create_list :question, 2, :with_attachment, user: user }
   let(:question) { questions.first }
 
   let!(:answers) { create_list(:answer, 3, question: question) }
@@ -53,21 +58,23 @@ RSpec.describe 'Questions API', type: :request do
        let(:answer) { answers.first }
        let(:answer_response) { question_response['answers'].first }
 
+       it 'does return all public fields' do
+         %w[id body created_at updated_at].each do |attr|
+            expect(answer_response[attr]).to eq answer.send(attr).as_json
+          end
+       end
+
        it 'returns list of answers' do
          expect(question_response['answers'].size).to eq 3
        end
-
-       it 'does return all public fields' do
-          %w[id body created_at updated_at].each do |attr|
-            expect(answer_response[attr]).to eq answer.send(attr).as_json
-          end
-        end
      end
-   end
+    end
   end
 
   describe 'GET /api/v1/questions/:id' do
     let(:path_to_api) { "/api/v1/questions/#{question.id}" }
+
+    it_should_behave_like 'returns 20X status'  # remove
 
     it_behaves_like 'api enabled'
 
@@ -129,7 +136,7 @@ RSpec.describe 'Questions API', type: :request do
         let(:test_params) { { access_token: access_token.token, question: attributes_for(:question) }.to_json }
 
         it 'saves a new question in database' do
-          expect(Question.count).to be > questions.size
+          expect(Question.count).to eq questions.size + 1
         end
 
         it_should_behave_like 'returns 20X status'
@@ -160,12 +167,16 @@ RSpec.describe 'Questions API', type: :request do
           { access_token: access_token.token, id: question, question: { title: 'New title', body: 'New body' } }.to_json
         }
 
-        it 'changes question in database' do
-          expect(question_response['id']).to eq question.send('id').as_json
+        it 'contains changed question data in response' do
+          expect(question_response['id']).to eq question['id'].as_json
 
           %w[title body].each do |attr|
             expect(question_response[attr]).not_to eq question.send(attr).as_json
           end
+        end
+
+        it 'leaves database records count intact' do
+          expect(Question.count).to eq 2
         end
 
         it_should_behave_like 'returns 20X status'
@@ -180,6 +191,12 @@ RSpec.describe 'Questions API', type: :request do
 
         it_should_behave_like 'returns "Unprocessable entity"'
       end
+    end
+
+    context 'when non-owner tries to update' do
+      let(:test_params) { { access_token: visitor_access_token.token, id: question }.to_json }
+
+      it_should_behave_like 'returns "Forbidden"'
     end
   end
 
@@ -203,6 +220,12 @@ RSpec.describe 'Questions API', type: :request do
           expect(json).to eq({})
         end
       end
+    end
+
+    context 'when non-owner tries to delete' do
+      let(:test_params) { { access_token: visitor_access_token.token, id: question }.to_json }
+
+      it_should_behave_like 'returns "Forbidden"'
     end
   end
 end

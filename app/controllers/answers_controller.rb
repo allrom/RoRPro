@@ -1,4 +1,4 @@
-class AnswersController < ApplicationController
+class AnswersController < BaseController
   after_action :publish_answer, only: :create
   before_action :answer, only: :flag_best
 

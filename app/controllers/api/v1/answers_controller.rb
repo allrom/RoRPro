@@ -1,6 +1,6 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-
-  authorize_resource
+  # CanCanCan is unable to authorize w/o explicit var preload
+  load_and_authorize_resource except: :show
 
   def show
     render json: answer
