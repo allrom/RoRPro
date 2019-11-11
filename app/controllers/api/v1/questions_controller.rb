@@ -42,7 +42,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   # http://localhost:3000/api/v1/questions.json?access_token=4354535c34f45.......
   def questions
-    @questions ||= Question.all
+    @questions ||= Question.all.with_attached_files
   end
 
   def question_params

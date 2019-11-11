@@ -121,11 +121,7 @@ RSpec.describe 'Answers API', type: :request do
 
         it 'contains changed answer data in response' do
           expect(answer_response['id']).to eq answer['id'].as_json
-          expect(answer_response['body']).not_to eq answer['body'].as_json
-        end
-
-        it 'leaves database records count intact' do
-          expect(Answer.count).to eq 1
+          expect(answer_response['body']).to eq('New body')
         end
 
         it_should_behave_like 'returns 20X status'
@@ -133,10 +129,6 @@ RSpec.describe 'Answers API', type: :request do
 
       describe '#update, with invalid attrs' do
         let(:test_params) { { access_token: access_token.token, answer: { body: nil } }.to_json }
-
-        it 'leaves answer database intact' do
-          expect(Answer.count).to eq 1
-        end
 
         it_should_behave_like 'returns "Unprocessable entity"'
       end
@@ -158,10 +150,6 @@ RSpec.describe 'Answers API', type: :request do
     context 'authorized' do
       describe '#destroy, answer' do
         let(:test_params) { { access_token: access_token.token, id: answer }.to_json }
-
-        it 'deletes answer in database' do
-          expect(Answer.all).to be_empty
-        end
 
         it_should_behave_like 'returns 20X status'
 
