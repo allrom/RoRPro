@@ -17,6 +17,9 @@ RSpec.describe 'Questions API', type: :request do
   let!(:questions) { create_list :question, 2, :with_attachment, user: user }
   let(:question) { questions.first }
 
+  let(:resource_name) { 'question' }
+  let(:control_number) { 2 }
+
   let!(:answers) { create_list(:answer, 3, question: question) }
   let!(:links) { create_list(:link, 3, linkable: question) }
   let!(:comments) { create_list(:comment, 3, commentable: question) }
@@ -73,8 +76,6 @@ RSpec.describe 'Questions API', type: :request do
 
   describe 'GET /api/v1/questions/:id' do
     let(:path_to_api) { "/api/v1/questions/#{question.id}" }
-
-    it_should_behave_like 'returns 20X status'  # remove
 
     it_behaves_like 'api enabled'
 
@@ -145,9 +146,7 @@ RSpec.describe 'Questions API', type: :request do
       describe '#create, with invalid attrs' do
         let(:test_params) { { access_token: access_token.token, question: { title: nil, body: nil } }.to_json }
 
-        it 'leaves question database intact' do
-          expect(Question.count).to eq questions.size
-        end
+        it_behaves_like 'database counter kept intact'
 
         it_should_behave_like 'returns "Unprocessable entity"'
       end
@@ -163,21 +162,27 @@ RSpec.describe 'Questions API', type: :request do
 
     context 'authorized' do
       describe '#update, with valid attrs' do
+        let(:question_update_attrs) { { title: 'New title', body: 'New body' } }
         let(:test_params) {
-          { access_token: access_token.token, id: question, question: { title: 'New title', body: 'New body' } }.to_json
+          { access_token: access_token.token, id: question, question: question_update_attrs }.to_json
         }
 
         it 'contains changed question data in response' do
           expect(question_response['id']).to eq question['id'].as_json
 
-          %w[title body].each do |attr|
-            expect(question_response[attr]).not_to eq question.send(attr).as_json
+          question_update_attrs.each do |attr_key, attr_value|
+            expect(question_response[attr_key.to_s]).to eq attr_value
           end
         end
 
-        it 'leaves database records count intact' do
-          expect(Question.count).to eq 2
+        it 'changes the question in database' do
+          question.reload
+          question_update_attrs.each do |attr_key, attr_value|
+            expect(question.send(attr_key)).to eq attr_value
+          end
         end
+
+        it_behaves_like 'database counter kept intact'
 
         it_should_behave_like 'returns 20X status'
       end
@@ -185,9 +190,7 @@ RSpec.describe 'Questions API', type: :request do
       describe '#update, with invalid attrs' do
         let(:test_params) { { access_token: access_token.token, question: { title: nil, body: nil } }.to_json }
 
-        it 'leaves question database intact' do
-          expect(Question.count).to eq questions.size
-        end
+        it_behaves_like 'database counter kept intact'
 
         it_should_behave_like 'returns "Unprocessable entity"'
       end
@@ -195,6 +198,8 @@ RSpec.describe 'Questions API', type: :request do
 
     context 'when non-owner tries to update' do
       let(:test_params) { { access_token: visitor_access_token.token, id: question }.to_json }
+
+      it_behaves_like 'database counter kept intact'
 
       it_should_behave_like 'returns "Forbidden"'
     end
@@ -211,7 +216,7 @@ RSpec.describe 'Questions API', type: :request do
         let(:test_params) { { access_token: access_token.token, id: question }.to_json }
 
         it 'deletes question in database' do
-          expect(Question.count).to be < questions.size
+          expect(Question.count).to eq questions.size - 1
         end
 
         it_should_behave_like 'returns 20X status'
@@ -224,6 +229,8 @@ RSpec.describe 'Questions API', type: :request do
 
     context 'when non-owner tries to delete' do
       let(:test_params) { { access_token: visitor_access_token.token, id: question }.to_json }
+
+      it_behaves_like 'database counter kept intact'
 
       it_should_behave_like 'returns "Forbidden"'
     end

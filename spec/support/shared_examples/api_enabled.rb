@@ -31,3 +31,9 @@ RSpec.shared_examples 'returns "Forbidden"' do
     expect(response.status).to eq 403
   end
 end
+
+RSpec.shared_examples 'database counter kept intact' do
+  it "leaves database counter intact" do
+    expect(resource_name.camelize.constantize.count).to eq control_number
+  end
+end
