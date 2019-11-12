@@ -37,7 +37,11 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   private
 
   def question
-    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+    @question ||= if params[:id]
+                    Question.includes(files_attachments: :blob, answers: { files_attachments: :blob }).find(params[:id])
+                  else
+                   Question.new
+                  end
   end
 
   # http://localhost:3000/api/v1/questions.json?access_token=4354535c34f45.......

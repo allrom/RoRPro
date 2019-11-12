@@ -17,6 +17,9 @@ RSpec.describe 'Answers API', type: :request do
   let!(:question) { create(:question) }
   let!(:answer) { create :answer, :with_attachment, question: question, user: user }
 
+  let(:resource_name) { 'answer' }
+  let(:control_number) { 1 }
+
   let!(:links) { create_list(:link, 3, linkable: answer) }
   let!(:comments) { create_list(:comment, 3, commentable: answer) }
   let!(:files) { answer.files }
@@ -96,10 +99,10 @@ RSpec.describe 'Answers API', type: :request do
 
       describe '#create, with invalid attrs' do
         let(:test_params) { { access_token: access_token.token, answer: { body: nil } }.to_json }
+        let(:resource_name) { 'answer' }
+        let(:control_number) { 1 }
 
-        it 'leaves answer database intact' do
-          expect(Answer.count).to eq 1
-        end
+        it_behaves_like 'database counter kept intact'
 
         it_should_behave_like 'returns "Unprocessable entity"'
       end
@@ -124,11 +127,19 @@ RSpec.describe 'Answers API', type: :request do
           expect(answer_response['body']).to eq('New body')
         end
 
+        it 'changes the answer in database' do
+          expect(answer.reload.body).to eq('New body')
+        end
+
+        it_behaves_like 'database counter kept intact'
+
         it_should_behave_like 'returns 20X status'
       end
 
       describe '#update, with invalid attrs' do
         let(:test_params) { { access_token: access_token.token, answer: { body: nil } }.to_json }
+
+        it_behaves_like 'database counter kept intact'
 
         it_should_behave_like 'returns "Unprocessable entity"'
       end
@@ -136,6 +147,8 @@ RSpec.describe 'Answers API', type: :request do
 
     context 'when non-owner tries to update' do
       let(:test_params) { { access_token: visitor_access_token.token, id: answer }.to_json }
+
+      it_behaves_like 'database counter kept intact'
 
       it_should_behave_like 'returns "Forbidden"'
     end
@@ -151,6 +164,10 @@ RSpec.describe 'Answers API', type: :request do
       describe '#destroy, answer' do
         let(:test_params) { { access_token: access_token.token, id: answer }.to_json }
 
+        it 'deletes answer in database' do
+          expect(Answer.all).to be_empty
+        end
+
         it_should_behave_like 'returns 20X status'
 
         it 'returns empty json response' do
@@ -161,6 +178,8 @@ RSpec.describe 'Answers API', type: :request do
 
     context 'when non-owner tries to delete' do
       let(:test_params) { { access_token: visitor_access_token.token, id: answer }.to_json }
+
+      it_behaves_like 'database counter kept intact'
 
       it_should_behave_like 'returns "Forbidden"'
     end
