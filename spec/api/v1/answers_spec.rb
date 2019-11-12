@@ -99,8 +99,6 @@ RSpec.describe 'Answers API', type: :request do
 
       describe '#create, with invalid attrs' do
         let(:test_params) { { access_token: access_token.token, answer: { body: nil } }.to_json }
-        let(:resource_name) { 'answer' }
-        let(:control_number) { 1 }
 
         it_behaves_like 'database counter kept intact'
 
