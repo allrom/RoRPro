@@ -1,4 +1,4 @@
-class AttachmentsController < ApplicationController
+class AttachmentsController < BaseController
   load_and_authorize_resource class: ActiveStorage::Attachment
 
   def destroy

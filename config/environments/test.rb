@@ -50,5 +50,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Enable logging in tests
-  # config.logger = Logger.new(STDOUT)
+  ## config.logger = Logger.new(STDOUT)
+  ## config.log_level = :DEBUG
 end

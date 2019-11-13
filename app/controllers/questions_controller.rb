@@ -1,4 +1,4 @@
-class QuestionsController < ApplicationController
+class QuestionsController < BaseController
   after_action :publish_question, only: :create
 
   include UnauthIndex

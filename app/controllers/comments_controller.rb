@@ -1,4 +1,4 @@
-class CommentsController < ApplicationController
+class CommentsController < BaseController
   before_action :resource, only: :create
   after_action :publish_comment, only: :create
 

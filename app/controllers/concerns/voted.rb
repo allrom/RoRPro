@@ -24,6 +24,7 @@ module Voted
     respond_to do |format|
       format.json do
         render json: resource,
+               adapter: nil, # turns off AMS for web, so it works only with API version
                methods: :amount,
                except: %i[created_at updated_at]
       end

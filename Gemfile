@@ -62,6 +62,12 @@ gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 # CanCanCan is an authorization library which restricts what resources a given user is allowed to access
 gem 'cancancan'
+# Doorkeeper is a gem that makes it easy to introduce OAuth 2 provider functionality to RoR application
+gem 'doorkeeper'
+# AMS serializes models for basic JSON:API
+gem 'active_model_serializers', '~> 0.10.0'
+# A fast JSON parser and Object marshaller
+gem 'oj'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
