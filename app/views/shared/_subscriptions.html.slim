@@ -1,0 +1,14 @@
+#subscriptions-proposed
+    b Updates:
+    - if resource.subscribed_by?(current_user)
+        => button_to 'Unsubscribe', subscription_path(subscription),
+                        class: 'unsubscribe',
+                        method: :delete,
+                        form: { style: "display:inline-block;" },
+                        remote: true
+    -else
+        => button_to 'Subscribe', question_subscriptions_path(resource),
+                        class: 'subscribe',
+                        method: :post,
+                        form: { style: "display:inline-block;" },
+                        remote: true

@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   use_doorkeeper
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -32,6 +34,8 @@ Rails.application.routes.draw do
       member { patch :flag_best }
       get 'links'
     end
+
+    resources :subscriptions, only: %i[create destroy], shallow: true
   end
 
   namespace :api do
@@ -48,4 +52,8 @@ Rails.application.routes.draw do
   end
 
   mount ActionCable.server => '/cable'
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end

@@ -73,7 +73,11 @@ class QuestionsController < BaseController
     question.comments.build
   end
 
-  helper_method :question, :questions, :answer, :comment
+  def subscription
+    @subscription ||= question.subscriptions.find_by(user: current_user)
+  end
+
+  helper_method :question, :questions, :answer, :comment, :subscription
 
   def question_params
     params.require(:question).permit(

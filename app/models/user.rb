@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :awards, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def author?(app_object)
     id == app_object.user_id

@@ -7,6 +7,10 @@
     'Body :
     = question.body
 
+.subscriptions
+  -if can?(:create, Subscription) || can?(:destroy, Subscription)
+    => render 'shared/subscriptions', resource: question
+
 .attachments
   p = render 'shared/attachments', resource: question
 

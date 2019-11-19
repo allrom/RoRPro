@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   describe 'associations' do
-    it { should belong_to(:question) }
-
+    include_examples 'question_association'
     include_examples 'links_association'
     include_examples 'votes_association'
     include_examples 'comments_association'

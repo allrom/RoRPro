@@ -8,6 +8,7 @@ RSpec.describe User, type: :model do
     it { should have_many(:authorizations).dependent(:destroy) }
 
     include_examples 'comments_association'
+    include_examples 'subscriptions_association'
   end
 
   describe 'validations' do
