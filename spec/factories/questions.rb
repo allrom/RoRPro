@@ -59,9 +59,5 @@ FactoryBot.define do
     trait :day_before do
       created_at { 1.day.ago }
     end
-
-    trait :two_days_before do
-      created_at { 2.days.ago }
-    end
   end
 end

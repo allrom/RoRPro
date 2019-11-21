@@ -51,9 +51,23 @@ RSpec.describe Question, type: :model do
   end
 
   describe 'subscription' do
-    it 'auto subscribes the author' do
+    it 'calls #subscribe_author' do
       expect(subject).to receive(:subscribe_author)
       subject.save!
+    end
+  end
+
+  describe '#subscribe_author' do
+    let(:visitor) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:question) { FactoryBot.create(:question, user: user) }
+
+    it 'auto subscribes the author' do
+      expect(question.subscribers).to include(user)
+    end
+
+    it 'does not subscribe the visitor' do
+      expect(question.subscribers).to_not include(visitor)
     end
   end
 end

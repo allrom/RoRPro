@@ -9,9 +9,6 @@ RSpec.describe SubscriptionsController, type: :controller do
   let(:subscription) { question.subscriptions.first }
   let(:visitor_subscription) { visitor_question.subscriptions.first }
 
-  let(:create_request) { post :create, params: { question_id: visitor_question }, format: :js }
-  let(:destroy_request) { delete :destroy, params: { id: subscription }, format: :js }
-
   before do |test|
     if test.metadata[:logged_in]
       login(user)
@@ -19,6 +16,8 @@ RSpec.describe SubscriptionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    subject(:create_request) { post :create, params: { question_id: visitor_question }, format: :js }
+
     context 'when user logged in', :logged_in do
       it 'saves a new record in database as question subscription' do
         expect { create_request }.to change(visitor_question.subscriptions, :count).by(1)
@@ -28,10 +27,7 @@ RSpec.describe SubscriptionsController, type: :controller do
         expect { create_request }.to change(visitor_question.subscribers, :count).by(1)
       end
 
-      it 'renders "create" template' do
-        create_request
-        expect(response).to render_template :create
-      end
+      it { is_expected.to render_template :create }
     end
 
     context 'when not logged in' do
@@ -40,28 +36,28 @@ RSpec.describe SubscriptionsController, type: :controller do
                                  .and change(visitor_question.subscribers, :count).by(0)
       end
 
-      it 'receives status code 40X if unauthorized' do
-        create_request
-        is_expected.to respond_with 401
-      end
+      it { is_expected.to have_http_status(:unauthorized) }
     end
   end
 
   describe 'DELETE #destroy' do
+    subject(:destroy_request) { delete :destroy, params: { id: subscription }, format: :js }
+
     context 'when user logged in', :logged_in do
       it 'deletes a record in subscriptions database' do
         expect { destroy_request }.to change(question.subscriptions, :count).by(-1)
                                   .and change(question.subscribers, :count).by(-1)
       end
 
-      it 'disallows a user to unsubscribe from visitor question, as one was not subscribed' do
-        expect { delete :destroy, params: { id: visitor_subscription }, format: :js }
-            .to_not change(visitor_question.subscribers, :count)
-      end
+      it { is_expected.to render_template :destroy }
 
-      it 'renders "destroy" template' do
-        destroy_request
-        expect(response).to render_template :destroy
+      context 'when user tries mistakenly unsubscribe' do
+        it 'disallows a user to unsubscribe from visitor question, as one was not subscribed' do
+          expect { delete :destroy, params: { id: visitor_subscription }, format: :js }
+              .to_not change(visitor_question.subscribers, :count)
+        end
+
+        it { is_expected.to render_template :destroy }
       end
     end
 
@@ -71,10 +67,7 @@ RSpec.describe SubscriptionsController, type: :controller do
                                   .and change(question.subscribers, :count).by(0)
       end
 
-      it 'receives status code 40X if unauthorized' do
-        destroy_request
-        is_expected.to respond_with 401
-      end
+      it { is_expected.to have_http_status(:unauthorized) }
     end
   end
 end

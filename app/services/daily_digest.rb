@@ -1,12 +1,13 @@
 class Services::DailyDigest
+  # ActiveJob cannot serialize 'collection', so '.to_a' conversion is added
+  # to stop serialization log errors and for test correctness
 
   def send_digest
     questions = Question.where(created_at: 1.day.ago.all_day).to_a
+    return if questions.empty?
 
-    if questions.present?
-      User.find_each do |user|
-        DailyDigestMailer.digest(user, questions).deliver_later
-      end
+    User.find_each do |user|
+      DailyDigestMailer.digest(user, questions).deliver_later
     end
   end
 end

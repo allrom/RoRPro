@@ -8,7 +8,7 @@ class SubscriptionsController < BaseController
   end
 
   def destroy
-    subscription.destroy if subscription.question.subscribed_by? current_user
+    @subscription.destroy if subscription.question.subscribed_by? current_user
     flash.now[:notice] = 'Successfully unsubscribed'
   end
 
