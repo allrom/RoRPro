@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Subscription, type: :model do
   describe 'associations' do
-    include_examples 'question_association'
-    include_examples 'user_association'
+    it { should belong_to(:question) }
+    it { should belong_to(:user) }
   end
 
   describe 'indexation' do

@@ -28,8 +28,9 @@ RSpec.describe SubscriptionsController, type: :controller do
         expect { create_request }.to change(visitor_question.subscribers, :count).by(1)
       end
 
-      it 'disallows a user to subscribe to own question, as one was auto-subscribed' do
-        expect { post :create, params: { question_id: question }, format: :js  }.to_not change(question.subscribers, :count)
+      it 'renders "create" template' do
+        create_request
+        expect(response).to render_template :create
       end
     end
 
@@ -37,6 +38,11 @@ RSpec.describe SubscriptionsController, type: :controller do
       it 'does not save a new record in subscriptions database' do
         expect { create_request }.to change(visitor_question.subscriptions, :count).by(0)
                                  .and change(visitor_question.subscribers, :count).by(0)
+      end
+
+      it 'receives status code 40X if unauthorized' do
+        create_request
+        is_expected.to respond_with 401
       end
     end
   end
@@ -52,12 +58,22 @@ RSpec.describe SubscriptionsController, type: :controller do
         expect { delete :destroy, params: { id: visitor_subscription }, format: :js }
             .to_not change(visitor_question.subscribers, :count)
       end
+
+      it 'renders "destroy" template' do
+        destroy_request
+        expect(response).to render_template :destroy
+      end
     end
 
     context 'when not logged in' do
       it 'does not save a new record in subscriptions database' do
         expect { destroy_request }.to change(question.subscriptions, :count).by(0)
                                   .and change(question.subscribers, :count).by(0)
+      end
+
+      it 'receives status code 40X if unauthorized' do
+        destroy_request
+        is_expected.to respond_with 401
       end
     end
   end

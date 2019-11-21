@@ -18,8 +18,8 @@
 # end
 #
 # midnight by default
-every 1.day do
-  runner "DailyDigestJob.perform_now"
+every 1.day, at: '23pm' do
+  runner 'Services::DailyDigest.new.send_digest'
 end
 
 # Learn more: http://github.com/javan/whenever

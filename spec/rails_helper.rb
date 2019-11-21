@@ -103,3 +103,7 @@ OmniAuth.config.test_mode = true
 
 # CanCan rspec matchers
 require 'cancan/matchers'
+
+#Background jobs 'inline' in test mode
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!

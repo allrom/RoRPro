@@ -9,6 +9,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true, length: { minimum: 2 }
 
+  after_create :notify
+
   default_scope -> { order(best: :desc) }
 
   def mark_best
@@ -24,5 +26,11 @@ class Answer < ApplicationRecord
 
       question.award.update!(user: user) if question.award
     end
+  end
+
+  private
+
+  def notify
+    NewAnswerJob.perform_later(self)
   end
 end

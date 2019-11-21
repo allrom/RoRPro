@@ -1,9 +1,12 @@
 class Services::DailyDigest
 
   def send_digest
-    # loads user records in a batch (by 100 items)
-    User.find_each(batch_size: 100) do |user|
-      DailyDigestMailer.digest(user).deliver_later
+    questions = Question.where(created_at: 1.day.ago.all_day).to_a
+
+    if questions.present?
+      User.find_each do |user|
+        DailyDigestMailer.digest(user, questions).deliver_later
+      end
     end
   end
 end

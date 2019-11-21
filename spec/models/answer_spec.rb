@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   describe 'associations' do
-    include_examples 'question_association'
-    include_examples 'links_association'
-    include_examples 'votes_association'
-    include_examples 'comments_association'
-    include_examples 'user_association'
+    it { should belong_to(:question) }
+    it { should have_many(:links).dependent(:destroy) }
+    it { should have_many(:votes).dependent(:destroy) }
+    it { should have_many(:comments).dependent(:destroy) }
+    it { should belong_to(:user) }
   end
 
   describe 'validations' do

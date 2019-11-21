@@ -16,27 +16,17 @@ class Question < ApplicationRecord
   validates :title, presence: true, length: { minimum: 7 }
   validates :body, presence: true, length: { minimum: 6 }
 
-  scope :day_before_created, -> { where(created_at: 1.day.ago.all_day) }
-
   after_create :subscribe_author, :calculate_reputation
-
-  def subscribe(user)
-    subscribers << user unless subscribed_by?(user)
-  end
-
-  def subscribe_author
-    subscribe(user)
-  end
-
-  def unsubscribe(user)
-    subscribers.delete(user) if subscribed_by?(user)
-  end
 
   def subscribed_by?(user)
     subscribers.include?(user)
   end
 
   private
+
+  def subscribe_author
+    subscribers << user
+  end
 
   def calculate_reputation
     ReputationJob.perform_later(self)
