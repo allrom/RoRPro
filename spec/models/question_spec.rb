@@ -50,13 +50,6 @@ RSpec.describe Question, type: :model do
     end
   end
 
-  describe 'subscription' do
-    it 'calls #subscribe_author' do
-      expect(subject).to receive(:subscribe_author)
-      subject.save!
-    end
-  end
-
   describe '#subscribe_author' do
     let(:visitor) { FactoryBot.create(:user) }
     let(:user) { FactoryBot.create(:user) }

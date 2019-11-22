@@ -1,8 +1,8 @@
 class Services::DailyDigest
-  # ActiveJob cannot serialize 'collection', so '.to_a' conversion is added
-  # to stop serialization log errors and for test correctness
 
   def send_digest
+    # ActiveJob cannot serialize 'collection', so '.to_a' conversion is added
+    # to stop serialization log errors and for test correctness
     questions = Question.where(created_at: 1.day.ago.all_day).to_a
     return if questions.empty?
 
