@@ -38,6 +38,9 @@ RSpec.describe Ability do
     let(:link) { create :link, linkable: question }
     let(:visitor_link) { create :link, linkable: visitor_question }
 
+    let(:subscription) { question.subscriptions.first }
+    let(:visitor_subscription) { visitor_question.subscriptions.first }
+
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
 
@@ -45,6 +48,7 @@ RSpec.describe Ability do
       it { should be_able_to :create, Question }
       it { should be_able_to :create, Answer }
       it { should be_able_to :create, Comment }
+      it { should be_able_to :create, Subscription }
 
       it { should be_able_to :update, question }
       it { should_not be_able_to :update, visitor_question }
@@ -55,6 +59,9 @@ RSpec.describe Ability do
       it { should_not be_able_to :destroy, visitor_question }
       it { should be_able_to :destroy, answer }
       it { should_not be_able_to :destroy, visitor_answer }
+
+      it { should be_able_to :destroy, subscription }
+      it { should_not be_able_to :destroy, visitor_subscription }
     end
 
     context 'with being an author' do

@@ -68,6 +68,12 @@ gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10.0'
 # A fast JSON parser and Object marshaller
 gem 'oj'
+# Simple, efficient background processing for Ruby.
+gem 'sidekiq'
+# Sinatra is a DSL for quickly creationg web apps. Needed for sidekiq app to manage jobs
+gem 'sinatra', require: false
+# Provides a clear syntax for writing cron jobs
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

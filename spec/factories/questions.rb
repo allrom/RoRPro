@@ -55,5 +55,9 @@ FactoryBot.define do
         create(:vote, votable: question, number_of: -1)
       end
     end
+
+    trait :day_before do
+      created_at { 1.day.ago }
+    end
   end
 end

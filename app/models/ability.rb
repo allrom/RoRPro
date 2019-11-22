@@ -23,9 +23,9 @@ class Ability
 
     can :me, User, id: user.id
 
-    can :create, [Question, Answer, Comment]
+    can :create, [Question, Answer, Comment, Subscription]
     can :update, [Question, Answer], user_id: user.id
-    can :destroy, [Question, Answer], user_id: user.id
+    can :destroy, [Question, Answer, Subscription], user_id: user.id
     can :modify, [Question, Answer], user_id: user.id
 
     can :be_an_author, [Question, Answer] do |resource|

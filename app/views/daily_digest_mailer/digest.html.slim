@@ -1,0 +1,5 @@
+h4 Questions Daily Digest by Mail
+
+ul
+  - @questions.each do |question|
+    li= link_to question.title, url_for(question)
