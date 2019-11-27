@@ -41,3 +41,7 @@
 # Ignore database connect config
 /config/database.yml
 
+# Ignore Sphinx stuff
+/config/*.sphinx.conf
+/db/sphinx/
+/sphinxdata/

@@ -74,6 +74,12 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 # Provides a clear syntax for writing cron jobs
 gem 'whenever', require: false
+# As pre-requirement for sphinxsearch:
+# simple mysql library for Ruby
+gem 'mysql2'
+# An intelligent layer for ActiveRecord (via Rails and Sinatra) for the Sphinx
+# full-text search
+gem 'thinking-sphinx'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -111,6 +117,8 @@ group :test do
   gem 'launchy'
   # Easily test ActionMailer and Mail messages in your Capybara integration tests
   gem 'capybara-email'
+  # Database Cleaner is a set of gems containing strategies for cleaning DB in Ruby.
+  gem 'database_cleaner'
 end
 
 # Windows does not include zoneinfo attachments, so bundle the tzinfo-data gem
