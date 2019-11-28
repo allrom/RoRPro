@@ -4,5 +4,5 @@
     = form_with url: search_path, method: :get, local: true
       => select_tag(:resource, options_for_select(Services::Search::RESOURCES))
       => text_field_tag(:query, '')
-      | &nbsp
+      | &nbsp;
       => submit_tag('Search!', class: 'button')

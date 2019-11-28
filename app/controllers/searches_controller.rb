@@ -5,7 +5,7 @@ class SearchesController < BaseController
     if search_params[:query] == ''
       flash.now[:error] = 'Empty search given'
     else
-      @result = Services::Search.call(search_params)
+      @results = Services::Search.call(search_params)
     end
   end
 

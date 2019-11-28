@@ -2,9 +2,9 @@ class Services::Search
   RESOURCES = %w[All Question Answer Comment User].freeze
 
   def initialize(params)
-    @query_resource = params[:resource]
+    @resource = params[:resource]
     # Escape query terms with sphinx reserved characters (as '@')
-    @query_text = ThinkingSphinx::Query.escape(params[:query])
+    @query = ThinkingSphinx::Query.escape(params[:query])
   end
 
   def self.call(params)
@@ -12,14 +12,11 @@ class Services::Search
   end
 
   def run
-    return [] unless @query_resource.in?(RESOURCES)
+    unless RESOURCES.without('All').include?(@resource)
+      return  ThinkingSphinx.search(@query)
+    end
 
-    search(@query_resource)
-  end
-
-  private
-
-  def search(query_resource)
-    query_resource == 'All' ? ThinkingSphinx.search(@query_text) : @query_resource.constantize.search(@query_text)
+    klass = @resource.constantize
+    klass.search(@query)
   end
 end

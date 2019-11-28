@@ -6,7 +6,7 @@ RSpec.describe SearchesController, type: :controller do
     # test double stands in for real 'result' array
     let(:result) { double('result') }
 
-    Services::Search::RESOURCES.each do |resource|
+    Services::Search::RESOURCES.each do |resource|  # %w[All Question Answer Comment User]
       context "with enlisted #{resource}" do
         before do
           # expect makes a 'mock', so it allows Service to receive ':call' and return X,
@@ -20,7 +20,7 @@ RSpec.describe SearchesController, type: :controller do
         it { is_expected.to respond_with :success }
 
         it 'populates array "@result" with objects' do
-          expect(assigns(:result)).to eq result
+          expect(assigns(:results)).to eq result
         end
       end
 
@@ -42,8 +42,8 @@ RSpec.describe SearchesController, type: :controller do
 
       it { is_expected.to render_template :index }
 
-      it 'assigns empty array to @result' do
-        expect(assigns(:result)).to be_empty
+      it 'assigns empty array to @results' do
+        expect(assigns(:results)).to be_empty
       end
     end
   end

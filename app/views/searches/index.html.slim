@@ -1,8 +1,8 @@
-#search-result
-  - if @result.present?
+#search-results
+  - if @results.present?
     hr
-    h4 =  "Found #{@result.count}"
-    - @result.each do |result|
+    h4 =  "Found #{@results.count}"
+    - @results.each do |result|
       h5 = result.class.to_s
       = render partial: result.class.to_s.downcase, locals: {resource: result}
   - else
