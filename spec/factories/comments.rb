@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :comment do |comment|
     comment.commentable { |a_comment| a_comment.association(:question) }
 
-    body { "BotComment" }
+    sequence(:body) { |n| "BotComment_#{n}" }
 
     user
 

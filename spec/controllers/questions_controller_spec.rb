@@ -127,7 +127,7 @@ RSpec.describe QuestionsController, type: :controller do
         question.reload
 
         expect(question.title).not_to eq nil
-        expect(question.body).to eq 'BotQuestion'
+        expect(question).to be_valid
       end
 
       it 're-renders "update" view' do

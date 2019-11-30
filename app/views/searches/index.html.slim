@@ -1,0 +1,11 @@
+#search-results
+  - if @results.present?
+    hr
+    h4 =  "Found #{@results.count}"
+    - @results.each do |result|
+      h5 = result.class.to_s
+      = render partial: result.class.to_s.downcase, locals: {resource: result}
+  - else
+    h4 = "Nothing Found"
+
+  p = link_to "Dismiss", questions_path
