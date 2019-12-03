@@ -34,6 +34,9 @@ module RoRPro
     # Don't generate system test attachments.
     config.generators.system_tests = nil
 
+    # sets fallback for missing translations (default locale as fallback)
+    config.i18n.fallbacks = true
+
     # Don't generate unneeded specs
     config.generators do |g|
       g.test_framework :rspec,

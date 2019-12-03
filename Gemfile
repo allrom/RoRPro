@@ -10,7 +10,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 5.0.6'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -48,8 +48,6 @@ gem 'validate_url'
 gem "cocoon"
 # Manipulates images with minimall use of memory via ImageMagick
 gem 'mini_magick', '~> 4.5', '>= 4.5.1'
-# Dynamically builds an AR Model before each test and destroys it afterwards
-gem 'with_model'
 # Get Rails variables in JS
 gem 'gon'
 # Skim is the Slim templating engine with embedded CoffeeScript
@@ -69,7 +67,7 @@ gem 'active_model_serializers', '~> 0.10.0'
 # A fast JSON parser and Object marshaller
 gem 'oj'
 # Simple, efficient background processing for Ruby.
-gem 'sidekiq'
+gem 'sidekiq', '5.2'
 # Sinatra is a DSL for quickly creationg web apps. Needed for sidekiq app to manage jobs
 gem 'sinatra', require: false
 # Provides a clear syntax for writing cron jobs
@@ -101,6 +99,18 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  # Capistrano is a modular framework for building automated deployment scripts
+  gem 'capistrano', require: false
+  # Bundler specific tasks for Capistrano
+  gem 'capistrano-bundler', require: false
+  # Adds RoR deployment tasks (e.g. assets, migrations)
+  gem 'capistrano-rails', require: false
+  # RVM support for Capistrano
+  gem 'capistrano-rvm', require: false
+  # Adds a task to restart ones application after deployment via Capistrano
+  gem 'capistrano-passenger', require: false
+  # Adds a task to manage ActiveJob via Capistrano
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :test do
@@ -119,6 +129,8 @@ group :test do
   gem 'capybara-email'
   # Database Cleaner is a set of gems containing strategies for cleaning DB in Ruby.
   gem 'database_cleaner'
+  # Dynamically builds an AR Model before each test and destroys it afterwards
+  gem 'with_model'
 end
 
 # Windows does not include zoneinfo attachments, so bundle the tzinfo-data gem

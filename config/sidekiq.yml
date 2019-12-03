@@ -1,0 +1,7 @@
+# By default Sidekiq uses a queue named "default". For different
+# queue names they should be defined in config/sidekiq.yml
+:queues:
+  - default
+  - mailers
+development:
+  :concurrency: 5

@@ -21,5 +21,9 @@
 every 1.day, at: '23pm' do
   runner 'Services::DailyDigest.new.send_digest'
 end
+# Sphinx search reindex
+every 20.minutes do
+  rake "ts:index"
+end
 
 # Learn more: http://github.com/javan/whenever
