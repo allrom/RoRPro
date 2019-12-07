@@ -90,6 +90,8 @@ group :development, :test do
   gem 'factory_bot_rails'
   # Preview email in the default browser instead of sending it.
   gem 'letter_opener'
+  # Unicorn is an HTTP server for Rack applications
+  gem 'unicorn'
 end
 
 group :development do
@@ -111,6 +113,8 @@ group :development do
   gem 'capistrano-passenger', require: false
   # Adds a task to manage ActiveJob via Capistrano
   gem 'capistrano-sidekiq', require: false
+  # Adds Unicorn tasks into capistrano v3 deployment scripts
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do
