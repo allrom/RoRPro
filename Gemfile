@@ -78,6 +78,8 @@ gem 'mysql2'
 # An intelligent layer for ActiveRecord (via Rails and Sinatra) for the Sphinx
 # full-text search
 gem 'thinking-sphinx'
+# Unicorn is an HTTP server for Rack applications
+gem 'unicorn'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -90,8 +92,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   # Preview email in the default browser instead of sending it.
   gem 'letter_opener'
-  # Unicorn is an HTTP server for Rack applications
-  gem 'unicorn'
 end
 
 group :development do
