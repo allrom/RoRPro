@@ -5,7 +5,7 @@
       th= 'id'
       th= 'Title'
 
-      = render questions
+      = render  partial: :question, collection: questions, cached: true
 
   p = render 'shared/search'
 

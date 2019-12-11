@@ -1,20 +1,21 @@
-= form_with model: model do |form| ## 'local:true' is being intended for sync html request, 'remote:true' defaults
+- cache [ 'answers_form', model ] do
+  = form_with model: model do |form| ## 'local:true' is being intended for sync html request, 'remote:true' defaults
 
-  #answer-form
-    .answer-errors
-      = render 'shared/errors', resource: answer
+    #answer-form
+      .answer-errors
+        = render 'shared/errors', resource: answer
 
-    => form.label :body
-    = form.text_field :body, id: 'answer-given'
-    p
-    => form.label :files, 'Add File(s) to Answer'
-    => form.file_field :files, multiple: true
-    p
-      .nested-links
-        = link_to_add_association 'Add Link to Answer', form,
-                :links,
-                partial: 'shared/link_form'
-    hr
+      => form.label :body
+      = form.text_field :body, id: 'answer-given'
+      p
+      => form.label :files, 'Add File(s) to Answer'
+      => form.file_field :files, multiple: true
+      p
+        .nested-links
+          = link_to_add_association 'Add Link to Answer', form,
+                  :links,
+                  partial: 'shared/link_form'
+      hr
 
-    h5 Accept Answer
-    p = form.submit 'Save'
+      h5 Accept Answer
+      p = form.submit 'Save'

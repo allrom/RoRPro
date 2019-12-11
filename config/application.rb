@@ -37,6 +37,9 @@ module RoRPro
     # sets fallback for missing translations (default locale as fallback)
     config.i18n.fallbacks = true
 
+    # Adds Redis cache configuration
+    config.cache_store = :redis_cache_store, 'redis://localhost:6379/0/cache', { expires_in: 30.minutes }
+
     # Don't generate unneeded specs
     config.generators do |g|
       g.test_framework :rspec,

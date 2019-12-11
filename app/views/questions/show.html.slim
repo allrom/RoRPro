@@ -1,48 +1,47 @@
-.question
-  h4 Question to view:
-  p style="font-size:medium"
-    'Title :
-    = question.title
-    br
-    'Body :
-    = question.body
+- cache question do
+  .question
+    h4 Question to view:
+    p style="font-size:medium"
+      'Title :
+      = question.title
+      br
+      'Body :
+      = question.body
 
-.subscriptions
-  -if can?(:create, Subscription) || can?(:destroy, Subscription)
-    => render 'shared/subscriptions', resource: question
+  .award-info
+    - if question.award
+      p
+        i * This Question contains
+        | &nbsp;
+        strong #{question.award.name}
+        | &nbspAward
 
-.attachments
-  p = render 'shared/attachments', resource: question
+  .subscriptions
+    -if can?(:create, Subscription) || can?(:destroy, Subscription)
+      => render 'shared/subscriptions', resource: question
 
-.links
-  p = render 'shared/links', resource: question
+  .attachments
+    p = render 'shared/attachments', resource: question
 
-.comments
-  p = render 'shared/comments', resource: question
+  .links
+    p = render 'shared/links', resource: question
 
-.post-comment
-  -if user_signed_in?
-    h4 Post a Comment
-    .div class="comment-errors-question_#{question.id}"
-    p = render 'comments/form', model: [ question, comment ]
+  .comments
+    p = render 'shared/comments', resource: question
 
-.answer-list
-  p = render 'shared/answers_table'
+  .post-comment
+    -if user_signed_in?
+      .div class="comment-errors-question_#{question.id}"
+      p = render 'comments/form', model: [ question, comment ]
 
-.give-answer
-  h4 Give an Answer
+  .answer-list
+    p = render 'shared/answers_table'
 
-  -if user_signed_in?
-    p = render 'answers/form', model: [ question, answer ]
-  - else
-    p = link_to 'Sign in to post answer or comment', new_user_session_path
+  .give-answer
+    h4 Give an Answer
+    - if user_signed_in?
+      p = render 'answers/form', model: [question, answer]
+    - else
+      p = link_to 'Sign in to post answer or comment', new_user_session_path
 
-.award-info
-  - if question.award
-    p
-      i * This Question contains
-      | &nbsp
-      strong #{question.award.name}
-      | &nbspAward
-
-p = link_to 'Questions List', questions_path
+  p = link_to 'Questions List', questions_path

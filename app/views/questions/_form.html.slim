@@ -28,10 +28,10 @@
       p
         b Add Award to Question
         = form.fields_for :award do |award|
-          p
+          br
             => award.label :name, 'Award name'
             => award.text_field :name, id: 'award-given', value: ""
-          p
+          br
             => award.label :image, 'Image File'
             => award.file_field :image
     hr
