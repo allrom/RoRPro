@@ -1,5 +1,5 @@
-tr id="answer_id-#{answer.id}"
-  - cache answer do
+- cache_unless user_signed_in?, answer do
+  tr id="answer_id-#{answer.id}"
     td.table-data = answer.id
     td.table-data = answer.body
 
@@ -25,21 +25,19 @@ tr id="answer_id-#{answer.id}"
     - if can?(:modify, answer)
       td.table-data = link_to 'Edit', edit_answer_path(id: answer.id, question_id: answer.question_id)
 
-    td.table-data = link_to 'Remove', answer_path(answer),
-            method: :delete,
-            data: { confirm: 'OK to remove?' },
-            remote: true
+      td.table-data = link_to 'Remove', answer_path(answer),
+              method: :delete,
+              data: { confirm: 'OK to remove?' },
+              remote: true
 
     - if user_signed_in?
       td.outside
         = render 'shared/votes', resource: answer
 
-  // fragment caching confuses JS, so trying to bypass
+    - if can?(:flag_best, answer) && !answer.best?
+      td.outside = button_to 'best!', flag_best_answer_path(answer),
+              method: :patch,
+              remote: true
 
-  - if can?(:flag_best, answer) && !answer.best?
-    td.outside = button_to 'best!', flag_best_answer_path(answer),
-            method: :patch,
-            remote: true
-
-  - if answer.best?
-    td.outside style="color: red" Best Answer
+    - if answer.best?
+      td.outside style="color: red" Best Answer
