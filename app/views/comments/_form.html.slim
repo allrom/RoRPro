@@ -1,7 +1,9 @@
-= form_with model: model do |form|
+- cache [ 'comments_form', model.first ] do
+  = form_with model: model do |form|
 
-  #comment-form
-    => form.label :body
-    = form.text_field :body, id: 'comment-posted'
+    #comment-form
+      h4 Post a Comment
+      => form.label :body
+      = form.text_field :body, id: 'comment-posted'
 
-    p = form.submit 'OK'
+      p = form.submit 'OK'

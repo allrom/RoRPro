@@ -80,6 +80,9 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 # Unicorn is an HTTP server for Rack applications
 gem 'unicorn'
+# Rails 5.2 introduced built-in Redis cache store to store cache entries.
+# There is faster redis connection library (ruby wrapper)
+gem 'hiredis'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
