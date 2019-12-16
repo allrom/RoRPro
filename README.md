@@ -5,9 +5,7 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
-
-* System dependencies
+* Ruby version 2.5.1
 
 * Configuration
 
@@ -19,6 +17,8 @@ Things you may want to cover:
 
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+* Deployment instructions ScaleWay
 
 * ...
+
+Test Study Project 06 - 12.2019, Thinknetica
