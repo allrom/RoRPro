@@ -1,4 +1,4 @@
-- cache_unless user_signed_in?, question do
+- cache [ current_user, question ] do
   .question
     h4 Question to view:
     p style="font-size:medium"

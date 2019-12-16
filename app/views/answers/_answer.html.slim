@@ -1,5 +1,5 @@
-- cache_unless user_signed_in?, answer do
-  tr id="answer_id-#{answer.id}"
+tr id="answer_id-#{answer.id}"
+  - cache answer do
     td.table-data = answer.id
     td.table-data = answer.body
 
@@ -16,11 +16,11 @@
     td.table-view-c
       = render 'shared/comments', resource: answer
 
-    - if user_signed_in?
-      td.table-view-c
-        p
-        .div class="create-comment-#{answer.id}  comment-errors-answer_#{answer.id}"
-        = render 'comments/form', model: [answer, comment], remote: true
+  - if user_signed_in?
+    td.table-view-c
+      p
+      .div class="create-comment-#{answer.id}  comment-errors-answer_#{answer.id}"
+      = render 'comments/form', model: [answer, comment], remote: true
 
     - if can?(:modify, answer)
       td.table-data = link_to 'Edit', edit_answer_path(id: answer.id, question_id: answer.question_id)
