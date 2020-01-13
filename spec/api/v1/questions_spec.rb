@@ -15,7 +15,7 @@ RSpec.describe 'Questions API', type: :request do
   let(:method) { :get }
 
   let!(:questions) { create_list :question, 2, :with_attachment, user: user }
-  let(:question) { questions.first }
+  let(:question) { questions.sort_by(&:created_at).first }
 
   let(:resource_name) { 'question' }
   let(:control_number) { 2 }
@@ -35,42 +35,42 @@ RSpec.describe 'Questions API', type: :request do
     it_behaves_like 'api enabled'
 
     context 'authorized' do
-     let(:question_response) { json['questions'].first }
+      let(:question_response) { json['questions'].sort_by { |question| question["created_at"] }.first }
 
-     it_should_behave_like 'returns 20X status'
+      it_should_behave_like 'returns 20X status'
 
-     it 'returns list of questions' do
-       expect(json['questions'].size).to eq 2
-     end
+      it 'returns list of questions' do
+        expect(json['questions'].size).to eq 2
+      end
 
-     it 'does return all public fields' do
-       %w[id title body created_at updated_at].each do |attr|
-         expect(question_response[attr]).to eq question.send(attr).as_json
-       end
-     end
+      it 'does return all public fields' do
+        %w[id title body created_at updated_at].each do |attr|
+          expect(question_response[attr]).to eq question.send(attr).as_json
+        end
+      end
 
-     it 'response contains user object' do
-       expect(question_response['user']['id']).to eq question.user.id
-     end
+      it 'response contains user object' do
+        expect(question_response['user']['id']).to eq question.user.id
+      end
 
-     it 'response contains shorten title' do
-       expect(question_response['shorten_title']).to eq question.title.truncate(6)
-     end
+      it 'response contains shorten title' do
+        expect(question_response['shorten_title']).to eq question.title.truncate(6)
+      end
 
-     describe 'answers' do
-       let(:answer) { answers.first }
-       let(:answer_response) { question_response['answers'].first }
+      describe 'answers' do
+        let(:answer) { answers.first }
+        let(:answer_response) { question_response['answers'].first }
 
-       it 'does return all public fields' do
-         %w[id body created_at updated_at].each do |attr|
+        it 'does return all public fields' do
+          %w[id body created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
-       end
+        end
 
-       it 'returns list of answers' do
-         expect(question_response['answers'].size).to eq 3
-       end
-     end
+        it 'returns list of answers' do
+          expect(question_response['answers'].size).to eq 3
+        end
+      end
     end
   end
 
@@ -236,5 +236,3 @@ RSpec.describe 'Questions API', type: :request do
     end
   end
 end
-
-
