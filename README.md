@@ -24,7 +24,7 @@
 
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment have been performed to ScaleWay Cloud
+* Deployment was being performed to ScaleWay Cloud
 
 <hr>
 Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica
