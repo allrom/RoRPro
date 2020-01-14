@@ -1,6 +1,6 @@
 # README
 
-* Ruby version <mark>2.5.1p57</mark>
+* Ruby version 2.5.1p57
 
 * Bundle with 2.0.1 
 
@@ -26,6 +26,5 @@
 
 * Deployment have been performed to ScaleWay Cloud
 
-* ...
-
+<hr>
 Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica
