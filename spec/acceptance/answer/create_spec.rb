@@ -7,10 +7,9 @@ feature 'User can give an answer to a question', %q{
 } do
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given(:g_url) { 'https://google.com' }
-  given(:ya_url) { 'http://ya.ru' }
+  given!(:g_url) { 'https://google.com' }
 
-  describe 'Authenticated user', js: true do
+  describe 'Authenticated user', js: true  do
     background do
       sign_in(user)
       visit question_path(question)
@@ -25,7 +24,7 @@ feature 'User can give an answer to a question', %q{
       within('.answer-list') do
         expect(page).to have_content 'Answer with Some Text'
       end
-     end
+    end
 
     scenario 'gives an answer and attaches some files' do
       expect(current_path).to eq question_path(question)
@@ -41,39 +40,34 @@ feature 'User can give an answer to a question', %q{
       end
     end
 
-    scenario 'gives an answer and binds some link(s)' do
-      expect(current_path).to eq question_path(question)
+    scenario 'gives an answer and binds some link' do
       within('.give-answer') do
         click_on 'Add Link to Answer'
       end
 
-      within all('.nested-fields')[0] do
-        fill_in 'Link name', with: 'Some Link#1'
-        fill_in 'Url', with: g_url
-        ## -------------------------------------------------------------------------------
-        ## This test runs OK in :selenium_chrome,  but FAILS with :selenium_chrome_headless  due to a bug:
-        ## "https://makandracards.com/makandra/44054-bug-in-chrome-56+-prevents-filling-in-fields-with-slashes-using-selenium-webdriver-capybara"
-        ##  forward slashes are ignored, see tmp/capybara/link_headless.png
-        ## relative gems and chromium itself were updated, no go
-        ## -------------------------------------------------------------------------------
+      within '.nested-fields' do
+        fill_in 'Link name', with: 'Some Link#'
+        find_field('Url').native.send_keys('google.com')
       end
-      click_on 'Save'
 
+      click_on 'Save'
       expect(page).to have_content 'Answer added.'
       within('#answers-table') do
         click_on 'Links'
       end
       within('#links-binded') do
-        expect(page).to have_link 'Some Link#1', href: g_url
+        expect(page).to have_link 'Some Link', href: g_url
       end
     end
 
     scenario 'composes a link with errors' do
+      expect(current_path).to eq question_path(question)
       click_on 'Add Link to Answer'
-      fill_in 'Link name', with: ''
-      fill_in 'Url', with: 'http:///google.com'
 
+      fill_in 'Link name', with: ''
+      fill_in 'Url', with: 'https:google.com'
       click_on 'Save'
+
       expect(page).to have_content 'Links name can\'t be blank'
       expect(page).to have_content 'Links url is not a valid URL'
     end

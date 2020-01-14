@@ -1,10 +1,9 @@
 .nested-fields
+  i Add new Link
   p
-    i Add new Link
-    p
-      => f.label :name, 'Link name'
-      => f.text_field :name
-    p
-      => f.label :url
-      => f.url_field :url
-    = link_to_remove_association 'Cancel', f, class: 'remove-link'
+    => f.label :name, 'Link name'
+    = f.text_field :name
+  p
+    => f.label :url, 'Url'
+    = f.url_field :url, value: 'https://'
+  = link_to_remove_association 'Cancel', f, class: 'remove-link'

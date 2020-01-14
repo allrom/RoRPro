@@ -81,6 +81,7 @@ feature 'Edit own question', %q{
     scenario 'composes a link with errors' do
       click_on 'Add Link to Question'
       fill_in 'Link name', with: 'Some Link'
+      fill_in 'Url', with: 'http:google.com'
       click_on 'OK'
       expect(page).to have_content 'Links url is not a valid URL'
     end
