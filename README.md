@@ -6,7 +6,9 @@ This application was being developed when studying the Ruby-on-Rails basic and a
 
 * Bundle with 2.0.1
 
-* App Server Puma 3.12.1
+* App Server
+  - test & development: Puma
+  - production Unicorn, Passenger
 
 * Configuration
   - rails 5.2.3
@@ -19,13 +21,13 @@ This application was being developed when studying the Ruby-on-Rails basic and a
   - rspec-rails 3.8.2
   
 * Auhtentication
-   - devise 4.6.2
-   - omniauth 1.9.0
-     - omniauth-github 1.3.0
-     - omniauth-vkontakte 1.5.0
+   - gem devise
+   - gem omniauth
+     - gem omniauth-github
+     - gem omniauth-vkontakte
      
 * Authorization
-   - cancancan 3.0.1
+   -  gem cancancan
 
   
 * Database creation
