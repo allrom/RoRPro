@@ -40,7 +40,7 @@ This application was being developed when studying the Ruby-on-Rails basic and a
 
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment was being performed to <i>ScaleWay Cloud</i>
+* Deployment was being performed to _ScaleWay Cloud_
   (Appliance is being offline now, but can be started on demand) 
 
 <hr>
