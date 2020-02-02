@@ -2,7 +2,7 @@
 
 This application was being developed when studying the Ruby-on-Rails basic and advanced principles and techs It's intnded to simulate "question & answers" site dynamic behavior.
 
-![Question and answer site Demo](demo/qna.gif) 
+![Question and answer site Demo](../assets/demo/ror-pro.gif?raw=true) 
 
 * Ruby version 2.5.1p57
 
