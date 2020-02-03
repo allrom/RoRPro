@@ -12,7 +12,7 @@ This application was being developed when studying the Ruby-on-Rails basic and a
   - production: Unicorn, Passenger
 
 <details>
-<summary Configuration </summary>
+<summary>Configuration</summary>
 + rails 5.2.3
 + rack 2.0.7
 + slim 4.0.1
@@ -23,11 +23,13 @@ This application was being developed when studying the Ruby-on-Rails basic and a
 + rspec-rails 3.8.2
 </details>
   
-* Auhtentication
-   - gem devise
-   - gem omniauth
-     - gem omniauth-github
-     - gem omniauth-vkontakte
+<details>
+<summary>Authentication</summary>
++ gem devise
++ gem omniauth
+   + gem omniauth-github
+   + gem omniauth-vkontakte
+</details>
      
 * Authorization
    -  gem cancancan
