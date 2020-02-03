@@ -1,31 +1,31 @@
 # README
 
-This application was being developed when studying the __Ruby-on-Rails__ basic and advanced principles and techs It's intnded to simulate "question & answers" site dynamic behavior.
+This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techs***. It's intended to simulate "question & answers" site dynamic behavior.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
 * __Ruby version 2.5.1p57__
 
-* __Bundle with 2.0.1__
+* __Bundler version 2.0.1__
 
 * __App Server__
-  - test & development: Puma
-  - production: Unicorn, Passenger
+  - test & development: _Puma_
+  - production: _Unicorn, Passenger_
 
- <details>
- <summary>Configuration</summary>
+<details>
+  <summary><b>Configuration</b></summary>
  
- + rails 5.2.3
- + rack 2.0.7
- + slim 4.0.1
- + cocoon 1.2.14
- + thinking-sphinx 4.4.1
- + capybara 3.29.0
- + rspec-core 3.8.2
- + rspec-rails 3.8.2
- </details>
++ rails 5.2.3
++ rack 2.0.7
++ slim 4.0.1
++ cocoon 1.2.14
++ thinking-sphinx 4.4.1
++ capybara 3.29.0
++ rspec-core 3.8.2
++ rspec-rails 3.8.2
+</details>
   
 <details>
-<summary>Authentication</summary>
+<summary><b>Authentication</b></summary>
   
 + gem devise
 + gem omniauth
@@ -33,20 +33,40 @@ This application was being developed when studying the __Ruby-on-Rails__ basic a
    + gem omniauth-vkontakte
 </details>
      
-* Authorization
-   -  gem cancancan
-
+* __Authorization__
+   - gem cancancan
   
-* Database creation
+* __Database info__
+  > Application uses _PostgreSQL_ as its database server (devel & production). 
 
-* Database initialization
+### Application Features
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment was being performed to _ScaleWay Cloud_
-  (Appliance is being offline now, but can be started on demand) 
+<details>
+<summary><b>About the test suite</b></summary>
+  
+These are some gems do needed\helped to perform effective testing with _Rspec_
+
+   + gem capybara
+   + gem selenium-webdriver
+   + gem rspec-rails
+   + gem letter-opener
+   + gem shoulda-matchers
+   + gem launch
+   + gem capybara-email
+   + gem with_model
+ 
+   Acceptance and integration tests have been written to check if the app works well from the user's
+ perspective: creation, editing, deleting of questions and answers, adding links or attach files, voting,
+ selecting the best answer, etc.
+</details>   
+
+* __Services__ (job queues, cache servers, search engines, etc.)
+
+* __Deployment__ 
+  > Was being performed to _ScaleWay Cloud_.
+  > (_Virtual appliance_ is being offline now, but can be started on demand) 
 
 <hr>
 Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica
