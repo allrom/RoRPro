@@ -46,7 +46,7 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
 <details>
 <summary><b>About the test suite</b></summary>
   
-These are some gems do needed\helped to perform effective testing with _Rspec_
+These are some gems that do needed\helped to perform effective testing with _Rspec_:
 
    + gem capybara
    + gem selenium-webdriver
@@ -65,8 +65,8 @@ These are some gems do needed\helped to perform effective testing with _Rspec_
 * __Services__ (job queues, cache servers, search engines, etc.)
 
 * __Deployment__ 
-  > Was being performed to _ScaleWay Cloud_.
-  > (_Virtual appliance_ is being offline now, but can be started on demand) 
+ Was being performed to _ScaleWay Cloud_.
+ (_Virtual appliance_ is being offline now, but can be started on demand) 
 
 <hr>
 Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica
