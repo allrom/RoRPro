@@ -3,11 +3,11 @@
 This application was being developed when studying the Ruby-on-Rails basic and advanced principles and techs It's intnded to simulate "question & answers" site dynamic behavior.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
-* Ruby version 2.5.1p57
+* __Ruby version 2.5.1p57__
 
 * Bundle with 2.0.1
 
-* App Server
+* __App Server__
   - test & development: Puma
   - production: Unicorn, Passenger
 
