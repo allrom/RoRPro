@@ -5,24 +5,24 @@ This application was being developed when studying the __Ruby-on-Rails__ basic a
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
 * __Ruby version 2.5.1p57__
 
-* Bundle with 2.0.1
+* __Bundle with 2.0.1__
 
 * __App Server__
   - test & development: Puma
   - production: Unicorn, Passenger
 
-  <details>
-  <summary>Configuration</summary>
-
-  + rails 5.2.3
-  + rack 2.0.7
-  + slim 4.0.1
-  + cocoon 1.2.14
-  + thinking-sphinx 4.4.1
-  + capybara 3.29.0
-  + rspec-core 3.8.2
-  + rspec-rails 3.8.2
-  </details>
+ <details>
+ <summary>Configuration</summary>
+ 
+ + rails 5.2.3
+ + rack 2.0.7
+ + slim 4.0.1
+ + cocoon 1.2.14
+ + thinking-sphinx 4.4.1
+ + capybara 3.29.0
+ + rspec-core 3.8.2
+ + rspec-rails 3.8.2
+ </details>
   
 <details>
 <summary>Authentication</summary>
