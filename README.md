@@ -12,16 +12,16 @@ This application was being developed when studying the Ruby-on-Rails basic and a
   - production: Unicorn, Passenger
 
 <details>
-  <summary Configuration </summary>
-  + rails 5.2.3
-  + rack 2.0.7
-  + slim 4.0.1
-  + cocoon 1.2.14
-  + thinking-sphinx 4.4.1
-  + capybara 3.29.0
-  + rspec-core 3.8.2
-  + rspec-rails 3.8.2
-  </details>
+<summary Configuration </summary>
++ rails 5.2.3
++ rack 2.0.7
++ slim 4.0.1
++ cocoon 1.2.14
++ thinking-sphinx 4.4.1
++ capybara 3.29.0
++ rspec-core 3.8.2
++ rspec-rails 3.8.2
+</details>
   
 * Auhtentication
    - gem devise
