@@ -13,6 +13,7 @@ This application was being developed when studying the Ruby-on-Rails basic and a
 
 <details>
 <summary>Configuration</summary>
+  
 + rails 5.2.3
 + rack 2.0.7
 + slim 4.0.1
@@ -25,6 +26,7 @@ This application was being developed when studying the Ruby-on-Rails basic and a
   
 <details>
 <summary>Authentication</summary>
+  
 + gem devise
 + gem omniauth
    + gem omniauth-github
