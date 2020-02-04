@@ -60,7 +60,7 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
  
  - **Acceptance and integration** tests have been written to check if the app works well from the user's
  perspective: creation, editing, deleting of questions and answers, adding links or attach files, voting,
- searching, selecting the best answer, etc.
+ searching, selecting the best answer, giving awards.
  - **Unit** tests have been written to test different parts of application in isolation: controllers,
  models, services, mailers.
  - **To run** a full bunch (more than 500) of tests, invoke the following from the app working directory:
