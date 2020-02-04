@@ -1,8 +1,9 @@
 # README
 
-This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techs***. It's intended to simulate "question & answers" site dynamic behavior.
+This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techs***. It's intended to simulate "question & answers" site dynamic behavior (_StackOverflow_-alike). The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
+
 * __Ruby version 2.5.1p57__
 
 * __Bundler version 2.0.1__
@@ -46,27 +47,31 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
 <details>
 <summary><b>About the test suite</b></summary>
   
-These are some gems that do needed\helped to perform effective testing with _Rspec_:
+- These are some gems that do needed\helped to perform effective testing with _Rspec_:
 
    + gem capybara
    + gem selenium-webdriver
    + gem rspec-rails
    + gem letter-opener
    + gem shoulda-matchers
-   + gem launch
+   + gem launchy
    + gem capybara-email
    + gem with_model
  
-   Acceptance and integration tests have been written to check if the app works well from the user's
+ - **Acceptance and integration** tests have been written to check if the app works well from the user's
  perspective: creation, editing, deleting of questions and answers, adding links or attach files, voting,
- selecting the best answer, etc.
+ searching, selecting the best answer, etc.
+ - **Unit** tests have been written to test different parts of application in isolation: controllers,
+ models, services, mailers.
+ - **To run** a full bunch (more than 500) of tests, invoke the following from the app working directory:
+ > $rspec spec/ 
 </details>   
 
 * __Services__ (job queues, cache servers, search engines, etc.)
 
 * __Deployment__ 
  Was being performed to _ScaleWay Cloud_.
- (_Virtual appliance_ is being offline now, but can be started on demand) 
+ (_Virtual appliance_ is being offline now, but can be started on demand as live demo) 
 
 <hr>
 Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica
