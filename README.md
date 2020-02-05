@@ -52,6 +52,7 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
    + gem capybara
    + gem selenium-webdriver
    + gem rspec-rails
+   + gem factory_bot_rails
    + gem letter-opener
    + gem shoulda-matchers
    + gem launchy
@@ -62,16 +63,20 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
  perspective: creation, editing, deleting of questions and answers, adding links or attach files, voting,
  searching, selecting the best answer, giving awards.
  - **Unit** tests have been written to test different parts of application in isolation: controllers,
- models, services, mailers.
+ models, REST API, services, mailers.
  - **To run** a full bunch (more than 500) of tests, invoke the following from the app working directory:
  > $rspec spec/ 
 </details>   
 
 * __Services__ (job queues, cache servers, search engines, etc.)
 
+* __Optimization__
+  - Was being applied app page caching (_Redis_ cache store with _hiredis_ driver)
+  - Was being added background tasks proccessing (_Sidekick_ jobs as _crontab_ scheduler members)
+
 * __Deployment__ 
- Was being performed to _ScaleWay Cloud_.
- (_Virtual appliance_ is being offline now, but can be started on demand as live demo) 
+  - Was being performed to _ScaleWay Cloud_.
+  (_Virtual appliance_ is being offline now, but can be started on demand as live demo) 
 
 <hr>
 Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica
