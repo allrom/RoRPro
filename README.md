@@ -1,9 +1,11 @@
 # README
 
+### Abstract
 This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techs***. It's intended to simulate "question & answers" site dynamic behavior (_StackOverflow_-alike). The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
 
+### Composition
 * __Ruby version 2.5.1p57__
 
 * __Bundler version 2.0.1__
@@ -80,4 +82,4 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
   (_Virtual appliance_ is being offline now, but can be started on demand as live demo) 
 
 <hr>
-__Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica__
+Test Study Project 06 - 12.2019, <span>&#169;</span> __Thinknetica__
