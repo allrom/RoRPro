@@ -1,7 +1,7 @@
 # README
 
 ### Abstract
-This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techs***. It's intended to simulate "question & answers" site dynamic behavior (_StackOverflow_-alike). The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind.
+This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techniques***. It's intended to simulate "question & answers" site dynamic behavior (_StackOverflow_-alike). The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
 
@@ -70,8 +70,11 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
  > $rspec spec/ 
 </details>   
 
-* __Services__ 
-  - (job queues, cache servers, search engines, etc.)
+* __Services and Building blocks__
+  - ActiveStorage (store files locally or, say, in _S3 bucket_)
+  - Nested forms
+  - ActionCable (aka _comet_)
+  - OAuth (OmniAuth)
 
 * __Optimization__
   - 'Russian doll' App page caching (_Redis_ cache store with _hiredis_ driver)
@@ -82,4 +85,5 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
   (_Virtual appliance_ is being offline now, but can be started on demand as live demo) 
 
 <hr>
-Test Study Project 06 - 12.2019, <span>&#169;</span> __Thinknetica__
+
+__Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica__
