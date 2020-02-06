@@ -71,13 +71,17 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
 </details>   
 
 * __Services and Building blocks__
-  - ActiveStorage (store files locally or, say, in _S3 bucket_)
-  - Nested forms
-  - ActionCable (aka _comet_)
-  - OAuth (OmniAuth)
+  - ActiveStorage (store files locally or, say, in _S3 bucket_, gem mini_magick)
+  - Nested forms (gem cocoon)
+  - Slim / Skim (template editors, gems slim-rails, skim)
+  - ActionCable (pub/sub model)
+  - OAuth (authentication, gems omniauth, -github, -vkonakte)
+  - CanCanCan (authorization in app, gem cancancan)
+  - Background job processing (gems sidekiq, whenever)
+  - Sphinx (full-text indexed search, gem thinking-sphinx) 
 
 * __Optimization__
-  - 'Russian doll' App page caching (_Redis_ cache store with _hiredis_ driver)
+  - App page fragment caching (_Redis_ cache store with _hiredis_ driver)
   - Background app tasks proccessing (_Sidekick_ jobs as _crontab_ scheduler members)
 
 * __Deployment__ 
