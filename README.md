@@ -77,7 +77,7 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
   - CanCanCan (authorization in app, gem cancancan)
   - Background job processing (gems sidekiq, whenever)
   - Sphinx engine (full-text indexed search, gem thinking-sphinx)
-  - REST API as internal project (gems doorkeeper, active_model_serializers, oj)
+  - REST API as an internal project (gems doorkeeper, active_model_serializers, oj)
 </details>  
 
 * __Optimization__
