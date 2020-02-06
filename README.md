@@ -69,6 +69,7 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
 
 <details>
 <summary><b>Services and Building blocks</b></summary>
+<br>
   
   - ActiveStorage (store files locally or in _S3 bucket_, gem mini_magick)
   - Nested forms (gem cocoon)
