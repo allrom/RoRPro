@@ -35,16 +35,11 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
    + gem omniauth-github
    + gem omniauth-vkontakte
 </details>
-     
-* __Authorization__
-   - gem cancancan
   
 * __Database info__
   > Application uses _PostgreSQL_ as its database server (devel & production). 
 
 ### Application Features
-
-
 
 <details>
 <summary><b>About the test suite</b></summary>
@@ -70,19 +65,24 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
  > $rspec spec/ 
 </details>   
 
-* __Services and Building blocks__
+<details>
+<summary><b>Services and Building blocks</b></summary>
+  
   - ActiveStorage (store files locally or, say, in _S3 bucket_, gem mini_magick)
   - Nested forms (gem cocoon)
   - Slim / Skim (template editors, gems slim-rails, skim)
-  - ActionCable (pub/sub model)
-  - OAuth (authentication, gems omniauth, -github, -vkonakte)
+  - ActionCable (built-in, as pub/sub model)
+  - Authentication, registering (gem devise) 
+  - OAuth (cross-app authentication, gems omniauth, -github, -vkonakte)
   - CanCanCan (authorization in app, gem cancancan)
   - Background job processing (gems sidekiq, whenever)
-  - Sphinx (full-text indexed search, gem thinking-sphinx) 
+  - Sphinx engine (full-text indexed search, gem thinking-sphinx)
+  - REST API as internal project (gems doorkeeper, active_model_serializers, oj)
+</details>  
 
 * __Optimization__
   - App page fragment caching (_Redis_ cache store with _hiredis_ driver)
-  - Background app tasks proccessing (_Sidekick_ jobs as _crontab_ scheduler members)
+  - Background app tasks offload proccessing (_Sidekick_ jobs as _crontab_ scheduler members)
 
 * __Deployment__ 
   - Was being performed to _ScaleWay Cloud_.
