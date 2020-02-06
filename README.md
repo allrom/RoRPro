@@ -16,15 +16,17 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
 
 <details>
   <summary><b>Configuration</b></summary>
- 
-+ rails 5.2.3
-+ rack 2.0.7
-+ slim 4.0.1
-+ cocoon 1.2.14
-+ thinking-sphinx 4.4.1
-+ capybara 3.29.0
-+ rspec-core 3.8.2
-+ rspec-rails 3.8.2
+  
+ - The main set
+  
+    + rails 5.2.3
+    + rack 2.0.7
+    + slim 4.0.1
+    + cocoon 1.2.14
+    + thinking-sphinx 4.4.1
+    + capybara 3.29.0
+    + rspec-core 3.8.2
+    + rspec-rails 3.8.2
 </details>
   
 <details>
@@ -60,15 +62,15 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
  perspective: creation, editing, deleting of questions and answers, adding links or attach files, voting,
  searching, adding subscription or comment, selecting the best answer, giving awards.
  - **Unit** tests have been written to test different parts of application in isolation: controllers,
- models, REST API, services, mailers.
- - **To run** a full bunch (more than 500) of tests, invoke the following from the app working directory:
+ models, services, mailers.
+ - **To run** a full bunch (more than __500__) of tests, invoke the following from the app working directory:
  > $rspec spec/ 
 </details>   
 
 <details>
 <summary><b>Services and Building blocks</b></summary>
   
-  - ActiveStorage (store files locally or, say, in _S3 bucket_, gem mini_magick)
+  - ActiveStorage (store files locally or in _S3 bucket_, gem mini_magick)
   - Nested forms (gem cocoon)
   - Slim / Skim (template editors, gems slim-rails, skim)
   - ActionCable (built-in, as pub/sub model)
