@@ -2,7 +2,9 @@
 
 ### Abstract
 This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techniques***. It's intended to construct __QA__ dynamic site (_StackOverflow_-alike) with the wide set of
-abilities, including posting comments, full-text searching , attaching files, voting. The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind. User interface pages were designed using custom CSS and JavaScript.
+abilities, including authentication, posting comments, full-text searching , attaching files, voting. The
+development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind. User interface pages were
+designed using custom CSS and JavaScript.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
 
@@ -62,7 +64,7 @@ abilities, including posting comments, full-text searching , attaching files, vo
  - **Acceptance/integration** tests have been written to check if the app works well from the user's
  perspective: creation, editing, deleting of questions and answers, adding links or attach files, voting,
  searching, adding subscription or comment, selecting the best answer, giving awards.
- - **Unit** tests have been written to test different parts of application in isolation: controllers,
+ - **Unit/System** tests have been written to test different parts of application in isolation: controllers,
  models, services, mailers.
  - **To run** a full bunch (more than __500__) of tests, invoke the following from the app working directory:
  > $rspec spec/ 
