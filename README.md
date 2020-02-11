@@ -13,9 +13,12 @@ _TDD/BDD_ in mind. User interface pages were designed using custom CSS and JavaS
 
 * __Bundler version 2.0.1__
 
-* __App Server__
+* __App Servers__
   - test & development: _Puma_
   - production: _Unicorn, Passenger_
+  
+* __Web Server__
+  - production: _Nginx_  
 
 <details>
   <summary><b>Configuration</b></summary>
