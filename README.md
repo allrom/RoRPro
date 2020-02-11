@@ -84,6 +84,7 @@ _TDD/BDD_ in mind. User interface pages were designed using custom CSS and JavaS
   - Background job processing (gems sidekiq, whenever)
   - Sphinx engine (full-text indexed search, gem thinking-sphinx)
   - REST API as an internal project (gems doorkeeper, active_model_serializers, oj)
+  - Application deployment (gems capistrano, -passenger, -unicorn, -sidekiq)
 </details>  
 
 * __Optimization__
