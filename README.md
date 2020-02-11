@@ -96,4 +96,4 @@ designed using custom CSS and JavaScript.
 
 <hr>
 
-__Test Study Project 06 - 12.2019, <span>&#169;</span> Thinknetica__
+__QA site Project 06 - 12.2019, <span>&#8482;</span> Thinknetica__
