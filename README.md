@@ -1,8 +1,8 @@
 # README
 
 ### Abstract
-This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techniques***. It's intended to simulate "question & answers" site dynamic behavior (_StackOverflow_-alike). The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind. User interface pages were designed
-using custom CSS and JavaScript.
+This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techniques***. It's intended to construct __QA__ dynamic site (_StackOverflow_-alike) with the wide set of
+abilities, including posting comments, full-text searching , attaching files, voting. The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind. User interface pages were designed using custom CSS and JavaScript.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
 
