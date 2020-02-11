@@ -1,7 +1,8 @@
 # README
 
 ### Abstract
-This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techniques***. It's intended to simulate "question & answers" site dynamic behavior (_StackOverflow_-alike). The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind.
+This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techniques***. It's intended to simulate "question & answers" site dynamic behavior (_StackOverflow_-alike). The development was carried out with principles of _Solo Agile_ and _TDD/BDD_ in mind. User interface pages were designed
+using custom CSS and JavaScript.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
 
@@ -46,7 +47,7 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
 <details>
 <summary><b>About the test suite</b></summary>
   
-- These are some gems that do needed\helped to perform effective testing with _Rspec_:
+- These are some gems that do needed\helped to perform effective testing with _Capybara_ and _Rspec_:
 
    + gem capybara
    + gem selenium-webdriver
@@ -58,7 +59,7 @@ This application was being developed when studying the ***Ruby-on-Rails basic an
    + gem capybara-email
    + gem with_model
  
- - **Acceptance and integration** tests have been written to check if the app works well from the user's
+ - **Acceptance/integration** tests have been written to check if the app works well from the user's
  perspective: creation, editing, deleting of questions and answers, adding links or attach files, voting,
  searching, adding subscription or comment, selecting the best answer, giving awards.
  - **Unit** tests have been written to test different parts of application in isolation: controllers,
