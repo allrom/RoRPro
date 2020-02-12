@@ -2,9 +2,9 @@
 
 ### Abstract
 This application was being developed when studying the ***Ruby-on-Rails basic and advanced principles and techniques***. It's intended to construct __QA__ dynamic site (_StackOverflow_-alike) with the wide set of
-abilities, including authentication, services integration with OAuth, posting comments, full-text searching, 
-attaching and storing files in a  S3 Cloud. The development was carried out with principles of _Solo Agile_ and
-_TDD/BDD_ in mind. User interface pages were designed using custom CSS and JavaScript.
+abilities, including authentication, services integration with OAuth, posting comments, subscribing to updates,
+full-text searching, attaching and storing files in a  S3 Cloud. The development was carried out with principles
+of _Solo Agile_ and _TDD/BDD_ in mind. User interface pages were designed using custom CSS and JavaScript.
 
 ![Question and answer site Demo](../demo_assets/demo/ror-pro.gif?raw=true) 
 
@@ -27,9 +27,11 @@ _TDD/BDD_ in mind. User interface pages were designed using custom CSS and JavaS
   
     + rails 5.2.3
     + rack 2.0.7
+    + pg 1.1.4
     + slim 4.0.1
     + cocoon 1.2.14
     + thinking-sphinx 4.4.1
+    + unicorn 5.5.1
     + capybara 3.29.0
     + rspec-core 3.8.2
     + rspec-rails 3.8.2
